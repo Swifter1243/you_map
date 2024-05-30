@@ -1,0 +1,19 @@
+{
+    "allow": [
+        "all"
+    ],
+    "scripts": {
+        "rm": {
+            "cmd": "deno run --no-check script.ts",
+            "desc": "start ReMapper"
+        }
+    },
+    "watcher": {
+        "match": [
+            "script.ts",
+            "assetinfo.json",
+            "bundle_windows2019.manifest"
+        ],
+        "legacy": false
+    }
+}

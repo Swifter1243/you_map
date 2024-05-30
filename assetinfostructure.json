@@ -1,0 +1,15 @@
+{
+    "materials": {
+        "dropnote": {
+            "path": "assets/materials/ambientparticles.mat",
+            "properties": {
+                "_Opacity": {
+                    "Float": null
+                }
+            }
+        }
+    },
+    "prefabs": {
+        "scene": "assets/prefabs/scene.prefab"
+    }
+}

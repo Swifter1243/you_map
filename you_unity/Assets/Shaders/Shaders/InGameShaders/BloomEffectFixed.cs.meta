@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 0b31d726cf8b8f44eb50a1777d963788
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - bloomShader: {fileID: 4800000, guid: 926e8db920ab84661b115e2bdbc8199b, type: 3}
+  - AlphaHDRShader: {fileID: 4800000, guid: e67dce26f7aca19418c51074a2cf697b, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

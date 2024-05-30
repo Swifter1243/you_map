@@ -1,0 +1,17 @@
+# Bundle files and their manifest files
+bundle_windows2019*
+bundle_windows2021*
+bundle_android2019*
+bundle_android2021*
+bundle_windows2019*.manifest
+bundle_windows2021*.manifest
+bundle_android2019*.manifest
+bundle_android2021*.manifest
+
+# Other files
+you.zip
+ExpertPlusStandard.dat
+assetinfo.json
+RM_Cache.json
+/autosaves
+you.code-workspace
