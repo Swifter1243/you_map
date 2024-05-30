@@ -785,7 +785,7 @@ for (let i = TIMES.e_DROP; i < TIMES.f_OUTRO; i += DROP_STEP) {
     // Wisps
     materials.dropwisps.set(
         {
-            _Opacity: [[0.1, 0], [1, 0.9, 'easeInCirc'], [0, 1]]
+            _Opacity: [[0.2, 0], [1, 0.9, 'easeInCirc'], [0, 1]]
         },
         i,
         DROP_STEP

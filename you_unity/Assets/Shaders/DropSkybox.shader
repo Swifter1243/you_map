@@ -147,6 +147,9 @@ Shader "Unlit/DropSkybox"
                 float hue = (_HueShift + length(vec) / _Size) % 1;
                 col = hueShift(col, hue);
 
+                float middleBrightnessMask = smoothstep(0, 0.6, length(pos.xy));
+                col *= middleBrightnessMask;
+
                 col *= _Opacity;
 
                 // Gamma Correct
