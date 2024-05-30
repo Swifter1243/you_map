@@ -680,6 +680,19 @@ materials.ambientflare.set(
     111.25,
 )
 
+materials.buildupwisps.set(
+    '_Opacity',
+    [[0, 0], [1, 1, 'easeInQuart']],
+    108.5,
+    111.25 - 108.5,
+)
+
+materials.buildupwisps.set(
+    '_Opacity',
+    0,
+    111.25,
+)
+
 // Drop
 let DROP_STEP = 1.75
 
@@ -767,6 +780,15 @@ for (let i = TIMES.e_DROP; i < TIMES.f_OUTRO; i += DROP_STEP) {
         },
         i,
         DROP_STEP,
+    )
+
+    // Wisps
+    materials.dropwisps.set(
+        {
+            _Opacity: [[0.1, 0], [1, 0.9, 'easeInCirc'], [0, 1]]
+        },
+        i,
+        DROP_STEP
     )
 
     // Flare

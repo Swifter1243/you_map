@@ -133,6 +133,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Flower
       objectReference: {fileID: 0}
+    - target: {fileID: 4987296766288805323, guid: fdcf686844fc23543a98ed18eba9566f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5655887060228728689, guid: fdcf686844fc23543a98ed18eba9566f,
         type: 3}
       propertyPath: m_RootOrder
@@ -443,7 +448,7 @@ PrefabInstance:
     - target: {fileID: 1679068830019106960, guid: c8acf44b4b6d53e409218644970294df,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1679068830019106988, guid: c8acf44b4b6d53e409218644970294df,
         type: 3}
@@ -513,6 +518,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Explosions
+      objectReference: {fileID: 0}
+    - target: {fileID: 2502995914336287216, guid: 316aba5860e094640a76a89b72b5023e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2502995914336287217, guid: 316aba5860e094640a76a89b72b5023e,
         type: 3}
