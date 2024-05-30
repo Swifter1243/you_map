@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BlackHoleBeam
-  m_Shader: {fileID: 4800000, guid: a1b81ba24ec43024ba98e07fb9d4c14b, type: 3}
+  m_Shader: {fileID: 4800000, guid: e0f58ddcebc9817499178c1e4759745b, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
