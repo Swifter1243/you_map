@@ -578,8 +578,10 @@ materials.ambientflare.set(
 )
 
 materials.pedal.set(
-    '_LightBrightness',
-    [[60, 0], [420.2, 0.25, 'easeOutCirc'], [30, 1]],
+    {
+        '_LightBrightness': [[60, 0], [569.5, 0.25, 'easeOutCirc'], [30, 1]],
+        '_PetalCurl': [[0.35, 0], [0, 0.5, 'easeOutBack']]
+    },
     TIMES.d_BUILDUP,
     104 - TIMES.d_BUILDUP,
 )

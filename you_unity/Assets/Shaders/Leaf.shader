@@ -7,7 +7,10 @@
         _LightPos ("Light Position", Vector) = (0,0,0,0)
         _LightBrightness ("Light Brightness", Float) = 200
         _LightColor ("Light Color", Color) = (0,0,0)
+        _StemPos ("Stem Position", Vector) = (0,0,0,0) 
+        _AODistance ("Ambient Occlusion Distance", Float) = 0
         _Flutter ("Flutter", Range(0, 1)) = 0
+        _PetalCurl ("Petal Curl", Float) = 0
     }
     SubShader
     {
@@ -44,16 +47,27 @@
             float _LightBrightness;
             float3 _LightColor;
             float _Flutter;
+            float _AODistance;
+            float3 _StemPos;
+            float _PetalCurl;
 
             v2f vert (appdata v)
             {
                 UNITY_SETUP_INSTANCE_ID(v);
                 UNITY_INITIALIZE_OUTPUT(v2f, v2f o);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
-                
-                o.vertex = UnityObjectToClipPos(v.vertex);
+
+                float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
+
+                float3 toStem = worldPos - _StemPos;
+                float stemDist = length(toStem);
+                float curl = _PetalCurl + sin(_Time.y * 1.5) * 0.04;
+                worldPos.y += stemDist * curl;
+
+                float4 localPos = mul(unity_WorldToObject, worldPos);
+                o.vertex = UnityObjectToClipPos(localPos);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                o.worldPos = mul(unity_ObjectToWorld, v.vertex);
+                o.worldPos = worldPos;
                 return o;
             }
 
@@ -64,7 +78,11 @@
 
                 float3 col = image.xyz;
                 col = lerp(col, Luminance(col) * _LightColor, 0.9);
-                col *= pow(1 - length(_LightPos - i.worldPos) /_LightBrightness, 3);
+                col *= pow(1 - length(_LightPos - i.worldPos) / _LightBrightness, 3);
+
+                float ao = length(_StemPos - i.worldPos) / _AODistance;
+                ao = saturate(ao - 0.1);
+                col *= ao;
 
                 float flicker = 1 + sin(_Time.y * 100.587) * _Flutter;
                 col *= flicker;

@@ -56,6 +56,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _AODistance: 160.6
     - _BumpScale: 1
     - _Clip: 0.071
     - _Cutoff: 0.5
@@ -65,18 +66,21 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _LightBrightness: 276.2
+    - _LightBrightness: 569.5
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _PetalCurl: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
+    - _AOPos: {r: -38.5, g: -241, b: 690.7, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _LightColor: {r: 0.4575472, g: 0.7778914, b: 1, a: 1}
-    - _LightPos: {r: 0, g: 0, b: 584.27, a: 0}
+    - _LightColor: {r: 0, g: 0.68063617, b: 1, a: 1}
+    - _LightPos: {r: 56.8, g: 0, b: 669.2, a: 0}
+    - _StemPos: {r: -38.5, g: -241, b: 690.7, a: 0}
