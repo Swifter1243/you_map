@@ -68,7 +68,9 @@ rm.assignPlayerToTrack(0, 'player').push()
 prefabs.reflectivenote.assignToNote('introNote')
 
 map.allNotes.forEach((x) => {
-    if (x.beat >= 0 && x.beat <= 33 && x instanceof rm.NoteInternals.ColorNote) {
+    if (
+        x.beat >= 0 && x.beat <= 33 && x instanceof rm.NoteInternals.ColorNote
+    ) {
         x.noteGravity = false
         x.noteJumpOffset = 4
         x.track.add('introNote')
@@ -115,7 +117,10 @@ rm.assignPathAnimation({
 }).push()
 
 map.allNotes.forEach((x) => {
-    if (x.beat >= 33 && x.beat <= 98.5 && x instanceof rm.NoteInternals.ColorNote) {
+    if (
+        x.beat >= 33 && x.beat <= 98.5 &&
+        x instanceof rm.NoteInternals.ColorNote
+    ) {
         x.noteGravity = false
         x.noteJumpOffset = 4
         x.track.add('ambientNote')
@@ -232,14 +237,10 @@ rm.assignPathAnimation({
     beat: TIMES.e_DROP,
     animation: {
         scale: [1, 1, 1],
-        offsetPosition: [
-            [0, 0, 20, 0.3],
-            [0, 0, 0, 0.5, 'easeInCubic'],
-        ],
     },
 }).push()
 
-map.allNotes.forEach((x) => {
+map.allNotes.forEach((x, i) => {
     if (
         x.beat >= TIMES.e_DROP && x.beat <= TIMES.f_OUTRO &&
         x instanceof rm.NoteInternals.ColorNote
@@ -252,33 +253,48 @@ map.allNotes.forEach((x) => {
 
         if (x.beat > TIMES.e_DROP + 1) {
             x.track.add('dropHitNote')
-            x.noteJumpOffset = 20
+            x.noteJumpSpeed = 15
+            x.noteJumpOffset = 5
 
-            const offset = x.x - 1.5
-            const timeOffset = Math.abs(offset) * 0.02 + x.y * 0.02
+            const track = 'dropNote_' + i
+            x.track.add(track)
 
-            x.animation.offsetWorldRotation = [
-                [
-                    rand(-90, 90),
-                    50 * (offset > 0 ? 1 : -1) + offset * 20,
-                    rand(-90, 90),
-                    0,
-                ],
-                [0, 0, 0, 0.485 + timeOffset],
-            ]
+            rm.assignPathAnimation({
+                track,
+                animation: {
+                    offsetWorldRotation: [
+                        [rand(-45, 45), rand(-45, 45), rand(-45, 45), 0],
+                        [0, 0, 0, 0.6],
+                    ],
+                    localRotation: [
+                        [rand(-120, 120), rand(-120, 120), rand(-120, 120), 0],
+                        [0, 0, 0, 0.53],
+                    ],
+                    dissolve: [[0, 0], [1, 0.35, 'easeInOutCubic']],
+                    dissolveArrow: [[1, 0.35], [0, 0.55, 'easeInOutQuart']],
+                },
+            }).push()
 
-            x.animation.localRotation = [
-                [
-                    rand(-180, 180),
-                    rand(-180, 180),
-                    rand(-180, 180),
-                    0,
-                ],
-                [0, 0, 0, 0.49],
-            ]
-
-            x.animation.dissolve = [[0.8, 0.25], [0.2, 0.5, 'easeOutCirc']]
-            x.noteGravity = false
+            for (let j = TIMES.e_DROP; j < TIMES.f_OUTRO - 0.5; j -= -1.75) {
+                rm.assignPathAnimation({
+                    track,
+                    beat: j,
+                    duration: 3.88,
+                    easing: 'easeOutBack',
+                    animation: {
+                        offsetWorldRotation: [
+                            [rand(-69.420, 69.420), rand(-69.420, 69.420), rand(-69.420, 69.420), 0],
+                            [0, 0, 0, 0.55, 'easeInOutSine'],
+                        ],
+                        localRotation: [
+                            [rand(-45, 45) + 5 * j, rand(-45, 45) + 5 * j, rand(-45, 45) + 5 * j, 0],
+                            [0, 0, 0, 0.55, 'easeInOutSine'],
+                        ],
+                        dissolve: [[0, 0], [1, 0.35, 'easeInOutCubic']],
+                        dissolveArrow: [[0, 0.37], [1, 0.42, 'easeOutBounce']],
+                    },
+                }).push()
+            }
         } else {
             x.animation.dissolve = [[0.8, 0], [0.2, 0.6, 'easeInOutExpo']]
             x.animation.offsetWorldRotation = [
@@ -580,7 +596,7 @@ materials.ambientflare.set(
 materials.pedal.set(
     {
         '_LightBrightness': [[60, 0], [569.5, 0.25, 'easeOutCirc'], [30, 1]],
-        '_PetalCurl': [[0.35, 0], [0, 0.5, 'easeOutBack']]
+        '_PetalCurl': [[0.35, 0], [0, 0.5, 'easeOutBack']],
     },
     TIMES.d_BUILDUP,
     104 - TIMES.d_BUILDUP,
@@ -787,10 +803,10 @@ for (let i = TIMES.e_DROP; i < TIMES.f_OUTRO; i += DROP_STEP) {
     // Wisps
     materials.dropwisps.set(
         {
-            _Opacity: [[0.2, 0], [1, 0.9, 'easeInCirc'], [0, 1]]
+            _Opacity: [[0.2, 0], [1, 0.9, 'easeInCirc'], [0, 1]],
         },
         i,
-        DROP_STEP
+        DROP_STEP,
     )
 
     // Flare
@@ -1010,4 +1026,4 @@ map.info._customData!._qualitySettings = {
 }
 map.save()
 
-rm.exportZip(['ExpertPlusNoArrows'], undefined, true)
+// rm.exportZip(['ExpertPlusNoArrows'], undefined, true)

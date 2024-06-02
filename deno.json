@@ -4,7 +4,8 @@
             "indentWidth": 4,
             "singleQuote": true,
             "proseWrap": "preserve",
-            "semiColons": false
+            "semiColons": false,
+            "lineWidth": 120
         }
     }
 }
