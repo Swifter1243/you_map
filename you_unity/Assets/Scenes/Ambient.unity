@@ -206,6 +206,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShaderCamera
       objectReference: {fileID: 0}
+    - target: {fileID: 1041496976226712, guid: 3ea86af11be30784abe30289e602d168, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4136373295328162, guid: 3ea86af11be30784abe30289e602d168, type: 3}
       propertyPath: m_RootOrder
       value: 1
