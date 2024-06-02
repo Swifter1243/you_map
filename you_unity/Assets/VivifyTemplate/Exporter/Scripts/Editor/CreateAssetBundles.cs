@@ -205,7 +205,7 @@ public class CreateAssetBundles
 			// Run Process
 			var processPath = Path.Combine(
 				Application.dataPath,
-				"VivifyTemplate/Scripts/net6.0/ShaderKeywordRewriter.exe"
+				"VivifyTemplate/Exporter/Scripts/ShaderKeywordRewriter/ShaderKeywordRewriter.exe"
 			);
 			var processInfo = new ProcessStartInfo(processPath, tempBundlePath);
 			Process.Start(processInfo).WaitForExit();
