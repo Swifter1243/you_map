@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: BuildupWisps
   m_Shader: {fileID: 4800000, guid: 59c22d7e2da27174aa041829b5f38334, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _COMPAREDEPTH_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -59,6 +59,7 @@ Material:
     - _Brightness: 1
     - _BumpScale: 1
     - _ColorScale: 1
+    - _CompareDepth: 0
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0

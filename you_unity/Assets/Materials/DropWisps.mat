@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: DropWisps
   m_Shader: {fileID: 4800000, guid: 59c22d7e2da27174aa041829b5f38334, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _COMPAREDEPTH_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -59,6 +59,7 @@ Material:
     - _Brightness: 0.3
     - _BumpScale: 1
     - _ColorScale: -0.21
+    - _CompareDepth: 1
     - _Cutoff: 0.5
     - _DepthFade: 406.3
     - _DetailNormalMapScale: 1

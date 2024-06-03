@@ -249,16 +249,17 @@ map.allNotes.forEach((x, i) => {
         x.noteJumpOffset = 1.5
         x.noteJumpSpeed = 15
 
-        const rand = mulberry32(x.beat)
+        const rand = mulberry32(x.beat + 6942)
 
         if (x.beat > TIMES.e_DROP + 1) {
             x.track.add('dropHitNote')
-            x.noteJumpSpeed = 15
+            x.noteJumpSpeed = 11
             x.noteJumpOffset = 5
 
             const track = 'dropNote_' + i
             x.track.add(track)
 
+            // drop notemods by pleast :pray:
             rm.assignPathAnimation({
                 track,
                 animation: {
