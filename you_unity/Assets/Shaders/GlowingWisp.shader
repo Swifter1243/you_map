@@ -40,9 +40,11 @@
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
+                float4 screenUV : TEXCOORD1;
                 UNITY_VERTEX_OUTPUT_STEREO
             };
 
+            UNITY_DECLARE_SCREENSPACE_TEXTURE(_CameraDepthTexture);
 
             v2f vert (appdata v)
             {
@@ -52,6 +54,7 @@
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
+                o.screenUV = ComputeGrabScreenPos(o.vertex);
                 return o;
             }
 
@@ -91,6 +94,12 @@
                 float3 col = palette(t, 0.5, 0.5, 1, float3(0.00, 0.10, 0.2));
 
                 col *= _Opacity;
+
+                float2 screenUV = (i.screenUV) / i.screenUV.w;
+                float depth = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_CameraDepthTexture, screenUV);
+                float depth01 = Linear01Depth(depth);
+                // return depth01;
+                col *= depth01 > 0.5;
 
                 return float4(v * col, 0);
             }

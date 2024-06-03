@@ -2,7 +2,6 @@
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
         _Steepness ("Steepness", Float) = 3
         _Size ("Size", Float) = 1
         _FlareBrightness ("Flare Brightness", Float) = 0.1
@@ -10,6 +9,7 @@
         _Flutter ("Flutter", Float) = 0.1
         _Exaggerate ("Exaggerate", Range(0, 1)) = 0
         _Opacity ("Opacity", Range(0, 1)) = 1
+        _DepthClip ("Depth Clip", Range(0,1)) = 0
     }
     SubShader
     {
@@ -39,12 +39,10 @@
             struct v2f
             {
                 float2 uv : TEXCOORD0;
-                float4 pos : SV_POSITION;
+                float4 vertex : SV_POSITION;
+                float4 midUV : TEXCOORD1;
                 UNITY_VERTEX_OUTPUT_STEREO
             };
-
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
             
             v2f vert (appdata_full v)
             {
@@ -52,16 +50,11 @@
                 UNITY_INITIALIZE_OUTPUT(v2f, v2f o);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-                o.pos = UnityObjectToClipPos(v.vertex);
+                o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.texcoord.xy;
 
-                // billboard mesh towards camera
-                // float3 vpos = mul((float3x3)unity_ObjectToWorld, v.vertex.xyz);
-                // float4 worldCoord = float4(unity_ObjectToWorld._m03, unity_ObjectToWorld._m13, unity_ObjectToWorld._m23, 1);
-                // float4 viewPos = mul(UNITY_MATRIX_V, worldCoord) + float4(vpos, 0);
-                // float4 outPos = mul(UNITY_MATRIX_P, viewPos);
-
-                // o.pos = outPos;
+                float4 midClipPos = UnityObjectToClipPos(float3(0,0,0));
+                o.midUV = ComputeGrabScreenPos(midClipPos);
 
                 return o;
             }
@@ -73,9 +66,18 @@
             float _Flutter;
             float _Exaggerate;
             float _Opacity;
+            float _DepthClip;
+
+            UNITY_DECLARE_SCREENSPACE_TEXTURE(_CameraDepthTexture);
             
             fixed4 frag (v2f i) : SV_Target
             {
+                float2 screenUV = (i.midUV) / i.midUV.w;
+                float depth = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_CameraDepthTexture, screenUV);
+                float depth01 = Linear01Depth(depth);
+                clip(depth01 - _DepthClip);
+                // return depth01 * float4(1,1,1,0);
+
                 float3 col = 1;
 
                 _Size -= _Exaggerate * 0.2;

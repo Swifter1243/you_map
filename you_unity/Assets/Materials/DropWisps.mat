@@ -60,6 +60,7 @@ Material:
     - _BumpScale: 1
     - _ColorScale: -0.21
     - _Cutoff: 0.5
+    - _DepthFade: 406.3
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _Flutter: 0.72

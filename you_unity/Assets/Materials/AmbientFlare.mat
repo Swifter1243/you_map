@@ -59,6 +59,7 @@ Material:
     - _BumpScale: 1
     - _CenterBrightness: -4.4
     - _Cutoff: 0.5
+    - _DepthClip: 0.298
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _Exaggerate: 0

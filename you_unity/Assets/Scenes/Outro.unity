@@ -271,6 +271,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AmbientFlare
       objectReference: {fileID: 0}
+    - target: {fileID: 1225142214373289741, guid: 98b75aeff5504324d8755d047f4192c7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1225142214373289743, guid: 98b75aeff5504324d8755d047f4192c7,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -399,6 +404,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EndingScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 3288202914981279870, guid: 1630222f137cd5344a5a1e69fcbda7f1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1630222f137cd5344a5a1e69fcbda7f1, type: 3}

@@ -875,7 +875,7 @@ materials.ambientflare.set(
         _Steepness: 1,
         _Size: 1.21,
         _FlareBrightness: 0.76,
-        _CenterBrightness: 13.63,
+        _CenterBrightness: [[1, 0], [13.63, 1]],
         _Flutter: 0.03,
         _Exaggerate: [[1, 0], [0, 0.5, 'easeOutExpo']],
         _Opacity: [[0.4, 0], [0.1, 1, 'easeOutExpo']],
@@ -1004,14 +1004,9 @@ rm.animateTrack({
 
 // ----------- { OUTPUT } -----------
 
-// TESTING
-
-// const c: rm.RuntimePointDefinitionVec4 = ['baseNoteColor', [ 0.4, 0.4, 0.4, 1, "opMul"]]
-
-// map.clear()
-// prefabs.ambientscene.instantiate()
-// materials.ambientskybox.set('_Twist', 250, 0)
-// materials.ambientskybox.set('_Opacity', 0, 0)
+rm.setCameraProperty({
+    depthTextureMode: ['Depth']
+}).push()
 
 map.require('Chroma')
 map.require('Noodle Extensions')
