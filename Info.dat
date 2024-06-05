@@ -26,8 +26,8 @@
         "_assetBundle": {
             "_windows2019": 1000304718,
             "_windows2021": 2702147929,
-            "_android2019": 3293835540,
-            "_android2021": 3293835540
+            "_android2021": 3293835540,
+            "_android2019": 3293835540
         }
     },
     "_difficultyBeatmapSets": [
@@ -49,8 +49,7 @@
                                 "_environmentEffectsFilterDefaultPreset": "AllEffects"
                             },
                             "_graphics": {
-                                "_mainEffectGraphicsSettings": 1,
-                                "_smokeGraphicsSettings": 0
+                                "_mainEffectGraphicsSettings": 1
                             },
                             "_chroma": {
                                 "_disableEnvironmentEnhancements": false,

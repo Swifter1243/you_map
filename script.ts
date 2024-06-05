@@ -54,7 +54,7 @@ function mulberry32(a: number) {
 // Setup notes
 map.allNotes.forEach((x) => {
     if (!(x instanceof rm.NoteInternals.Arc)) {
-        x.spawnEffect = false
+        x.disableSpawnEffect = true
     }
 
     x.track.add('noteChild')
@@ -71,7 +71,7 @@ map.allNotes.forEach((x) => {
     if (
         x.beat >= 0 && x.beat <= 33 && x instanceof rm.NoteInternals.ColorNote
     ) {
-        x.noteGravity = false
+        x.disableNoteGravity = true
         x.noteJumpOffset = 4
         x.track.add('introNote')
 
@@ -121,7 +121,7 @@ map.allNotes.forEach((x) => {
         x.beat >= 33 && x.beat <= 98.5 &&
         x instanceof rm.NoteInternals.ColorNote
     ) {
-        x.noteGravity = false
+        x.disableNoteGravity = true
         x.noteJumpOffset = 4
         x.track.add('ambientNote')
 
@@ -312,7 +312,7 @@ prefabs.glassnote.assignToNote('outroNote')
 map.allNotes.forEach((x) => {
     if (x.beat >= 141 && x instanceof rm.NoteInternals.ColorNote) {
         x.track.add('outroNote')
-        x.noteGravity = false
+        x.disableNoteGravity = true
         x.noteJumpOffset = 4
         x.animation.dissolve = [0]
 
@@ -1015,11 +1015,10 @@ map.require('Vivify')
 
 rm.getInfoDat()._environmentName = 'BillieEnvironment'
 map.rawSettings = rm.PRESET.CHROMA_SETTINGS
-map.settings.smoke = false
 map.settings.bloom = true
 map.info._customData!._qualitySettings = {
     _realtimeReflectionProbes: true,
 }
 map.save()
 
-// rm.exportZip(['ExpertPlusNoArrows'], undefined, true)
+rm.exportZip(['ExpertPlusNoArrows'], undefined, true)
