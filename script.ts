@@ -240,6 +240,21 @@ rm.assignPathAnimation({
     },
 }).push()
 
+function cutDirectionAngle(cut: rm.NoteCut) {
+    switch (cut)
+    {
+        case rm.NoteCut.UP: return 180
+        case rm.NoteCut.DOWN: return 0
+        case rm.NoteCut.LEFT: return -90
+        case rm.NoteCut.RIGHT: return 90
+        case rm.NoteCut.UP_LEFT: return -135
+        case rm.NoteCut.UP_RIGHT: return 135
+        case rm.NoteCut.DOWN_LEFT: return -45
+        case rm.NoteCut.DOWN_RIGHT: return 45
+        case rm.NoteCut.DOT: return 0
+    }
+}
+
 map.allNotes.forEach((x, i) => {
     if (
         x.beat >= TIMES.e_DROP && x.beat <= TIMES.f_OUTRO &&
@@ -249,53 +264,8 @@ map.allNotes.forEach((x, i) => {
         x.noteJumpOffset = 1.5
         x.noteJumpSpeed = 15
 
-        const rand = mulberry32(x.beat + 6942)
-
         if (x.beat > TIMES.e_DROP + 1) {
-            x.track.add('dropHitNote')
-            x.noteJumpSpeed = 11
-            x.noteJumpOffset = 5
-
-            const track = 'dropNote_' + i
-            x.track.add(track)
-
-            // drop notemods by pleast :pray:
-            rm.assignPathAnimation({
-                track,
-                animation: {
-                    offsetWorldRotation: [
-                        [rand(-45, 45), rand(-45, 45), rand(-45, 45), 0],
-                        [0, 0, 0, 0.6],
-                    ],
-                    localRotation: [
-                        [rand(-120, 120), rand(-120, 120), rand(-120, 120), 0],
-                        [0, 0, 0, 0.53],
-                    ],
-                    dissolve: [[0, 0], [1, 0.35, 'easeInOutCubic']],
-                    dissolveArrow: [[1, 0.35], [0, 0.55, 'easeInOutQuart']],
-                },
-            }).push()
-
-            for (let j = TIMES.e_DROP; j < TIMES.f_OUTRO - 0.5; j -= -1.75) {
-                rm.assignPathAnimation({
-                    track,
-                    beat: j,
-                    duration: 3.88,
-                    easing: 'easeOutBack',
-                    animation: {
-                        offsetWorldRotation: [
-                            [rand(-69.420, 69.420), rand(-69.420, 69.420), rand(-69.420, 69.420), 0],
-                            [0, 0, 0, 0.55, 'easeInOutSine'],
-                        ],
-                        localRotation: [
-                            [rand(-45, 45) + 5 * j, rand(-45, 45) + 5 * j, rand(-45, 45) + 5 * j, 0],
-                            [0, 0, 0, 0.55, 'easeInOutSine'],
-                        ],
-                        dissolve: [[0, 0], [1, 0.35, 'easeInOutCubic']],
-                        dissolveArrow: [[0, 0.37], [1, 0.42, 'easeOutBounce']],
-                    },
-                }).push()
-            }
+            doDropNoteMods(x, i)
         } else {
             x.animation.dissolve = [[0.8, 0], [0.2, 0.6, 'easeInOutExpo']]
             x.animation.offsetWorldRotation = [
@@ -305,6 +275,80 @@ map.allNotes.forEach((x, i) => {
         }
     }
 })
+
+function doDropNoteMods(note: rm.ColorNote, index: number) {
+    note.track.add('dropHitNote')
+    note.noteJumpOffset = 5
+
+    const rand = mulberry32(note.beat + 6942)
+
+    const track1 = 'dropPath1_' + index
+    const track2 = 'dropPath2_' + index
+    note.track.add([track1, track2])
+
+    // initialization
+    rm.assignPathAnimation({
+        track: track2,
+        animation: {
+            offsetWorldRotation: [
+                [rand(-20, 20), rand(-20, 20), rand(-20, 20), 0],
+                [0, 0, 0, 0.6],
+            ],
+            localRotation: [
+                [rand(-120, 120), rand(-120, 120), rand(-120, 120), 0],
+                [0, 0, 0, 0.53],
+            ],
+            dissolve: [[0, 0], [1, 0.35, 'easeInOutCubic']],
+            dissolveArrow: [[1, 0.35], [0, 0.55, 'easeInOutQuart']],
+        },
+    }).push()
+
+    let lastDir = -1
+    for (let t = TIMES.e_DROP; t <= note.beat && t < TIMES.f_OUTRO - 0.5; t += 1.75) {
+        const nextNote = map.colorNotes.find(
+            n => (n.beat >= t && n.cutDirection != lastDir) 
+        )!
+        lastDir = nextNote.cutDirection
+        const nextDir = cutDirectionAngle(nextNote.cutDirection)
+        const scalar = rand(10, 15)
+        const deltaX = Math.cos(rm.toRadians(nextDir)) * scalar
+        const deltaY = Math.sin(rm.toRadians(nextDir)) * scalar
+
+        rm.assignPathAnimation({
+            track: track1,
+            beat: t - 1.75 / 2,
+            duration: 1.75,
+            easing: 'easeInOutCubic',
+            animation: {
+                offsetWorldRotation: [
+                    [deltaX, deltaY, rand(-45, 45), 0],
+                    [deltaX * 0.3, deltaY * 0.3, 0, 0.5],
+                ],
+                dissolve: [[0, 0], [1, 0.35, 'easeInOutCubic']],
+                dissolveArrow: [[0, 0.37], [1, 0.42, 'easeOutBounce']],
+            },
+        }).push()
+
+        const randRange = 30
+        const randRot = () => rand(-randRange, randRange)
+        rm.assignPathAnimation({
+            track: track2,
+            beat: t,
+            duration: 2.4,
+            easing: 'easeOutBack',
+            animation: {
+                offsetWorldRotation: [
+                    [randRot(), randRot(), randRot(), 0],
+                    [0, 0, 0, 0.55, 'easeInOutSine'],
+                ],
+                localRotation: [
+                    [rand(-45, 45) + 5 * t, rand(-45, 45) + 5 * t, rand(-45, 45) + 5 * t, 0],
+                    [0, 0, 0, 0.55, 'easeInOutSine'],
+                ],
+            },
+        }).push()
+    }
+}
 
 // Outro
 prefabs.glassnote.assignToNote('outroNote')
@@ -1021,4 +1065,4 @@ map.info._customData!._qualitySettings = {
 }
 map.save()
 
-rm.exportZip(['ExpertPlusNoArrows'], undefined, true)
+// rm.exportZip(['ExpertPlusNoArrows'], undefined, true)
