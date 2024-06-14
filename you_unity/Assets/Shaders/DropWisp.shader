@@ -1,4 +1,4 @@
-﻿Shader "Decline/GlowingWisp"
+﻿Shader "Unlit/DropWisp"
 {
     Properties
     {
@@ -9,7 +9,6 @@
         _FocalAmount ("Focal Amount", float) = 1
         _Opacity ("Opacity", Range(0,1)) = 1
         [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest("ZTest", Float) = 0
-        [KeywordEnum(OFF, ON)] _CompareDepth ("Compare Depth Texture", Int) = 0
     }
     SubShader
     {
@@ -25,7 +24,6 @@
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #pragma shader_feature_local _COMPAREDEPTH_OFF _COMPAREDEPTH_ON
 
             #include "UnityCG.cginc"
             #include "Noise.cginc"
@@ -42,9 +40,7 @@
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
-                #ifdef _COMPAREDEPTH_ON
-                    float4 screenUV : TEXCOORD1;
-                #endif
+                float4 screenUV : TEXCOORD1;
                 UNITY_VERTEX_OUTPUT_STEREO
             };
 
@@ -58,10 +54,7 @@
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
-
-                #ifdef _COMPAREDEPTH_ON
-                    o.screenUV = ComputeGrabScreenPos(o.vertex);
-                #endif
+                o.screenUV = ComputeGrabScreenPos(o.vertex);
 
                 return o;
             }
@@ -103,12 +96,10 @@
 
                 col *= _Opacity;
 
-                #ifdef _COMPAREDEPTH_ON
-                    float2 screenUV = (i.screenUV) / i.screenUV.w;
-                    float depth = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_CameraDepthTexture, screenUV);
-                    float depth01 = Linear01Depth(depth);
-                    col *= depth01 > 0.5;
-                #endif
+                float2 screenUV = i.screenUV.xy / i.screenUV.w;
+                float depth = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_CameraDepthTexture, screenUV);
+                float depth01 = Linear01Depth(depth);
+                col *= depth01 > 0.5;
 
                 return float4(v * col, 0);
             }

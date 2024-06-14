@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: DropWisps
-  m_Shader: {fileID: 4800000, guid: 59c22d7e2da27174aa041829b5f38334, type: 3}
+  m_Shader: {fileID: 4800000, guid: 3866868225c7ec848ab33c8cdb062f9b, type: 3}
   m_ShaderKeywords: _COMPAREDEPTH_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
