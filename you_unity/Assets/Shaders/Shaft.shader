@@ -1,4 +1,4 @@
-﻿Shader "Unlit/Shaft"
+﻿Shader "You/Shaft"
 {
     Properties
     {

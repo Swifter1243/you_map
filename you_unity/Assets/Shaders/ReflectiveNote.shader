@@ -1,4 +1,4 @@
-Shader "Unlit/ReflectiveNote"
+Shader "You/ReflectiveNote"
 {
     Properties
     {

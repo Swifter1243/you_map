@@ -1,4 +1,4 @@
-﻿Shader "Unlit/Ribbon"
+﻿Shader "You/Ribbon"
 {
     Properties
     {

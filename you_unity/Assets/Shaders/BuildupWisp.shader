@@ -1,4 +1,4 @@
-﻿Shader "Unlit/BuildupWisp"
+﻿Shader "You/BuildupWisp"
 {
     Properties
     {

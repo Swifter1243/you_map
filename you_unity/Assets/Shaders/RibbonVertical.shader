@@ -1,4 +1,4 @@
-﻿Shader "Unlit/RibbonVertical"
+﻿Shader "You/RibbonVertical"
 {
     Properties
     {

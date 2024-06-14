@@ -1,4 +1,4 @@
-﻿Shader "Unlit/PortalNote"
+﻿Shader "You/PortalNote"
 {
     Properties
     {

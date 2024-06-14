@@ -1,4 +1,4 @@
-﻿Shader "Unlit/Leaf"
+﻿Shader "You/Leaf"
 {
     Properties
     {

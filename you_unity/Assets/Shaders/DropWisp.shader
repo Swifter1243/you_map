@@ -1,4 +1,4 @@
-﻿Shader "Unlit/DropWisp"
+﻿Shader "You/DropWisp"
 {
     Properties
     {

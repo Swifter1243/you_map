@@ -1,4 +1,4 @@
-﻿Shader "Unlit/FlickeringArrow"
+﻿Shader "You/FlickeringArrow"
 {
     Properties
     {

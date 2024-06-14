@@ -1,4 +1,4 @@
-﻿Shader "Unlit/EndingVeins"
+﻿Shader "You/EndingVeins"
 {
     Properties
     {

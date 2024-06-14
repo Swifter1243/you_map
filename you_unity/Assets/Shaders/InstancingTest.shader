@@ -1,4 +1,4 @@
-﻿Shader "Unlit/InstancingTest"
+﻿Shader "You/InstancingTest"
 {
     Properties
     {

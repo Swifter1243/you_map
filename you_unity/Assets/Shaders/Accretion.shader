@@ -1,4 +1,4 @@
-Shader "Unlit/Accretion"
+Shader "You/Accretion"
 {
     Properties
     {

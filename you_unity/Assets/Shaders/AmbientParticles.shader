@@ -1,4 +1,4 @@
-﻿Shader "Unlit/AmbientParticles"
+﻿Shader "You/AmbientParticles"
 {
     Properties
     {

@@ -1,4 +1,4 @@
-﻿Shader "Unlit/OutroText"
+﻿Shader "You/OutroText"
 {
     Properties
     {

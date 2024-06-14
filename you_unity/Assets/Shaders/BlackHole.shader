@@ -1,4 +1,4 @@
-﻿Shader "Unlit/BlackHole"
+﻿Shader "You/BlackHole"
 {
     Properties
     {

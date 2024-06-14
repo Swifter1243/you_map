@@ -1,4 +1,4 @@
-﻿Shader "Unlit/BuildupPanel"
+﻿Shader "You/BuildupPanel"
 {
     Properties
     {

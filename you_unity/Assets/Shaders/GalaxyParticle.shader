@@ -1,4 +1,4 @@
-﻿Shader "Unlit/GalaxyParticle"
+﻿Shader "You/GalaxyParticle"
 {
     Properties
     {

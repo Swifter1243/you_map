@@ -1,4 +1,4 @@
-﻿Shader "Unlit/CircleOutline"
+﻿Shader "You/CircleOutline"
 {
     Properties
     {

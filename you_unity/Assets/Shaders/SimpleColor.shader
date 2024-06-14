@@ -1,4 +1,4 @@
-﻿Shader "Unlit/SimpleColor"
+﻿Shader "You/SimpleColor"
 {
     Properties
     {

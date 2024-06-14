@@ -1,4 +1,4 @@
-﻿Shader "Unlit/DropEffects"
+﻿Shader "You/DropEffects"
 {
     Properties
     {

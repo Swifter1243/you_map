@@ -1,4 +1,4 @@
-﻿Shader "Unlit/BlackHoleBeam"
+﻿Shader "You/BlackHoleBeam"
 {
     Properties
     {

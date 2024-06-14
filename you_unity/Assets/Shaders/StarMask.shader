@@ -1,4 +1,4 @@
-﻿Shader "Unlit/StarMask"
+﻿Shader "You/StarMask"
 {
     Properties
     {

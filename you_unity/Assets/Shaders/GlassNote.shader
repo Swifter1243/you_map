@@ -1,4 +1,4 @@
-Shader "Unlit/GlassNote"
+Shader "You/GlassNote"
 {
     Properties
     {

@@ -1,4 +1,4 @@
-﻿Shader "Unlit/EdgeHighlights"
+﻿Shader "You/EdgeHighlights"
 {
     Properties
     {

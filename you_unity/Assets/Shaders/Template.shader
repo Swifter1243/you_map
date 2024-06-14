@@ -1,4 +1,4 @@
-﻿Shader "Unlit/Template"
+﻿Shader "You/Template"
 {
     Properties
     {

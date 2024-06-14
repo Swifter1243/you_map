@@ -1,4 +1,4 @@
-﻿Shader "Unlit/AmbientFlare"
+﻿Shader "You/AmbientFlare"
 {
     Properties
     {

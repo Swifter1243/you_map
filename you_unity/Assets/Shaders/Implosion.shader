@@ -1,4 +1,4 @@
-﻿Shader "Unlit/Implosion"
+﻿Shader "You/Implosion"
 {
     Properties
     {
