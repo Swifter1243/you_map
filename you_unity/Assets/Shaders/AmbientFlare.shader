@@ -54,6 +54,7 @@
                 o.uv = v.texcoord.xy;
 
                 float4 midClipPos = UnityObjectToClipPos(float3(0,0,0));
+                // float4 midClipPos = UnityObjectToClipPos(v.vertex);
                 o.midUV = ComputeGrabScreenPos(midClipPos);
 
                 return o;
@@ -72,7 +73,7 @@
             
             fixed4 frag (v2f i) : SV_Target
             {
-                float2 screenUV = (i.midUV) / i.midUV.w;
+                float2 screenUV = i.midUV.xy / i.midUV.w;
                 float depth = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_CameraDepthTexture, screenUV);
                 float depth01 = Linear01Depth(depth);
                 clip(depth01 - _DepthClip);
