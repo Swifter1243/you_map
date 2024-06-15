@@ -1065,4 +1065,4 @@ map.info._customData!._qualitySettings = {
 }
 map.save()
 
-// rm.exportZip(['ExpertPlusNoArrows'], undefined, true)
+rm.exportZip(['ExpertPlusNoArrows'], undefined, true)
