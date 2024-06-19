@@ -1060,6 +1060,7 @@ map.require('Vivify')
 rm.getInfoDat()._environmentName = 'BillieEnvironment'
 map.rawSettings = rm.PRESET.CHROMA_SETTINGS
 map.settings.bloom = true
+map.settings.maxShockwaveParticles = 0
 map.info._customData!._qualitySettings = {
     _realtimeReflectionProbes: true,
 }

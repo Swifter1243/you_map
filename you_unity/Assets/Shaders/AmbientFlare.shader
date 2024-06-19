@@ -70,11 +70,18 @@
             float _DepthClip;
 
             UNITY_DECLARE_SCREENSPACE_TEXTURE(_CameraDepthTexture);
+
+            #ifdef UNITY_STEREO_INSTANCING_ENABLED
+                return 1;
+                //#define SAMPLE_TEXTURE(tex, uv) UNITY_SAMPLE_TEX2DARRAY(tex, float3((uv).xy, 0))
+            #else
+                #define SAMPLE_TEXTURE(tex, uv) tex2D(tex, uv)
+            #endif
             
             fixed4 frag (v2f i) : SV_Target
             {
                 float2 screenUV = i.midUV.xy / i.midUV.w;
-                float depth = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_CameraDepthTexture, screenUV);
+                float depth = SAMPLE_TEXTURE(_CameraDepthTexture, screenUV);
                 float depth01 = Linear01Depth(depth);
                 clip(depth01 - _DepthClip);
                 // return depth01 * float4(1,1,1,0);
