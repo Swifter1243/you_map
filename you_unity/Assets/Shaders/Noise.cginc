@@ -43,6 +43,35 @@ float2 voronoi( in float2 x )
     return float2( sqrt(m.x), m.y+m.z );
 }
 
+float3 voronoi( in float3 x )
+{
+    float3 p = floor( x );
+    float3 f = frac( x );
+
+	float id = 0.0;
+    float2 res = 100;
+    for( int k=-1; k<=1; k++ )
+    for( int j=-1; j<=1; j++ )
+    for( int i=-1; i<=1; i++ )
+    {
+        float3 b = float3( float(i), float(j), float(k) );
+        float3 r = float3( b ) - f + hash( p + b );
+        float d = dot( r, r );
+
+        if( d < res.x )
+        {
+			id = dot( p+b, float3(1.0,57.0,113.0 ) );
+            res = float2( d, res.x );			
+        }
+        else if( d < res.y )
+        {
+            res.y = d;
+        }
+    }
+
+    return float3( sqrt( res ), abs(id) );
+}
+
 float2 grad( float2 z )  // replace this anything that returns a random vector
 {
     // 2D to 1D  (feel free to replace by some other)

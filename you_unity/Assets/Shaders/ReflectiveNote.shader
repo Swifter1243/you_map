@@ -7,12 +7,15 @@ Shader "You/ReflectiveNote"
         _BlurSteps ("Blur Steps", Int) = 10
         _FadeDistance ("Fade Distance", float) = 15
         [ToggleUI] _Arrow ("Arrow", Int) = 0
-        _Cutout ("Cutout", Float) = 1
+        _Cutout ("Cutout", Range(0,1)) = 1
+        [ToggleUI] _Debris ("Debris", Int) = 0
+        _CutPlane ("Cut Plane", Vector) = (0, 0, 1, 0)
     }
     SubShader
     {
         Tags { "RenderType"="Opaque" }
         LOD 100
+        Cull Off
 
         Pass
         {
@@ -45,12 +48,14 @@ Shader "You/ReflectiveNote"
             UNITY_INSTANCING_BUFFER_START(Props)
             UNITY_DEFINE_INSTANCED_PROP(float3, _Color)
             UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
+            UNITY_DEFINE_INSTANCED_PROP(float4, _CutPlane)
             UNITY_INSTANCING_BUFFER_END(Props)
 
             float _Blur;
             int _BlurSteps;
             float _FadeDistance;
             bool _Arrow;
+            bool _Debris;
 
             v2f vert (appdata v)
             {
@@ -139,13 +144,18 @@ Shader "You/ReflectiveNote"
                 UNITY_SETUP_INSTANCE_ID(i);
                 float Cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
                 float3 Color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                float4 CutPlane = UNITY_ACCESS_INSTANCED_PROP(Props, _CutPlane);
 
-                float clipVal = Cutout - (-i.localPos.y) - 0.5;
-                clip(clipVal);
-
-                if (clipVal < 0.02) {
-                    return float4(1, 1, 1, 20);
+                float c = 0;
+                if (_Debris) {
+                    float3 p = i.localPos + CutPlane.xyz * CutPlane.w;
+                    float dist = dot(p, CutPlane.xyz) / length(CutPlane.xyz);
+                    c = dist - Cutout * 0.5;
+                } else {
+                    c = Cutout - (-i.localPos.y) - 0.5;
                 }
+
+                clip(c);
 
                 float3 worldRefl = reflect(i.viewVector, i.normal);
                 // float3 a = reflect(-i.viewVector, i.normal);

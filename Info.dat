@@ -24,10 +24,10 @@
             }
         },
         "_assetBundle": {
-            "_windows2019": 1224561133,
             "_windows2021": 1420033150,
             "_android2019": 428950865,
-            "_android2021": 428950865
+            "_android2021": 428950865,
+            "_windows2019": 813976672
         }
     },
     "_difficultyBeatmapSets": [

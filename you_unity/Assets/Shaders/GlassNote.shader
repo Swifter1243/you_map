@@ -10,6 +10,8 @@ Shader "You/GlassNote"
         _ColorMix ("Color Mix", Range(0,1)) = 1
         _DistortionAmount ("Distortion Amount", Float) = 1
         _FadeDistance ("Fade Distance", Float) = 40
+        [ToggleUI] _Debris ("Debris", Int) = 0
+        _CutPlane ("Cut Plane", Vector) = (0, 0, 1, 0)
     }
     SubShader
     {
@@ -20,6 +22,7 @@ Shader "You/GlassNote"
         // #if UNITY_EDITOR 
         GrabPass { "_GlassNoteGrab" }
         // #endif
+        Cull Off
 
         Pass
         {
@@ -42,7 +45,7 @@ Shader "You/GlassNote"
 
             struct v2f
             {
-                float3 pos : TEXCOORD0;
+                float3 worldPos : TEXCOORD0;
                 float4 vertex : SV_POSITION;
                 float3 viewVector : TEXCOORD1;
                 float3 normal : TEXCOORD2;
@@ -56,6 +59,7 @@ Shader "You/GlassNote"
             UNITY_INSTANCING_BUFFER_START(Props)
             UNITY_DEFINE_INSTANCED_PROP(float3, _Color)
             UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
+            UNITY_DEFINE_INSTANCED_PROP(float4, _CutPlane)
             UNITY_INSTANCING_BUFFER_END(Props)
 
             float _RefractiveIndex;
@@ -64,6 +68,7 @@ Shader "You/GlassNote"
             float _ColorMix;
             float _DistortionAmount;
             float _FadeDistance;
+            bool _Debris;
 
             UNITY_DECLARE_SCREENSPACE_TEXTURE(_GlassNoteGrab);
 
@@ -80,10 +85,10 @@ Shader "You/GlassNote"
                 o.localPos = v.vertex;
 
                 // worldspace position
-                o.pos = mul(unity_ObjectToWorld, v.vertex);
+                o.worldPos = mul(unity_ObjectToWorld, v.vertex);
 
                 // position to camera
-                o.viewVector = normalize(o.pos - _WorldSpaceCameraPos);
+                o.viewVector = normalize(o.worldPos - _WorldSpaceCameraPos);
 
                 // Normal
                 o.normal = normalize(mul((float3x3)unity_ObjectToWorld, SCALED_NORMAL));
@@ -129,23 +134,27 @@ Shader "You/GlassNote"
                 UNITY_SETUP_INSTANCE_ID(i);
                 float Cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
                 float3 Color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                float4 CutPlane = UNITY_ACCESS_INSTANCED_PROP(Props, _CutPlane);
 
-                // return float4(i.uv, 0, 0);
-
-                // return tex2D(_GlassNoteGrab, UnityStereoScreenSpaceUVAdjust(i.uv, _GlassNoteGrab_ST));
+                float fog = saturate(1 - length((i.worldPos) / _FadeDistance));
+                float4 screenUV = getGrabPassUV(i);
+                float4 rawScreenCol = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_GlassNoteGrab, screenUV);
 
                 float noise = (gnoise3D(i.localPos * 2) * 0.5 + 0.25) * 2;
-                float c = Cutout - noise;
+
+                float c = 0;
+                if (_Debris) {
+                    float3 p = i.localPos + CutPlane.xyz * CutPlane.w;
+                    float dist = dot(p, CutPlane.xyz) / length(CutPlane.xyz);
+                    c = dist - Cutout * 0.5;
+                } else {
+                    c = Cutout - noise;
+                }
 
                 clip(c);
 
-                float fog = saturate(1 - length((i.pos) / _FadeDistance));
-                float4 screenUV = getGrabPassUV(i);
-                float4 rawScreenCol = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_GlassNoteGrab, screenUV);
-                // screenUV.xy += i.uv.xy*i.uv.xy*0.05;
-
                 if (c < 0.02) {
-                    return lerp(float4(1,1,1,20), rawScreenCol, saturate(length((i.pos) / 8)));
+                    return lerp(rawScreenCol, float4(1,1,1,20), fog);
                 }
 
                 if (_Arrow) {
@@ -169,39 +178,22 @@ Shader "You/GlassNote"
                 }
 
                 col *= 3;
-                // col = clamp(col, 0, 1);
-
-                // col = Luminance(col) * _Color;
 
                 float3 reflectionCol = float3(
-                getSkyColor(lerp(reflection, i.normal, _RGBSplit)).x,
-                getSkyColor(lerp(reflection, i.normal, -_RGBSplit)).y,
-                getSkyColor(reflection).z
+                    getSkyColor(lerp(reflection, i.normal, _RGBSplit)).x,
+                    getSkyColor(lerp(reflection, i.normal, -_RGBSplit)).y,
+                    getSkyColor(reflection).z
                 );
 
-                // float3 reflectionCol = saturate(getSkyColor(reflection));
                 reflectionCol *= 10;
 
-                // reflectionCol = clamp(reflectionCol, 0, 1);
                 col += reflectionCol;
 
                 col += screenCol.xyz * 0.8;
 
                 col = lerp(col, Luminance(col) * Color, _ColorMix);
 
-                // col = normalize(col) * Luminance(col);
-
-                // col *= 20;
-
-                // col = clamp(col, 0, 0.2);
-
-                // col *= 4;
-
                 float alpha = Luminance(col);
-
-                // col = pow(col, 0.7);
-
-                // return rawScreenCol;
 
                 float4 finalCol = float4(col, alpha * 3);
                 return lerp(rawScreenCol, finalCol, fog);

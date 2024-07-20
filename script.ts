@@ -66,6 +66,7 @@ rm.assignPlayerToTrack(0, 'player').push()
 
 // Intro notes
 prefabs.reflectivenote.assignToNote('introNote')
+prefabs.reflectivenote_debris.assignToDebris('introNote')
 
 map.allNotes.forEach((x) => {
     if (
@@ -95,6 +96,7 @@ map.allNotes.forEach((x) => {
 
 // Ambient
 prefabs.glassnote.assignToNote('ambientNote')
+prefabs.glassnote_debris.assignToDebris('ambientNote')
 
 rm.assignPathAnimation({
     track: 'ambientNote',
@@ -196,6 +198,7 @@ rm.assignPlayerToTrack({
 const DROP_DUR = TIMES.f_OUTRO - TIMES.e_DROP
 
 prefabs.dropnote.assignToNote('dropNote')
+prefabs.dropnote_debris.assignToDebris('dropNote')
 
 rm.assignPathAnimation({
     beat: TIMES.b_AMBIENT - 1,
@@ -352,6 +355,7 @@ function doDropNoteMods(note: rm.ColorNote, index: number) {
 
 // Outro
 prefabs.glassnote.assignToNote('outroNote')
+prefabs.glassnote_debris.assignToDebris('outroNote')
 
 map.allNotes.forEach((x) => {
     if (x.beat >= 141 && x instanceof rm.NoteInternals.ColorNote) {
@@ -442,9 +446,13 @@ const outroText = prefabs.outrotext.instantiate(TIMES.g_TEXT)
 
 //#region Asset control
 
+const glassNoteMaterials = [materials.glassnote, materials.glassarrow, materials.glassnote_debris]
+const reflectiveNoteMaterials = [materials.reflectivenote, materials.reflectivenote_debris]
+const dropNoteMaterials = [materials.dropnote, materials.dropnote_debris]
+
 // Intro
-materials.glassnote.set('_FadeDistance', 10)
-materials.glassarrow.set('_FadeDistance', 10)
+
+glassNoteMaterials.forEach(x => x.set('_FadeDistance', 10))
 
 const introFilter = (e: rm.event.AbstractEvent) => e.type === 1
 const introEvents = map.lightEvents.filter((x) => introFilter(x))
@@ -497,29 +505,25 @@ materials.introskybox.set(
     'easeOutCirc',
 )
 
-materials.reflectivenote.set(
-    '_FadeDistance',
-    [[40, 0], [100, 1]],
-    0,
-    20,
-    'easeInCirc',
-)
+reflectiveNoteMaterials.forEach(x => {
+    x.set(
+        '_FadeDistance',
+        [[40, 0], [100, 1]],
+        0,
+        20,
+        'easeInCirc',
+    )
+})
 
 // Ambient
-
-materials.glassnote.set(
-    '_FadeDistance',
-    [[10, 0], [30, 1, 'easeOutCirc']],
-    TIMES.b_AMBIENT,
-    0.2,
-)
-
-materials.glassarrow.set(
-    '_FadeDistance',
-    [[10, 0], [30, 1, 'easeOutCirc']],
-    TIMES.b_AMBIENT,
-    0.2,
-)
+glassNoteMaterials.forEach(x => {
+    x.set(
+        '_FadeDistance',
+        [[10, 0], [30, 1, 'easeOutCirc']],
+        TIMES.b_AMBIENT,
+        0.2,
+    )
+})
 
 rm.animateTrack({
     beat: TIMES.b_AMBIENT,
@@ -610,8 +614,7 @@ materials.ambientparticles.set(
 materials.buildupeffects.blit(TIMES.d_BUILDUP, 104.5 - TIMES.d_BUILDUP)
 materials.buildupeffects.blit(108.5, 111.25 - 108.5)
 
-materials.glassnote.set('_Cutout', 1)
-materials.glassarrow.set('_Cutout', 1)
+glassNoteMaterials.forEach(x => x.set('_Cutout', 1))
 
 materials.ambientparticles.set(
     '_Opacity',
@@ -774,15 +777,17 @@ materials.ambientflare.set(
     TIMES.e_DROP,
 )
 
-materials.dropnote.set(
-    {
-        _Void: 1,
-        _Cutout: 0,
-    },
-)
+dropNoteMaterials.forEach(x => {
+    x.set(
+        {
+            _Void: 1,
+            _Cutout: 0,
+        },
+    )
+})
 
 materials.dropnotearrow.set('_Flicker', 1)
-materials.dropnote.set('_Void', 0, TIMES.e_DROP)
+dropNoteMaterials.forEach(x => x.set('_Void', 0, TIMES.e_DROP))
 materials.dropnotearrow.set('_Flicker', 0, TIMES.e_DROP)
 
 materials.dropeffects.blit(TIMES.e_DROP, DROP_DUR)
