@@ -52,7 +52,6 @@ Shader "You/GlassNote"
                 float3 localPos : TEXCOORD3;
                 float2 uv : TEXCOORD4;
                 float4 screenUV : TEXCOORD5;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
             };
 
