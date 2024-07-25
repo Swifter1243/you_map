@@ -56,9 +56,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Blur: 1
-    - _BlurRadius: 0.2
-    - _BlurSteps: 3.47
+    - _Blur: 0.138
+    - _BlurRadius: 0.0577
+    - _BlurSteps: 1.59
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1

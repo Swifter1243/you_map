@@ -111,7 +111,7 @@
 
                 _Blur = saturate(_Blur + sin(_Time.y * 100) * _BlurFlicker * _Blur);
 
-                float2 uv = UnityStereoTransformScreenSpaceTex(i.uv);
+                float2 uv = i.uv;
 
                 // Offset
                 float angle = gnoise(uv * _Scale + _Time * _TimeSpeed + _Strength) * UNITY_PI * 2;
