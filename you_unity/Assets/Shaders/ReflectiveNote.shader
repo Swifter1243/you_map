@@ -163,6 +163,10 @@ Shader "You/ReflectiveNote"
                 float3 col = blurredSkybox(worldRefl);
                 col += blurredSkybox(-worldRefl);
 
+                if (c < 0.02) {
+                    return float4(col * 69, 0);
+                }
+
                 float lum = Luminance(col);
                 col = Color * lum * 15;
                 // col = lerp(1, Color, 0.7) * lum * 2;

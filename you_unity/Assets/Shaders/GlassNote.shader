@@ -151,10 +151,6 @@ Shader "You/GlassNote"
 
                 clip(c);
 
-                if (c < 0.02) {
-                    return lerp(rawScreenCol, float4(1,1,1,20), fog);
-                }
-
                 if (_Arrow) {
                     return lerp(rawScreenCol, float4(Color, 2), fog);
                 }
@@ -176,6 +172,10 @@ Shader "You/GlassNote"
                 }
 
                 col *= 3;
+
+                if (c < 0.02) {
+                    return lerp(rawScreenCol, float4(col * 30, 0.5), fog);
+                }
 
                 float3 reflectionCol = float3(
                     getSkyColor(lerp(reflection, i.normal, _RGBSplit)).x,
