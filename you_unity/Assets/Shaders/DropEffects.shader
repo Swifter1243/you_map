@@ -124,8 +124,9 @@
                 // return border;
 
                 // Apply offset
-                uv += offset * _Multiplier * _Strength * border;
-                return float4(blur(uv), 0);
+                float2 screenUV = UnityStereoTransformScreenSpaceTex(uv);
+                screenUV += offset * _Multiplier * _Strength * border;
+                return float4(blur(screenUV), 0);
             }
             ENDCG
         }
