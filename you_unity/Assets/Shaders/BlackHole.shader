@@ -12,7 +12,7 @@
         Tags { "RenderType"="Transparent" "Queue"="Transparent" }
         // ZTest Off
 
-        GrabPass { "_GlassNoteGrab" }
+        GrabPass { "_GrabTexture1" }
 
         Pass
         {
@@ -45,7 +45,7 @@
             float _CoreThreshold;
             float _Pulse;
             
-            UNITY_DECLARE_SCREENSPACE_TEXTURE(_GlassNoteGrab);
+            UNITY_DECLARE_SCREENSPACE_TEXTURE(_GrabTexture1);
 
             v2f vert (appdata v)
             {
@@ -68,7 +68,7 @@
             }
 
             float4 getGrabPassCol(float2 uv) {
-                return UNITY_SAMPLE_SCREENSPACE_TEXTURE(_GlassNoteGrab, uv);
+                return UNITY_SAMPLE_SCREENSPACE_TEXTURE(_GrabTexture1, uv);
             }
 
             fixed4 frag (v2f i) : SV_Target

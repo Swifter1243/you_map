@@ -19,9 +19,7 @@ Shader "You/GlassNote"
         // Blend One One
         // ZWrite Off
 
-        // #if UNITY_EDITOR 
-        GrabPass { "_GlassNoteGrab" }
-        // #endif
+        GrabPass { "_GrabTexture1" }
         Cull Off
 
         Pass
@@ -70,7 +68,7 @@ Shader "You/GlassNote"
             float _FadeDistance;
             bool _Debris;
 
-            UNITY_DECLARE_SCREENSPACE_TEXTURE(_GlassNoteGrab);
+            UNITY_DECLARE_SCREENSPACE_TEXTURE(_GrabTexture1);
 
             v2f vert (appdata v)
             {
@@ -121,7 +119,7 @@ Shader "You/GlassNote"
                 float2 uv = i.uv;
                 float4 screenUV = (i.screenUV) / i.screenUV.w;
                 // screenUV.xy += uv.xy*uv.xy*0.05;
-                return UNITY_SAMPLE_SCREENSPACE_TEXTURE(_GlassNoteGrab, uv);
+                return UNITY_SAMPLE_SCREENSPACE_TEXTURE(_GrabTexture1, uv);
             }
 
             float4 getGrabPassUV(v2f i) {
@@ -138,7 +136,7 @@ Shader "You/GlassNote"
 
                 float fog = saturate(1 - length((i.worldPos) / _FadeDistance));
                 float4 screenUV = getGrabPassUV(i);
-                float4 rawScreenCol = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_GlassNoteGrab, screenUV);
+                float4 rawScreenCol = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_GrabTexture1, screenUV);
 
                 float noise = (gnoise3D(i.localPos * 2) * 0.5 + 0.25) * 2;
 
@@ -169,7 +167,7 @@ Shader "You/GlassNote"
                 float3 reflection = reflect(i.viewVector, distortedNormal);
 
                 screenUV.xy += noiseVec * 0.2;
-                float4 screenCol = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_GlassNoteGrab, screenUV);
+                float4 screenCol = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_GrabTexture1, screenUV);
 
                 float3 col = saturate(getSkyColor(refraction));
 
