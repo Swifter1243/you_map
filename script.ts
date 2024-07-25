@@ -53,7 +53,7 @@ function mulberry32(a: number) {
 
 // Setup notes
 map.allNotes.forEach((x) => {
-    if (!(x instanceof rm.NoteInternals.Arc)) {
+    if (!(x instanceof rm.Arc)) {
         x.disableSpawnEffect = true
     }
 
@@ -65,12 +65,12 @@ rm.assignTrackParent(0, ['noteChild'], 'player').push()
 rm.assignPlayerToTrack(0, 'player').push()
 
 // Intro notes
-prefabs.reflectivenote.assignToNote('introNote')
-prefabs.reflectivenote_debris.assignToDebris('introNote')
+prefabs.reflectivenote.assignToColorNote('introNote')
+prefabs.reflectivenote_debris.assignToColorNoteDebris('introNote')
 
 map.allNotes.forEach((x) => {
     if (
-        x.beat >= 0 && x.beat <= 33 && x instanceof rm.NoteInternals.ColorNote
+        x.beat >= 0 && x.beat <= 33 && x instanceof rm.ColorNote
     ) {
         x.disableNoteGravity = true
         x.noteJumpOffset = 4
@@ -95,8 +95,8 @@ map.allNotes.forEach((x) => {
 })
 
 // Ambient
-prefabs.glassnote.assignToNote('ambientNote')
-prefabs.glassnote_debris.assignToDebris('ambientNote')
+prefabs.glassnote.assignToColorNote('ambientNote')
+prefabs.glassnote_debris.assignToColorNoteDebris('ambientNote')
 
 rm.assignPathAnimation({
     track: 'ambientNote',
@@ -121,7 +121,7 @@ rm.assignPathAnimation({
 map.allNotes.forEach((x) => {
     if (
         x.beat >= 33 && x.beat <= 98.5 &&
-        x instanceof rm.NoteInternals.ColorNote
+        x instanceof rm.ColorNote
     ) {
         x.disableNoteGravity = true
         x.noteJumpOffset = 4
@@ -197,8 +197,8 @@ rm.assignPlayerToTrack({
 // Drop
 const DROP_DUR = TIMES.f_OUTRO - TIMES.e_DROP
 
-prefabs.dropnote.assignToNote('dropNote')
-prefabs.dropnote_debris.assignToDebris('dropNote')
+prefabs.dropnote.assignToColorNote('dropNote')
+prefabs.dropnote_debris.assignToColorNoteDebris('dropNote')
 
 rm.assignPathAnimation({
     beat: TIMES.b_AMBIENT - 1,
@@ -261,7 +261,7 @@ function cutDirectionAngle(cut: rm.NoteCut) {
 map.allNotes.forEach((x, i) => {
     if (
         x.beat >= TIMES.e_DROP && x.beat <= TIMES.f_OUTRO &&
-        x instanceof rm.NoteInternals.ColorNote
+        x instanceof rm.ColorNote
     ) {
         x.track.add('dropNote')
         x.noteJumpOffset = 1.5
@@ -354,11 +354,11 @@ function doDropNoteMods(note: rm.ColorNote, index: number) {
 }
 
 // Outro
-prefabs.glassnote.assignToNote('outroNote')
-prefabs.glassnote_debris.assignToDebris('outroNote')
+prefabs.glassnote.assignToColorNote('outroNote')
+prefabs.glassnote_debris.assignToColorNoteDebris('outroNote')
 
 map.allNotes.forEach((x) => {
-    if (x.beat >= 141 && x instanceof rm.NoteInternals.ColorNote) {
+    if (x.beat >= 141 && x instanceof rm.ColorNote) {
         x.track.add('outroNote')
         x.disableNoteGravity = true
         x.noteJumpOffset = 4
@@ -454,7 +454,7 @@ const dropNoteMaterials = [materials.dropnote, materials.dropnote_debris]
 
 glassNoteMaterials.forEach(x => x.set('_FadeDistance', 10))
 
-const introFilter = (e: rm.event.AbstractEvent) => e.type === 1
+const introFilter = (e: rm.BasicEvent) => e.type === 1
 const introEvents = map.lightEvents.filter((x) => introFilter(x))
 map.lightEvents = map.lightEvents.filter((x) => !introFilter(x))
 
@@ -1062,8 +1062,8 @@ map.require('Chroma')
 map.require('Noodle Extensions')
 map.require('Vivify')
 
-rm.getInfoDat()._environmentName = 'BillieEnvironment'
-map.rawSettings = rm.PRESET.CHROMA_SETTINGS
+rm.getActiveInfo()._environmentName = 'BillieEnvironment'
+map.rawSettings = rm.SETTINGS_PRESET.CHROMA_SETTINGS
 map.settings.bloom = true
 map.settings.maxShockwaveParticles = 0
 map.info._customData!._qualitySettings = {
