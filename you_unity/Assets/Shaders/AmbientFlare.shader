@@ -72,8 +72,7 @@
             UNITY_DECLARE_SCREENSPACE_TEXTURE(_CameraDepthTexture);
 
             #ifdef UNITY_STEREO_INSTANCING_ENABLED
-                return 1;
-                //#define SAMPLE_TEXTURE(tex, uv) UNITY_SAMPLE_TEX2DARRAY(tex, float3((uv).xy, 0))
+                #define SAMPLE_TEXTURE(tex, uv) UNITY_SAMPLE_TEX2DARRAY(tex, float3((uv).xy, 0))
             #else
                 #define SAMPLE_TEXTURE(tex, uv) tex2D(tex, uv)
             #endif

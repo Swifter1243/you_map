@@ -13,6 +13,7 @@ Shader "You/AmbientSkybox"
     SubShader
     {
         Tags { "RenderType"="Opaque" }
+        ZWrite Off
 
         Pass
         {

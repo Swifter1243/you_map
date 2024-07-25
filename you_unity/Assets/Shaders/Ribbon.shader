@@ -17,7 +17,6 @@
     {
         Tags { "RenderType"="Transparent" "Queue"="Transparent" }
         Blend One OneMinusSrcAlpha
-        ZTest Off
 
         Pass
         {
