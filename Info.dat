@@ -24,10 +24,10 @@
             }
         },
         "_assetBundle": {
-            "_windows2019": 2980344436,
-            "_windows2021": 1810863504,
-            "_android2019": 428950865,
-            "_android2021": 428950865
+            "_windows2019": 1435042150,
+            "_windows2021": 121138070,
+            "_android2019": 379345826,
+            "_android2021": 379345826
         }
     },
     "_difficultyBeatmapSets": [
@@ -46,7 +46,8 @@
                         "_settings": {
                             "_playerOptions": {
                                 "_environmentEffectsFilterExpertPlusPreset": "AllEffects",
-                                "_environmentEffectsFilterDefaultPreset": "AllEffects"
+                                "_environmentEffectsFilterDefaultPreset": "AllEffects",
+                                "_reduceDebris": false
                             },
                             "_graphics": {
                                 "_mainEffectGraphicsSettings": 1,
