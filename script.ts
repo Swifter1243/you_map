@@ -1,5 +1,5 @@
 import * as rm from 'file:E:/Users/Programs/ReMapper Vivify/src/mod.ts'
-import * as assetinfo from './assetinfo.json' with { type: 'json' }
+import * as bundleinfo from './bundleinfo.json' with { type: 'json' }
 
 const map = await rm.readDifficultyV3('ExpertPlusNoArrows', 'HardStandard')
 
@@ -10,9 +10,9 @@ This script was created on ReMapper V3, and later ported to V4.
 I realized that having an example for launch would be ideal.
 */
 
-const assets = rm.loadAssets(assetinfo)
-const materials = assets.materials
-const prefabs = assets.prefabs
+const bundle = rm.loadBundle(bundleinfo)
+const materials = bundle.materials
+const prefabs = bundle.prefabs
 
 const TIMES = {
     // forcing sorting order in intellisense
