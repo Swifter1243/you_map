@@ -390,6 +390,22 @@ map.allNotes.forEach((x) => {
     }
 })
 
+// Trailer Cameras
+function insertTrailerCamera(beat: number, prefab: rm.Prefab) {
+    const note = map.colorNotes.find(x => x.beat > beat)
+    if (!note) return 
+
+    const track = prefab.name
+    note.track.add(track)
+    prefab.assignToColorNote(track, 'Additive')
+}
+
+insertTrailerCamera(TIMES.a_INTRO + 14, prefabs.trailercamera_1)
+insertTrailerCamera(TIMES.b_AMBIENT + 18, prefabs.trailercamera_2)
+insertTrailerCamera(TIMES.c_AMBIENT_RISE + 20, prefabs.trailercamera_3)
+insertTrailerCamera(TIMES.e_DROP + 10, prefabs.trailercamera_4)
+insertTrailerCamera(TIMES.f_OUTRO + 10, prefabs.trailercamera_5)
+
 //#endregion
 
 //#region Setup assets
