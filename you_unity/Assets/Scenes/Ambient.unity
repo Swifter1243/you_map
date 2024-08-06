@@ -423,3 +423,72 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67a1556ba9a2cd14c95890acbac1454a, type: 3}
+--- !u!1001 &7408056711326418999
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7408056710463882055, guid: 86a74bc8f99c69249b59f3c2c81ccb7f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408056710463882055, guid: 86a74bc8f99c69249b59f3c2c81ccb7f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408056710463882055, guid: 86a74bc8f99c69249b59f3c2c81ccb7f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408056710463882055, guid: 86a74bc8f99c69249b59f3c2c81ccb7f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408056710463882055, guid: 86a74bc8f99c69249b59f3c2c81ccb7f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408056710463882055, guid: 86a74bc8f99c69249b59f3c2c81ccb7f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408056710463882055, guid: 86a74bc8f99c69249b59f3c2c81ccb7f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408056710463882055, guid: 86a74bc8f99c69249b59f3c2c81ccb7f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408056710463882055, guid: 86a74bc8f99c69249b59f3c2c81ccb7f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408056710463882055, guid: 86a74bc8f99c69249b59f3c2c81ccb7f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408056710463882055, guid: 86a74bc8f99c69249b59f3c2c81ccb7f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408056710463882073, guid: 86a74bc8f99c69249b59f3c2c81ccb7f,
+        type: 3}
+      propertyPath: m_Name
+      value: Depth Texture Generator
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 86a74bc8f99c69249b59f3c2c81ccb7f, type: 3}

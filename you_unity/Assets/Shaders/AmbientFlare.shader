@@ -10,6 +10,7 @@
         _Exaggerate ("Exaggerate", Range(0, 1)) = 0
         _Opacity ("Opacity", Range(0, 1)) = 1
         _DepthClip ("Depth Clip", Range(0,1)) = 0
+        _LightBrightness ("Light Brightness", Float) = 6
     }
     SubShader
     {
@@ -68,6 +69,7 @@
             float _Exaggerate;
             float _Opacity;
             float _DepthClip;
+            float _LightBrightness;
 
             UNITY_DECLARE_SCREENSPACE_TEXTURE(_CameraDepthTexture);
 
@@ -83,7 +85,6 @@
                 float depth = SAMPLE_TEXTURE(_CameraDepthTexture, screenUV);
                 float depth01 = Linear01Depth(depth);
                 clip(depth01 - _DepthClip);
-                // return depth01 * float4(1,1,1,0);
 
                 float3 col = 1;
 
@@ -98,16 +99,16 @@
                 float r = pow(saturate(pow(1. - abs(uv.x) * abs(uv.y), _Steepness) * (1. - abs(uv.y) * 0.1) - length(uv) * 0.3), 30) * 2;
 
                 // Thicker flare
-                // r += pow(saturate(pow(1. - abs(uv.x) * abs(uv.y), _Steepness * 0.1) * (1. - abs(uv.y) * 0.1) - length(uv) * 0.3), 30);
-
                 float r2 = pow(saturate(pow(1. - abs(uv.x) * abs(uv.y), _Steepness * 0.1) * (1. - abs(uv.y) * 0.1) - length(uv) * 0.3), 30) * 3;
                 float a = atan2(abs(uv.y), uv.x);
                 float aNoise = gnoise(a * 40);
                 r += r2 * (0.8 + aNoise * 0.2);
 
                 r *= 1 + _Exaggerate * 2;
+                
                 // Flutter
-                r *= 1 + sin(_Time.y * 100.587) * _Flutter;
+                const float flutterRate = sin(_Time.y * 100.587);
+                r *= 1 + flutterRate * _Flutter;
 
                 float c = pow(saturate(1 - length(uv)), 50) * _CenterBrightness + r * _FlareBrightness;
                 float alpha = c;
@@ -131,11 +132,14 @@
                     col += aNoise * circDist * 0.1 * _Exaggerate;
                 }
 
-                col *= _Opacity;
+                // Light
+                float lightFlutter = 1 + flutterRate * _Flutter * 2;
+                float light = smoothstep(0.1, 0, length(uv));
+                col += pow(light, 2) * lightFlutter * _LightBrightness * _FlareBrightness;
 
-                // Gamma Correct
+                col *= _Opacity;
                 col = saturate(col);
-                col = pow(col, 2.2);
+                col = pow(col, 2.2); // Gamma Correct
                 return float4(col, 0);
             }
             ENDCG

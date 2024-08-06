@@ -680,6 +680,7 @@ materials.ambientflare.set(
         '_Exaggerate': [[0, 0], [1, 0.5], [0, 0.5]],
         '_FlareBrightness': [[-10, 0], [0.18, 0.5, 'easeStep']],
         '_Size': [[1.2, 0], [0.72, 0.5, 'easeStep']],
+        '_LightBrightness': 0
     },
     TIMES.d_BUILDUP - 2 * 0.5,
     2,
@@ -950,6 +951,8 @@ for (let i = TIMES.e_DROP; i < TIMES.f_OUTRO; i += DROP_STEP) {
 }
 
 // Outro
+materials.ambientflare.set('_LightBrightness', materials.ambientflare.defaults._LightBrightness, TIMES.f_OUTRO)
+
 rm.animateTrack({
     track: endingScene.id,
     beat: TIMES.f_OUTRO,
