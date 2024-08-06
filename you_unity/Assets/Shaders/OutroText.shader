@@ -22,8 +22,8 @@
             #pragma fragment frag
 
             #include "UnityCG.cginc"
-            #include "Noise.cginc"
-            #include "Colors.cginc"
+            #include "Assets/CGIncludes/Noise.cginc"
+            #include "Assets/CGIncludes/Colors.cginc"
 
             struct appdata
             {

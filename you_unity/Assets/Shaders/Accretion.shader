@@ -21,8 +21,8 @@ Shader "You/Accretion"
             #pragma fragment frag
 
             #include "UnityCG.cginc"
-            #include "Colors.cginc"
-            #include "Noise.cginc"
+            #include "Assets/CGIncludes/Colors.cginc"
+            #include "Assets/CGIncludes/Noise.cginc"
 
             struct appdata
             {
