@@ -492,6 +492,15 @@ const glassNoteMaterials = [materials.glassnote, materials.glassarrow, materials
 const reflectiveNoteMaterials = [materials.reflectivenote, materials.reflectivenote_debris]
 const dropNoteMaterials = [materials.dropnote, materials.dropnote_debris]
 
+rm.assignObjectPrefab({
+    saber: {
+        type: 'Both',
+        // asset: prefabs.saberbase.path,
+        trailAsset: materials.sabertrail.path,
+        trailDuration: 0.2
+    }
+}).push()
+
 // Intro
 
 glassNoteMaterials.forEach(x => x.set('_FadeDistance', 10))
