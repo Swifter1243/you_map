@@ -65,8 +65,13 @@ rm.assignTrackParent(0, ['noteChild'], 'player').push()
 rm.assignPlayerToTrack(0, 'player').push()
 
 // Intro notes
-prefabs.reflectivenote.assignToColorNote('introNote')
-prefabs.reflectivenote_debris.assignToColorNoteDebris('introNote')
+rm.assignObjectPrefab({
+    colorNotes: {
+        track: 'introNote',
+        asset: prefabs.reflectivenote.path,
+        debrisAsset: prefabs.reflectivenote_debris.path
+    }
+}).push()
 
 map.allNotes.forEach((x) => {
     if (
@@ -95,8 +100,13 @@ map.allNotes.forEach((x) => {
 })
 
 // Ambient
-prefabs.glassnote.assignToColorNote('ambientNote')
-prefabs.glassnote_debris.assignToColorNoteDebris('ambientNote')
+rm.assignObjectPrefab({
+    colorNotes: {
+        track: 'ambientNote',
+        asset: prefabs.glassnote.path,
+        debrisAsset: prefabs.glassnote_debris.path
+    }
+}).push()
 
 rm.assignPathAnimation({
     track: 'ambientNote',
@@ -197,8 +207,13 @@ rm.assignPlayerToTrack({
 // Drop
 const DROP_DUR = TIMES.f_OUTRO - TIMES.e_DROP
 
-prefabs.dropnote.assignToColorNote('dropNote')
-prefabs.dropnote_debris.assignToColorNoteDebris('dropNote')
+rm.assignObjectPrefab({
+    colorNotes: {
+        track: 'dropNote',
+        asset: prefabs.dropnote.path,
+        debrisAsset: prefabs.dropnote_debris.path
+    }
+}).push()
 
 rm.assignPathAnimation({
     beat: TIMES.b_AMBIENT - 1,
@@ -354,8 +369,13 @@ function doDropNoteMods(note: rm.ColorNote, index: number) {
 }
 
 // Outro
-prefabs.glassnote.assignToColorNote('outroNote')
-prefabs.glassnote_debris.assignToColorNoteDebris('outroNote')
+rm.assignObjectPrefab({
+    colorNotes: {
+        track: 'outroNote',
+        asset: prefabs.glassnote.path,
+        debrisAsset: prefabs.glassnote_debris.path
+    }
+}).push()
 
 map.allNotes.forEach((x) => {
     if (x.beat >= 141 && x instanceof rm.ColorNote) {
@@ -397,7 +417,13 @@ function insertTrailerCamera(beat: number, prefab: rm.Prefab) {
 
     const track = prefab.name
     note.track.add(track)
-    prefab.assignToColorNote(track, 'Additive')
+    rm.assignObjectPrefab({
+        loadMode: 'Additive',
+        colorNotes: {
+            track,
+            asset: prefab.path 
+        }
+    }).push()
 }
 
 insertTrailerCamera(TIMES.a_INTRO + 14, prefabs.trailercamera_1)
