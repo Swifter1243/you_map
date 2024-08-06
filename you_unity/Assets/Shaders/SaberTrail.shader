@@ -41,15 +41,16 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float n = voronoi(float2(i.uv.x * 3, i.uv.y - _Time.y));
-                float brightness = pow(1 - i.uv.y + n * 0.2, 4);
+                float n = voronoi(float2(i.uv.x * 3, i.uv.y * 2 - _Time.y));
+                float brightness = pow(1 - i.uv.y + n * 0.6, 7);
                 brightness *= 1 - i.uv.x;
                 brightness = lerp(brightness, brightness * gnoise(i.uv * float2(10, 1)), 0.6);
+                brightness *=  1 - pow(1 - i.uv.x + n * 0.05, 6);
                 
-                float t = i.uv.y * 2 + n * 0.2 - _Time.y * 0.4 + i.uv.x;
+                float t = i.uv.y * 2 + n * 0.2 - _Time.y + i.uv.x * 0.4;
                 float3 col = palette(t, 0.5, 0.5, 1, float3(0.00, 0.10, 0.2));
-                col *= brightness * 3;
-                return float4(col, brightness);
+                col *= brightness;
+                return float4(col, 0);
             }
             ENDCG
         }
