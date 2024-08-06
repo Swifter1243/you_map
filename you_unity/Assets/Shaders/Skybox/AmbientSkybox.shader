@@ -9,6 +9,7 @@ Shader "You/AmbientSkybox"
         _Size ("Size", Float) = 700
         _Opacity ("Opacity", Range(0, 1)) = 1
         _Evolve ("Evolve", Range(0, 1)) = 0
+        _LightBrightness ("Light Brightness", Range(0,1)) = 1
     }
     SubShader
     {
@@ -58,6 +59,7 @@ Shader "You/AmbientSkybox"
             float _Size;
             float _Opacity;
             float _Evolve;
+            float _LightBrightness;
 
             fixed4 frag (v2f i) : SV_Target
             {
@@ -67,35 +69,32 @@ Shader "You/AmbientSkybox"
 
                 float f = 1 - length(i.pos.xy) / _Size;
                 float twist = f * _Twist * sin(_Time.y * 0.1) + 10 - pos.z * 5;
-                // angle += gnoise(float2(angle + twist, 0) * 60) * 0.03;
-                // angle += gnoise(gnoise(float2(angle + twist, pos.z * 0.2) * 120)) * 0.03 * 2;
                 float strength = 1 - length(pos.xy);
                 angle += gnoise(float2(length(pos.xy) * 20 * strength, sin(angle))) * 0.1 * pow(strength, 3);
                 angle += sin(angle * 6)  * pow(strength, 3) * _Evolve;
-                // angle += gnoise(float2(length(pos.xy) * 600 * strength,  sin(angle * 2))) * 0.1 * 0.5 * strength;
                 float a = sin(angle * 2 + cos(_Time.y * 0.1) + twist);
                 a -= pos.z;
 
                 float t = f + a + _Time.y * 0.1;
                 float3 col1 = palette(t, 0.5, 0.5, 1, float3(0.00, 0.10, 0.2));
-                float3 col2 = palette(t + 0 + 1, 0.5, 0.5, 1, float3(0.30, 0, 0.20));
-
-                float3 col = lerp(col1, col2, a);
 
                 
                 float t2 = pow(saturate(f), 2);
-                col = lerp(col1, 1, t2);
+                float3 col = lerp(col1, 1, t2);
 
                 col *= pow(saturate(f), 4) - a * 0.3;
 
                 col *= lerp(col, 1, 0.3);
 
                 col *= 0.3 + _Evolve * 0.3;
-                
-                col += pow(abs(f), 50) * 0.9;
 
-                // col = lerp(col, 0.6 + (1 - _Evolve) * 0.4, pow(abs(f), 30));
+                // Light
+                col = lerp(col, 0.9, pow(smoothstep(0.9, 1, f), 6));
+                float3 darkenedCol = lerp(col, 0.1, pow(smoothstep(0.1, 1, f), 6));
+                col = lerp(darkenedCol, col, _LightBrightness);
+                col = lerp(col * 0.7, col, _LightBrightness);
 
+                // Galaxy
                 float g = gnoise((pos + a) * 6 * float3(1, 0.3, 1)) * 0.2;
                 float3 galaxy = palette(g + a + f + 0.6 + _Evolve * 0.3, float3(0.448, -0.542, 1.028), 0.5, float3(0.8, 0.8, 0.5), float3(0, 0.2, 0.5)) * gnoise(pos);
                 galaxy = pow(galaxy, 3);

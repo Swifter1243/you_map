@@ -69,8 +69,8 @@ rm.assignObjectPrefab({
     colorNotes: {
         track: 'introNote',
         asset: prefabs.reflectivenote.path,
-        debrisAsset: prefabs.reflectivenote_debris.path
-    }
+        debrisAsset: prefabs.reflectivenote_debris.path,
+    },
 }).push()
 
 map.allNotes.forEach((x) => {
@@ -104,8 +104,8 @@ rm.assignObjectPrefab({
     colorNotes: {
         track: 'ambientNote',
         asset: prefabs.glassnote.path,
-        debrisAsset: prefabs.glassnote_debris.path
-    }
+        debrisAsset: prefabs.glassnote_debris.path,
+    },
 }).push()
 
 rm.assignPathAnimation({
@@ -211,8 +211,8 @@ rm.assignObjectPrefab({
     colorNotes: {
         track: 'dropNote',
         asset: prefabs.dropnote.path,
-        debrisAsset: prefabs.dropnote_debris.path
-    }
+        debrisAsset: prefabs.dropnote_debris.path,
+    },
 }).push()
 
 rm.assignPathAnimation({
@@ -259,17 +259,25 @@ rm.assignPathAnimation({
 }).push()
 
 function cutDirectionAngle(cut: rm.NoteCut) {
-    switch (cut)
-    {
-        case rm.NoteCut.UP: return 180
-        case rm.NoteCut.DOWN: return 0
-        case rm.NoteCut.LEFT: return -90
-        case rm.NoteCut.RIGHT: return 90
-        case rm.NoteCut.UP_LEFT: return -135
-        case rm.NoteCut.UP_RIGHT: return 135
-        case rm.NoteCut.DOWN_LEFT: return -45
-        case rm.NoteCut.DOWN_RIGHT: return 45
-        case rm.NoteCut.DOT: return 0
+    switch (cut) {
+        case rm.NoteCut.UP:
+            return 180
+        case rm.NoteCut.DOWN:
+            return 0
+        case rm.NoteCut.LEFT:
+            return -90
+        case rm.NoteCut.RIGHT:
+            return 90
+        case rm.NoteCut.UP_LEFT:
+            return -135
+        case rm.NoteCut.UP_RIGHT:
+            return 135
+        case rm.NoteCut.DOWN_LEFT:
+            return -45
+        case rm.NoteCut.DOWN_RIGHT:
+            return 45
+        case rm.NoteCut.DOT:
+            return 0
     }
 }
 
@@ -324,7 +332,7 @@ function doDropNoteMods(note: rm.ColorNote, index: number) {
     let lastDir = -1
     for (let t = TIMES.e_DROP; t <= note.beat && t < TIMES.f_OUTRO - 0.5; t += 1.75) {
         const nextNote = map.colorNotes.find(
-            n => (n.beat >= t && n.cutDirection != lastDir) 
+            (n) => (n.beat >= t && n.cutDirection != lastDir),
         )!
         lastDir = nextNote.cutDirection
         const nextDir = cutDirectionAngle(nextNote.cutDirection)
@@ -373,8 +381,8 @@ rm.assignObjectPrefab({
     colorNotes: {
         track: 'outroNote',
         asset: prefabs.glassnote.path,
-        debrisAsset: prefabs.glassnote_debris.path
-    }
+        debrisAsset: prefabs.glassnote_debris.path,
+    },
 }).push()
 
 map.allNotes.forEach((x) => {
@@ -412,8 +420,8 @@ map.allNotes.forEach((x) => {
 
 // Trailer Cameras
 function insertTrailerCamera(beat: number, prefab: rm.Prefab) {
-    const note = map.colorNotes.find(x => x.beat > beat)
-    if (!note) return 
+    const note = map.colorNotes.find((x) => x.beat > beat)
+    if (!note) return
 
     const track = prefab.name
     note.track.add(track)
@@ -421,8 +429,8 @@ function insertTrailerCamera(beat: number, prefab: rm.Prefab) {
         loadMode: 'Additive',
         colorNotes: {
             track,
-            asset: prefab.path 
-        }
+            asset: prefab.path,
+        },
     }).push()
 }
 
@@ -497,13 +505,13 @@ rm.assignObjectPrefab({
         type: 'Both',
         // asset: prefabs.saberbase.path,
         trailAsset: materials.sabertrail.path,
-        trailDuration: 0.2
-    }
+        trailDuration: 0.2,
+    },
 }).push()
 
 // Intro
 
-glassNoteMaterials.forEach(x => x.set('_FadeDistance', 10))
+glassNoteMaterials.forEach((x) => x.set('_FadeDistance', 10))
 
 const introFilter = (e: rm.BasicEvent) => e.type === 1
 const introEvents = map.lightEvents.filter((x) => introFilter(x))
@@ -556,7 +564,7 @@ materials.introskybox.set(
     'easeOutCirc',
 )
 
-reflectiveNoteMaterials.forEach(x => {
+reflectiveNoteMaterials.forEach((x) => {
     x.set(
         '_FadeDistance',
         [[40, 0], [100, 1]],
@@ -567,7 +575,7 @@ reflectiveNoteMaterials.forEach(x => {
 })
 
 // Ambient
-glassNoteMaterials.forEach(x => {
+glassNoteMaterials.forEach((x) => {
     x.set(
         '_FadeDistance',
         [[10, 0], [30, 1, 'easeOutCirc']],
@@ -603,18 +611,32 @@ materials.ambientflare.set(
     4,
 )
 
+materials.ambientskybox.set(
+    '_LightBrightness',
+    [[0, 0], [1, 0.1], [0.2, 1]],
+    TIMES.b_AMBIENT,
+    4,
+)
+
+function getFlicker(brightness: number, alt: boolean): rm.ComplexKeyframesLinear {
+    return alt
+        ? [[brightness, 0.1, 'easeOutExpo']]
+        : [[brightness, 0.04, 'easeOutExpo'], [brightness * 0.75, 0.045], [brightness, 0.05]]
+}
+
 for (let i = 38; i < TIMES.d_BUILDUP; i += 4) {
-    const arr: rm.ComplexKeyframesLinear = i % 8 === 6
-        ? [[0.18, 0.1, 'easeOutExpo']]
-        : [[0.18, 0, 'easeOutExpo'], [0.13, 0.01, 'easeStep'], [
-            0.18,
-            0.02,
-            'easeStep',
-        ]]
+    const alt = i % 8 === 6
 
     materials.ambientflare.set(
         '_FlareBrightness',
-        [[0, 0], ...arr, [0, 1]],
+        [[0, 0], ...getFlicker(0.18, alt), [0, 1]],
+        i - 0.1,
+        4,
+    )
+
+    materials.ambientskybox.set(
+        '_LightBrightness',
+        [[0, 0], ...getFlicker(1, alt), [0, 1]],
         i - 0.1,
         4,
     )
@@ -665,7 +687,7 @@ materials.ambientparticles.set(
 materials.buildupeffects.blit(TIMES.d_BUILDUP, 104.5 - TIMES.d_BUILDUP)
 materials.buildupeffects.blit(108.5, 111.25 - 108.5)
 
-glassNoteMaterials.forEach(x => x.set('_Cutout', 1))
+glassNoteMaterials.forEach((x) => x.set('_Cutout', 1))
 
 materials.ambientparticles.set(
     '_Opacity',
@@ -680,7 +702,7 @@ materials.ambientflare.set(
         '_Exaggerate': [[0, 0], [1, 0.5], [0, 0.5]],
         '_FlareBrightness': [[-10, 0], [0.18, 0.5, 'easeStep']],
         '_Size': [[1.2, 0], [0.72, 0.5, 'easeStep']],
-        '_LightBrightness': 0
+        '_LightBrightness': 0,
     },
     TIMES.d_BUILDUP - 2 * 0.5,
     2,
@@ -829,7 +851,7 @@ materials.ambientflare.set(
     TIMES.e_DROP,
 )
 
-dropNoteMaterials.forEach(x => {
+dropNoteMaterials.forEach((x) => {
     x.set(
         {
             _Void: 1,
@@ -839,7 +861,7 @@ dropNoteMaterials.forEach(x => {
 })
 
 materials.dropnotearrow.set('_Flicker', 1)
-dropNoteMaterials.forEach(x => x.set('_Void', 0, TIMES.e_DROP))
+dropNoteMaterials.forEach((x) => x.set('_Void', 0, TIMES.e_DROP))
 materials.dropnotearrow.set('_Flicker', 0, TIMES.e_DROP)
 
 materials.dropeffects.blit(TIMES.e_DROP, DROP_DUR)
@@ -1109,7 +1131,7 @@ rm.animateTrack({
 // ----------- { OUTPUT } -----------
 
 rm.setCameraProperty({
-    depthTextureMode: ['Depth']
+    depthTextureMode: ['Depth'],
 }).push()
 
 map.require('Chroma')

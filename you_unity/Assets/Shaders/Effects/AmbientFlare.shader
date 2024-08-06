@@ -10,7 +10,7 @@
         _Exaggerate ("Exaggerate", Range(0, 1)) = 0
         _Opacity ("Opacity", Range(0, 1)) = 1
         _DepthClip ("Depth Clip", Range(0,1)) = 0
-        _LightBrightness ("Light Brightness", Float) = 6
+        _LightBrightness ("Light Brightness", Range(0,1)) = 1
     }
     SubShader
     {
@@ -116,7 +116,8 @@
                 col *= 3;
                 
                 col = saturate(col);
-                col *= palette(length(uv * 7), 0.5, 0.5, 1, float3(0.00, 0.10, 0.2));
+                float3 coloring = palette(length(uv * 7), 0.5, 0.5, 1, float3(0.00, 0.10, 0.2));
+                col *= coloring;
 
                 float flicker = 1 + sin(_Time.y * 300 * _Exaggerate) * 0.4;
                 col += pow(saturate(pow(1. - abs(uv.x) * abs(uv.y), 20) * (1. - abs(uv.y) * 0.1) - length(uv) * 0.3), 30) * 3 * _Exaggerate * flicker;
@@ -135,7 +136,9 @@
                 // Light
                 float lightFlutter = 1 + flutterRate * _Flutter * 2;
                 float light = smoothstep(0.1, 0, length(uv));
-                col += pow(light, 10) * lightFlutter * _LightBrightness * _FlareBrightness;
+                float aNoise2 = gnoise(a * 3);
+                col += pow(light, 10) * lightFlutter * _LightBrightness * 6 * _FlareBrightness;
+                col -= aNoise2 * light * _LightBrightness * _FlareBrightness;
 
                 col *= _Opacity;
                 col = saturate(col);

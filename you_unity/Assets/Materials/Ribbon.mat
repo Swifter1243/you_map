@@ -63,6 +63,7 @@ Material:
     - _DstBlend: 0
     - _EdgePercent: 0.093
     - _FadeOutPoint: -804.2
+    - _FarFadeOutPoint: 1486
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -71,6 +72,7 @@ Material:
     - _Mode: 0
     - _Movement: 0
     - _MovementOffset: 1309.5
+    - _NearFadeOutPoint: -716.8
     - _OcclusionStrength: 1
     - _Opacity: 1
     - _Parallax: 0.02

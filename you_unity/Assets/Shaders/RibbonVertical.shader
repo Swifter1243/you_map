@@ -14,6 +14,7 @@
     {
         Tags { "RenderType"="Transparent" "Queue"="Transparent" }
         Blend One OneMinusSrcAlpha
+        ZWrite Off
 
         Pass
         {

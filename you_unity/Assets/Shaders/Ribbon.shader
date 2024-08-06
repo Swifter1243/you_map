@@ -7,7 +7,8 @@
         _UVScale ("UV Scale", Float) = 1
         _RepeatTime ("Repeat Time", Float) = 0.7
         _InflexPoint ("Inflex Point", Float) = 0
-        _FadeOutPoint ("Fade Out Point", Float) = 0
+        _NearFadeOutPoint ("Near Fade Out Point", Float) = 0
+        _FarFadeOutPoint ("Far Fade Out Point", Float) = 0
         _Opacity ("Opacity", Range(0,1)) = 1
         [ToggleUI] _DissolveBorder ("Dissolve Border", Int) = 0
         _Movement ("Movement", Range(0,1)) = 1
@@ -17,6 +18,7 @@
     {
         Tags { "RenderType"="Transparent" "Queue"="Transparent" }
         Blend One OneMinusSrcAlpha
+        ZWrite Off
 
         Pass
         {
@@ -51,7 +53,8 @@
             float4 _MainTex_ST;
             float _RepeatTime;
             float _InflexPoint;
-            float _FadeOutPoint;
+            float _NearFadeOutPoint;
+            float _FarFadeOutPoint;
             float _Opacity;
             float _Movement;
             float _MovementOffset;
@@ -111,7 +114,8 @@
                 col *= f;
 
                 float4 output = float4(col, f * 0.5);
-                output *= pow(saturate((i.worldPos.z - _FadeOutPoint) / 1000), 40);
+                output *= pow(saturate((i.worldPos.z - _NearFadeOutPoint) / 1000), 40);
+                output *= pow(saturate((_FarFadeOutPoint - i.worldPos.z) / 700), 40);
                 // output = pow((i.worldPos.z * 0.001 - _FadeOutPoint), 3);
 
                 float outlinePoint = lerp(_InflexPoint, 0, _Opacity);
