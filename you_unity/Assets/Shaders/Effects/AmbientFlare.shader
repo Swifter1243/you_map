@@ -135,7 +135,7 @@
                 // Light
                 float lightFlutter = 1 + flutterRate * _Flutter * 2;
                 float light = smoothstep(0.1, 0, length(uv));
-                col += pow(light, 2) * lightFlutter * _LightBrightness * _FlareBrightness;
+                col += pow(light, 10) * lightFlutter * _LightBrightness * _FlareBrightness;
 
                 col *= _Opacity;
                 col = saturate(col);
