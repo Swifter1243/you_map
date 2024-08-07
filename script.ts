@@ -605,39 +605,39 @@ materials.ambientskybox.set(
 )
 
 materials.ambientflare.set(
-    '_FlareBrightness',
-    [[0, 0], [0.18, 0.1], [0.09, 1]],
+    '_FlareOpacity',
+    [[0, 0], [1, 0.06], [0, 1, 'easeInSine']],
     TIMES.b_AMBIENT,
     4,
 )
 
 materials.ambientskybox.set(
     '_LightBrightness',
-    [[0, 0], [1, 0.1], [0.2, 1]],
+    [[0, 0], [1, 0.06], [0, 1, 'easeInSine']],
     TIMES.b_AMBIENT,
     4,
 )
 
 function getFlicker(brightness: number, alt: boolean): rm.ComplexKeyframesLinear {
     return alt
-        ? [[brightness, 0.1, 'easeOutExpo']]
-        : [[brightness, 0.04, 'easeOutExpo'], [brightness * 0.75, 0.045], [brightness, 0.05]]
+        ? [[brightness * 1.2, 0.05, 'easeInExpo'], [brightness, 0.4]]
+        : [[brightness, 0.07, 'easeInBounce']]
 }
 
 for (let i = 38; i < TIMES.d_BUILDUP; i += 4) {
     const alt = i % 8 === 6
 
     materials.ambientflare.set(
-        '_FlareBrightness',
-        [[0, 0], ...getFlicker(0.18, alt), [0, 1]],
-        i - 0.1,
+        '_FlareOpacity',
+        [[0, 0], ...getFlicker(1, alt), [0, 1, 'easeInSine']],
+        i - 0.15,
         4,
     )
 
     materials.ambientskybox.set(
         '_LightBrightness',
-        [[0, 0], ...getFlicker(1, alt), [0, 1]],
-        i - 0.1,
+        [[0, 0], ...getFlicker(1, alt), [0, 1, 'easeInSine']],
+        i - 0.15,
         4,
     )
 }
@@ -701,6 +701,7 @@ materials.ambientflare.set(
         '_Opacity': [[1, 0], [0, 0.5, 'easeInExpo'], [1, 1, 'easeOutExpo']],
         '_Exaggerate': [[0, 0], [1, 0.5], [0, 0.5]],
         '_FlareBrightness': [[-10, 0], [0.18, 0.5, 'easeStep']],
+        '_FlareOpacity': 1,
         '_Size': [[1.2, 0], [0.72, 0.5, 'easeStep']],
         '_LightBrightness': 0,
     },

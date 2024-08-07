@@ -5,6 +5,7 @@
         _Steepness ("Steepness", Float) = 3
         _Size ("Size", Float) = 1
         _FlareBrightness ("Flare Brightness", Float) = 0.1
+        _FlareOpacity ("Flare Opacity", Range(0,1)) = 1
         _CenterBrightness ("Center Brightness", Float) = 0.1
         _Flutter ("Flutter", Float) = 0.1
         _Exaggerate ("Exaggerate", Range(0, 1)) = 0
@@ -65,6 +66,7 @@
             float _Size;
             float _CenterBrightness;
             float _FlareBrightness;
+            float _FlareOpacity;
             float _Flutter;
             float _Exaggerate;
             float _Opacity;
@@ -109,8 +111,8 @@
                 // Flutter
                 const float flutterRate = sin(_Time.y * 100.587);
                 r *= 1 + flutterRate * _Flutter;
-
-                float c = pow(saturate(1 - length(uv)), 50) * _CenterBrightness + r * _FlareBrightness;
+                
+                float c = pow(saturate(1 - length(uv)), 50) * _CenterBrightness + r * _FlareBrightness * _FlareOpacity;
                 float alpha = c;
                 col *= alpha;
                 col *= 3;
@@ -135,10 +137,11 @@
 
                 // Light
                 float lightFlutter = 1 + flutterRate * _Flutter * 2;
-                float light = smoothstep(0.1, 0, length(uv));
+                float light = smoothstep(0.1 * _FlareOpacity, 0, length(uv));
                 float aNoise2 = gnoise(a * 3);
-                col += pow(light, 10) * lightFlutter * _LightBrightness * 6 * _FlareBrightness;
-                col -= aNoise2 * light * _LightBrightness * _FlareBrightness;
+                col += pow(light, 20) * lightFlutter * _LightBrightness * _FlareOpacity;
+                float3 lightFlare = palette(length(uv * 70), 0.5, 0.5, 1, float3(0.00, 0.10, 0.2));
+                col += aNoise2 * light * _LightBrightness * lerp(lightFlare, 1, 0.8) * 0.5 * smoothstep(0.5, 1, _FlareOpacity);
 
                 col *= _Opacity;
                 col = saturate(col);

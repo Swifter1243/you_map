@@ -64,6 +64,7 @@ Material:
     - _DstBlend: 0
     - _Exaggerate: 0
     - _FlareBrightness: 0.18
+    - _FlareOpacity: 1
     - _Flutter: 0.05
     - _GlossMapScale: 1
     - _Glossiness: 0.5
