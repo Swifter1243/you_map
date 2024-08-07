@@ -137,3 +137,27 @@ float gnoise3D( in float3 x )
     u.z*u.x*(va-vb-ve+vf) + 
     u.x*u.y*u.z*(-va+vb+vc-vd+ve-vf-vg+vh);
 }
+
+// https://www.shadertoy.com/view/3sd3Rs
+float hash( uint n ) 
+{   // integer hash copied from Hugo Elias
+    n = (n<<13U)^n; 
+    n = n*(n*n*15731U+789221U)+1376312589U;
+    return float(n&0x0fffffffU)/float(0x0fffffff);
+}
+
+float noise1d( float x )
+{
+    // setup    
+    float i = floor(x);
+    float f = frac(x);
+    float s = sign(frac(x/2.0)-0.5);
+    
+    // use some hash to create a random value k in [0..1] from i
+    float k = hash(uint(i));
+    //float k = 0.5+0.5*sin(i);
+    // float k = frac(i*.1731);
+
+    // quartic polynomial
+    return s*f*(f-1.0)*((16.0*k-4.0)*f*(f-1.0)-1.0);
+}

@@ -208,6 +208,7 @@ GameObject:
   - component: {fileID: 736125188}
   - component: {fileID: 736125187}
   - component: {fileID: 736125186}
+  - component: {fileID: 736125189}
   m_Layer: 0
   m_Name: SaberTrail
   m_TagString: Untagged
@@ -223,8 +224,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 736125184}
   m_LocalRotation: {x: 0.4999797, y: 0.5000203, z: -0.5000203, w: 0.4999797}
-  m_LocalPosition: {x: 0.49999547, y: -0.000000059604645, z: 0.5000016}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.96, y: -0.000000059604645, z: 0.5000016}
+  m_LocalScale: {x: 1, y: 1.9, z: 1}
   m_Children: []
   m_Father: {fileID: 1204182363}
   m_RootOrder: 1
@@ -290,6 +291,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 736125184}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &736125189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 736125184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a08ae01e5343413a8fae48201923f994, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color:
+    r: 1
+    g: 0.4481132
+    b: 0.4481132
+    a: 1
+  meshFilter: {fileID: 736125188}
 --- !u!1 &1204182362
 GameObject:
   m_ObjectHideFlags: 0

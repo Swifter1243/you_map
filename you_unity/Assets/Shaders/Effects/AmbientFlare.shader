@@ -121,7 +121,7 @@
                 float3 coloring = palette(length(uv * 7), 0.5, 0.5, 1, float3(0.00, 0.10, 0.2));
                 col *= coloring;
 
-                float flicker = 1 + sin(_Time.y * 300 * _Exaggerate) * 0.4;
+                float flicker = 1 + noise1d(_Time.y * 100 * _Exaggerate) * 0.4;
                 col += pow(saturate(pow(1. - abs(uv.x) * abs(uv.y), 20) * (1. - abs(uv.y) * 0.1) - length(uv) * 0.3), 30) * 3 * _Exaggerate * flicker;
                 
                 for (int j = 6; j <= 7; j++) {

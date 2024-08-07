@@ -503,9 +503,11 @@ const dropNoteMaterials = [materials.dropnote, materials.dropnote_debris]
 rm.assignObjectPrefab({
     saber: {
         type: 'Both',
-        // asset: prefabs.saberbase.path,
+        asset: prefabs.saberbase.path,
         trailAsset: materials.sabertrail.path,
         trailDuration: 0.2,
+        trailGranularity: 100,
+        trailSamplingFrequency: 100
     },
 }).push()
 
