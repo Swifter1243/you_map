@@ -13,6 +13,7 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
 	public static class CreateAssetBundles
 	{
 		private static readonly SimpleTimer Timer = new SimpleTimer();
+		private static readonly Dictionary<string, uint> InternalBuildCRCs = new Dictionary<string, uint>();
 
 		private static bool IsNewXRPluginInstalled()
 		{
@@ -130,7 +131,7 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
 			// Build
 			string tempBundlePath = Path.Combine(tempDir, projectBundleName);
 			string builtBundlePath = tempBundlePath;
-			string fixedBundlePath = "";
+			string fixedBundlePath = null;
 			BuildTarget buildTarget = isAndroid ? BuildTarget.Android : EditorUserBuildSettings.activeBuildTarget;
 
 			AssetBundleBuild[] builds = {
@@ -237,7 +238,8 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
 				BuildReport build = await Build(outputDirectory, BuildAssetBundleOptions.UncompressedAssetBundle, version);
 				string versionPrefix = VersionTools.GetVersionPrefix(version);
 				uint crc = build.crc ?? await CRCGrabber.GetCRCFromFile(build.outputBundlePath);
-				bundleInfo.bundleCRCs[versionPrefix] = crc;
+				InternalBuildCRCs[versionPrefix] = crc;
+				bundleInfo.bundleCRCs = InternalBuildCRCs;
 				GenerateBundleInfo.Run(build.outputBundlePath, outputDirectory, bundleInfo);
 			}
 			else
@@ -256,27 +258,28 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
 			// Get Directory
 			string outputDirectory = OutputDirectory.Get();
 
-			List<Task<BuildReport>> windowsBuilds = new List<Task<BuildReport>>()
-			{
-				Build(outputDirectory, BuildAssetBundleOptions.None, BuildVersion.Windows2019),
-				Build(outputDirectory, BuildAssetBundleOptions.None, BuildVersion.Windows2021)
-			};
-			List<Task<BuildReport>> androidBuilds = new List<Task<BuildReport>>()
-			{
-				Build(outputDirectory, BuildAssetBundleOptions.None, BuildVersion.Android2019),
-				Build(outputDirectory, BuildAssetBundleOptions.None, BuildVersion.Android2021)
-			};
-			
-			List<BuildReport> builds = new List<BuildReport>();
-			builds.AddRange(await Task.WhenAll(windowsBuilds));
+			Debug.Log($"Building Windows versions for bundle '{ProjectBundle.Value}' compressed.");
 
-			try
+			List<BuildReport> builds = new List<BuildReport>
 			{
-				builds.AddRange(await Task.WhenAll(androidBuilds));
-			}
-			catch (Exception e)
+				// Build Asset Bundle
+				await Build(outputDirectory, BuildAssetBundleOptions.None, BuildVersion.Windows2019),
+				await Build(outputDirectory, BuildAssetBundleOptions.None, BuildVersion.Windows2021)
+			};
+
+			if (BuildAndroidVersion.Value)
 			{
-				Debug.LogError($"Error trying to build for Android: {e}");
+				Debug.Log($"Building Android versions for bundle '{ProjectBundle.Value}' compressed.");
+				
+				try
+				{
+					builds.Add(await Build(outputDirectory, BuildAssetBundleOptions.None, BuildVersion.Android2019));
+					builds.Add(await Build(outputDirectory, BuildAssetBundleOptions.None, BuildVersion.Android2021));
+				}
+				catch (Exception e)
+				{
+					Debug.LogError($"Error trying to build for Android: {e}");
+				}
 			}
 
 			if (ExportAssetInfo.Value)
@@ -287,10 +290,11 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
 				{
 					uint crc = build.crc ?? await CRCGrabber.GetCRCFromFile(build.outputBundlePath);
 					string versionPrefix = VersionTools.GetVersionPrefix(build.buildVersion);
-					bundleInfo.bundleCRCs[versionPrefix] = crc;
+					InternalBuildCRCs[versionPrefix] = crc;
 				});
 				await Task.WhenAll(tasks);
-				
+
+				bundleInfo.bundleCRCs = InternalBuildCRCs;
 				GenerateBundleInfo.Run(builds[0].outputBundlePath, outputDirectory, bundleInfo);
 			}
 
