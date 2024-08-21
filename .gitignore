@@ -8,10 +8,23 @@ bundle_windows2021*.manifest
 bundle_android2019*.manifest
 bundle_android2021*.manifest
 
-# Other files
+# Export Zip
 you.zip
+
+# Output Difficulty
 HardStandard.dat
+
+# Bundle Info from Exporter
 bundleinfo.json
+
+# RM Cache
 RM_Cache.json
+
+# Autosaves from Chromapper
 /autosaves
+
+# Code Workspace
 you.code-workspace
+
+# Deno Lock
+deno.lock
