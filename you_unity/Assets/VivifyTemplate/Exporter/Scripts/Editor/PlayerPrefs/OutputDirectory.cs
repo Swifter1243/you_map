@@ -1,31 +1,32 @@
 ﻿using System;
 using UnityEditor;
-using UnityEngine;
 
-namespace VivifyTemplate.Exporter.Scripts.Editor
+namespace VivifyTemplate.Exporter.Scripts.Editor.PlayerPrefs
 {
     public static class OutputDirectory
     {
+        private static readonly string PlayerPrefsKey = "outputDirectory";
+
         public static string Get()
         {
-            if (PlayerPrefs.HasKey("bundleDir"))
+            if (UnityEngine.PlayerPrefs.HasKey(PlayerPrefsKey))
             {
-                return PlayerPrefs.GetString("bundleDir");
+                return UnityEngine.PlayerPrefs.GetString(PlayerPrefsKey);
             }
-			
+
             string outputDirectory = EditorUtility.OpenFolderPanel("Select Directory", "", "");
             if (outputDirectory == "")
             {
                 throw new Exception("User closed the directory window.");
             }
-            PlayerPrefs.SetString("bundleDir", outputDirectory);
+            UnityEngine.PlayerPrefs.SetString(PlayerPrefsKey, outputDirectory);
             return outputDirectory;
         }
 
-        [MenuItem("Vivify/Forget Output Directory")]
+        [MenuItem("Vivify/Settings/Forget Output Directory")]
         private static void Forget()
         {
-            PlayerPrefs.DeleteKey("bundleDir");
+            UnityEngine.PlayerPrefs.DeleteKey(PlayerPrefsKey);
         }
     }
 }

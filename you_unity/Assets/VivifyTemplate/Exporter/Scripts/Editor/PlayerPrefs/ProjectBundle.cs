@@ -1,16 +1,17 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace VivifyTemplate.Exporter.Scripts.Editor
+namespace VivifyTemplate.Exporter.Scripts.Editor.PlayerPrefs
 {
     public class ProjectBundle : EditorWindow
     {
         private string _inputText;
+        private static readonly string PlayerPrefsKey = "projectBundle";
 
         public static string Value
         {
-            get => PlayerPrefs.GetString("projectBundle", "bundle");
-            set => PlayerPrefs.SetString("projectBundle", value);
+            get => UnityEngine.PlayerPrefs.GetString(PlayerPrefsKey, "bundle");
+            set => UnityEngine.PlayerPrefs.SetString(PlayerPrefsKey, value);
         }
 
         private void OnEnable()
@@ -33,10 +34,11 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
             }
         }
 
-        [MenuItem("Vivify/Set Bundle Name")]
+        [MenuItem("Vivify/Settings/Set Project Bundle Name")]
         private static void CreatePopup()
         {
             ProjectBundle window = CreateInstance<ProjectBundle>();
+            window.titleContent = new GUIContent("Set Project Bundle Name");
             window.minSize = new Vector2(400, 80);
             window.maxSize = window.minSize;
             window.ShowUtility();

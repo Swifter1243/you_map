@@ -1,27 +1,29 @@
 ﻿using System;
 using UnityEditor;
-using UnityEngine;
+using VivifyTemplate.Exporter.Scripts.Structures;
 
-namespace VivifyTemplate.Exporter.Scripts.Editor
+namespace VivifyTemplate.Exporter.Scripts.Editor.PlayerPrefs
 {
     public static class WorkingVersion
     {
+        private static readonly string PlayerPrefsKey = "workingVersion";
+
         public static BuildVersion Value
         {
             get
             {
-                string pref = PlayerPrefs.GetString("workingVersion", null);
+                string pref = UnityEngine.PlayerPrefs.GetString(PlayerPrefsKey, null);
 
                 if (!Enum.TryParse(pref, out BuildVersion ver))
                 {
                     BuildVersion defaultVersion = BuildVersion.Windows2019;
-                    PlayerPrefs.SetString("workingVersion", defaultVersion.ToString());
+                    UnityEngine.PlayerPrefs.SetString(PlayerPrefsKey, defaultVersion.ToString());
                     return defaultVersion;
                 }
 
                 return ver;
             }
-            set => PlayerPrefs.SetString("workingVersion", value.ToString());
+            set => UnityEngine.PlayerPrefs.SetString(PlayerPrefsKey, value.ToString());
         }
 
         [MenuItem("Vivify/Settings/Set Working Version/Windows 2019")]
