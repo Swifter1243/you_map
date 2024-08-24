@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 855289006}
   - component: {fileID: 855289005}
   - component: {fileID: 855289004}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Black Hole Beam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 2113997861}
   - component: {fileID: 2113997863}
   - component: {fileID: 2113997862}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: skybox galaxies
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4976,7 +4976,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2935139421593182147}
   - component: {fileID: 5811756930387570796}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Reflection Probe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5042,7 +5042,7 @@ GameObject:
   - component: {fileID: 3764506349964279813}
   - component: {fileID: 6432174725275043799}
   - component: {fileID: 2597688569703725457}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Accretion DIsk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5135,7 +5135,7 @@ GameObject:
   - component: {fileID: 1764379731919718244}
   - component: {fileID: 4712718010077019174}
   - component: {fileID: 6885813561925757953}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: particles (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9888,7 +9888,7 @@ GameObject:
   - component: {fileID: 5371485587748677704}
   - component: {fileID: 2699025221455528616}
   - component: {fileID: 2944661415798480674}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: skybox stars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14775,6 +14775,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: veins (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3578c4ef24ffe884eb0e00833d458582,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3578c4ef24ffe884eb0e00833d458582, type: 3}
 --- !u!4 &208798290201339409 stripped
@@ -14869,6 +14874,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: veins (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3578c4ef24ffe884eb0e00833d458582,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3578c4ef24ffe884eb0e00833d458582, type: 3}
@@ -14965,6 +14975,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: veins (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3578c4ef24ffe884eb0e00833d458582,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3578c4ef24ffe884eb0e00833d458582, type: 3}
 --- !u!4 &1607090828197470098 stripped
@@ -15059,6 +15074,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: veins (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3578c4ef24ffe884eb0e00833d458582,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3578c4ef24ffe884eb0e00833d458582, type: 3}
@@ -15155,6 +15175,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: veins
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3578c4ef24ffe884eb0e00833d458582,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3578c4ef24ffe884eb0e00833d458582, type: 3}
 --- !u!4 &2072184938785296137 stripped
@@ -15249,6 +15274,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: veins (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3578c4ef24ffe884eb0e00833d458582,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3578c4ef24ffe884eb0e00833d458582, type: 3}
@@ -15440,6 +15470,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ribbon1 (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9b9ff03a07909549a0b751c6b946037, type: 3}
 --- !u!4 &1878858929672815934 stripped
@@ -15534,6 +15569,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ribbon1 (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9b9ff03a07909549a0b751c6b946037, type: 3}
@@ -15630,6 +15670,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ribbon1 (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9b9ff03a07909549a0b751c6b946037, type: 3}
 --- !u!4 &1878858929165616319 stripped
@@ -15724,6 +15769,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ribbon1 (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9b9ff03a07909549a0b751c6b946037, type: 3}
@@ -15820,6 +15870,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ribbon1 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9b9ff03a07909549a0b751c6b946037, type: 3}
 --- !u!4 &1878858928784188217 stripped
@@ -15904,6 +15959,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: skybox sphere
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6442daca2bc080845a56af48e5256892,
+        type: 3}
+      propertyPath: m_Layer
+      value: 29
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6442daca2bc080845a56af48e5256892,
         type: 3}
@@ -16005,6 +16065,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ribbon1 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9b9ff03a07909549a0b751c6b946037, type: 3}
 --- !u!4 &1878858927993505301 stripped
@@ -16099,6 +16164,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Star Mask
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6442daca2bc080845a56af48e5256892,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6442daca2bc080845a56af48e5256892,
         type: 3}
@@ -16202,6 +16272,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
         type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -16300,6 +16375,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: veins (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3578c4ef24ffe884eb0e00833d458582,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3578c4ef24ffe884eb0e00833d458582, type: 3}
 --- !u!4 &4515110702352504879 stripped
@@ -16394,6 +16474,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ribbon1 (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
         type: 3}
@@ -16497,6 +16582,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6442daca2bc080845a56af48e5256892,
         type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6442daca2bc080845a56af48e5256892,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -16595,6 +16685,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: mountains (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 106453507d730704e8ba8dee8c991f4e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 106453507d730704e8ba8dee8c991f4e, type: 3}
 --- !u!4 &5284488680159332065 stripped
@@ -16690,6 +16785,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: mountains (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 106453507d730704e8ba8dee8c991f4e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 106453507d730704e8ba8dee8c991f4e, type: 3}
 --- !u!4 &6283192783364793598 stripped
@@ -16784,6 +16884,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: veins (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3578c4ef24ffe884eb0e00833d458582,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 3578c4ef24ffe884eb0e00833d458582,
         type: 3}
@@ -16887,6 +16992,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6442daca2bc080845a56af48e5256892,
         type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6442daca2bc080845a56af48e5256892,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -16985,6 +17095,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: mountains
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 106453507d730704e8ba8dee8c991f4e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 106453507d730704e8ba8dee8c991f4e, type: 3}
 --- !u!4 &7943527447024443067 stripped
@@ -17079,6 +17194,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ribbon1 (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
         type: 3}

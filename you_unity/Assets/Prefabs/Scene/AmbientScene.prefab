@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5268383054519022496}
   - component: {fileID: 3021071383324005328}
   - component: {fileID: 1580673222649137861}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Implosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 584577711175535145}
   - component: {fileID: 9186640082669879761}
   - component: {fileID: 1776554808536870352}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Implosion (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 6020260278457461856}
   - component: {fileID: 6020260278457461858}
   - component: {fileID: 6020260278457461859}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5030,7 +5030,7 @@ GameObject:
   - component: {fileID: 5816286906718678303}
   - component: {fileID: 8917279127452328096}
   - component: {fileID: 1029002437689214081}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Implosion (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9967,7 +9967,7 @@ GameObject:
   - component: {fileID: 942946773577997959}
   - component: {fileID: 6101251359813422880}
   - component: {fileID: 1049253621483030124}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Implosion (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10136,6 +10136,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ribbon1 (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9b9ff03a07909549a0b751c6b946037, type: 3}
 --- !u!4 &543450653385752296 stripped
@@ -10230,6 +10235,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ribbon1 (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9b9ff03a07909549a0b751c6b946037, type: 3}
@@ -10326,6 +10336,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ribbon1 (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9b9ff03a07909549a0b751c6b946037, type: 3}
 --- !u!4 &543450653071291536 stripped
@@ -10420,6 +10435,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ribbon1 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9b9ff03a07909549a0b751c6b946037, type: 3}
@@ -10516,6 +10536,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ribbon1 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9b9ff03a07909549a0b751c6b946037, type: 3}
 --- !u!4 &543450652323795006 stripped
@@ -10610,6 +10635,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ribbon1 (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9b9ff03a07909549a0b751c6b946037, type: 3}
@@ -10706,6 +10736,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ribbon1 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9b9ff03a07909549a0b751c6b946037, type: 3}
 --- !u!4 &543450651771073187 stripped
@@ -10800,6 +10835,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ribbon1 (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9b9ff03a07909549a0b751c6b946037, type: 3}
@@ -10896,6 +10936,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ribbon1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9b9ff03a07909549a0b751c6b946037, type: 3}
 --- !u!4 &1906993837400165925 stripped
@@ -10975,6 +11020,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: skybox sphere
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6442daca2bc080845a56af48e5256892,
+        type: 3}
+      propertyPath: m_Layer
+      value: 29
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6442daca2bc080845a56af48e5256892, type: 3}
@@ -11076,6 +11126,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ribbon1 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e9b9ff03a07909549a0b751c6b946037,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9b9ff03a07909549a0b751c6b946037, type: 3}

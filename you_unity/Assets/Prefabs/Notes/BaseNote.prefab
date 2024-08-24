@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 241853112259314387}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BaseNote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,6 +99,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: NoteBase
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 185e88d7b32bada4f8246b24c7a1315c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 185e88d7b32bada4f8246b24c7a1315c, type: 3}
 --- !u!4 &347205305398310388 stripped
@@ -173,6 +178,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: NoteArrow
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a81258912d1fae549a8427863ae20ae7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a81258912d1fae549a8427863ae20ae7, type: 3}

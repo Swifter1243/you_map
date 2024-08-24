@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4777797495460014168}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: OutroText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 4777797496248987974}
   - component: {fileID: 4777797496248987975}
   - component: {fileID: 4777797496248987972}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Quad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,6 +137,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Darkness
+      objectReference: {fileID: 0}
+    - target: {fileID: 2491270998792882555, guid: 2073842154c7dc749a52eeaaec137891,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 3015464973481022401, guid: 2073842154c7dc749a52eeaaec137891,
         type: 3}

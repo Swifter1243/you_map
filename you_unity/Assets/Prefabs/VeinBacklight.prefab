@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1679068830019106989}
   - component: {fileID: 1679068830019106962}
   - component: {fileID: 1679068830019106963}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: VeinBacklight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 4283240301076366485}
   - component: {fileID: 7870398567909265733}
   - component: {fileID: 5960565535597176808}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: wisp particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4993,6 +4993,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: veins
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3578c4ef24ffe884eb0e00833d458582,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3578c4ef24ffe884eb0e00833d458582, type: 3}

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1225142214373289743}
   - component: {fileID: 1225142214373289740}
   - component: {fileID: 1225142214373289968}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: AmbientFlare
   m_TagString: Untagged
   m_Icon: {fileID: 0}

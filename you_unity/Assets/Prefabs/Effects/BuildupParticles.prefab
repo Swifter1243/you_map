@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8095288298940357463}
   - component: {fileID: 8095288298940357289}
   - component: {fileID: 8095288298940357288}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: BuildupParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}

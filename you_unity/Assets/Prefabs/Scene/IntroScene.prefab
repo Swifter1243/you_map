@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2109811417}
   - component: {fileID: 2109811418}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Reflection Probe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,6 +167,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: skybox sphere
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6442daca2bc080845a56af48e5256892,
+        type: 3}
+      propertyPath: m_Layer
+      value: 29
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6442daca2bc080845a56af48e5256892, type: 3}

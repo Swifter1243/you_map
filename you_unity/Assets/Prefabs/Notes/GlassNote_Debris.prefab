@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GlassNote_Debris
       objectReference: {fileID: 0}
+    - target: {fileID: 2686290126132974488, guid: 0dd8b4cf53d16f04bb959306c563fcee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 2686290126132974489, guid: 0dd8b4cf53d16f04bb959306c563fcee,
         type: 3}
       propertyPath: m_RootOrder
@@ -66,6 +71,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2992351075477257732, guid: 0dd8b4cf53d16f04bb959306c563fcee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2992351075688130772, guid: 0dd8b4cf53d16f04bb959306c563fcee,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2992351075688130772, guid: 0dd8b4cf53d16f04bb959306c563fcee,
         type: 3}

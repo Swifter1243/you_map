@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1087612291}
   - component: {fileID: 1087612293}
   - component: {fileID: 1087612292}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4822,7 +4822,7 @@ GameObject:
   - component: {fileID: 1625532666}
   - component: {fileID: 1625532668}
   - component: {fileID: 1625532667}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: particles (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9634,7 +9634,7 @@ GameObject:
   - component: {fileID: 2502995913233180657}
   - component: {fileID: 2502995913233180656}
   - component: {fileID: 2502995913233180671}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Quad (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9728,7 +9728,7 @@ GameObject:
   - component: {fileID: 2502995913252660972}
   - component: {fileID: 2502995913252660971}
   - component: {fileID: 2502995913252660970}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Quad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9822,7 +9822,7 @@ GameObject:
   - component: {fileID: 2502995913353624632}
   - component: {fileID: 2502995913353624775}
   - component: {fileID: 2502995913353624774}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Quad (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9913,7 +9913,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2502995914336287217}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Explosions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9950,7 +9950,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4447495649235251585}
   - component: {fileID: 8271865701746048569}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Reflection Probe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
