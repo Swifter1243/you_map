@@ -505,8 +505,10 @@ rm.assignObjectPrefab({
         type: 'Both',
         asset: prefabs.saberbase.path,
         trailAsset: materials.sabertrail.path,
-        trailDuration: 0.2,
-        trailGranularity: 100,
+        trailDuration: 0.4,
+        trailTopPos: [0, 0, 1],
+        trailBottomPos: [0, 0, 0],
+        // trailGranularity: 100,
         trailSamplingFrequency: 100
     },
 }).push()
