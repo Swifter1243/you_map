@@ -1119,13 +1119,13 @@ rm.animateTrack({
 }).push()
 
 rm.assignPlayerToTrack({
-    track: 'leftHand',
-    target: 'LeftHand',
+    track: 'rightHand',
+    target: 'RightHand',
 }).push()
 
 rm.animateTrack({
     beat: TIMES.g_TEXT,
-    track: 'leftHand',
+    track: 'rightHand',
     animation: {
         position: [0, -69420, 0],
     },
