@@ -54,7 +54,7 @@
 
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.uv;
-                o.screenUV = ComputeGrabScreenPos(o.vertex);
+                o.screenUV = ComputeScreenPos(o.vertex);
 
                 return o;
             }
@@ -71,7 +71,7 @@
                 //Scaled pixel coordinates
                 float2 p = i.uv;
                 p.y += _Time.y * _TimeScale * 0.1;
-            
+
                 //Pick a color using the turbulent coordinates
                 float v = sin((p.x - p.y) * 0.2) * 0.3 + 0.5;
                 v = pow(v, 4);

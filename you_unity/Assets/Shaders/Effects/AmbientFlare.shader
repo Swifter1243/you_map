@@ -20,7 +20,7 @@
         ZWrite Off
         ZTest Off
         Cull Off
-        
+
         Pass
         {
             CGPROGRAM
@@ -45,7 +45,7 @@
                 float4 midUV : TEXCOORD1;
                 UNITY_VERTEX_OUTPUT_STEREO
             };
-            
+
             v2f vert (appdata_full v)
             {
                 UNITY_SETUP_INSTANCE_ID(v);
@@ -56,8 +56,7 @@
                 o.uv = v.texcoord.xy;
 
                 float4 midClipPos = UnityObjectToClipPos(float3(0,0,0));
-                // float4 midClipPos = UnityObjectToClipPos(v.vertex);
-                o.midUV = ComputeGrabScreenPos(midClipPos);
+                o.midUV = ComputeScreenPos (midClipPos);
 
                 return o;
             }
@@ -75,16 +74,10 @@
 
             UNITY_DECLARE_SCREENSPACE_TEXTURE(_CameraDepthTexture);
 
-            #ifdef UNITY_STEREO_INSTANCING_ENABLED
-                #define SAMPLE_TEXTURE(tex, uv) UNITY_SAMPLE_TEX2DARRAY(tex, float3((uv).xy, 0))
-            #else
-                #define SAMPLE_TEXTURE(tex, uv) tex2D(tex, uv)
-            #endif
-            
             fixed4 frag (v2f i) : SV_Target
             {
                 float2 screenUV = i.midUV.xy / i.midUV.w;
-                float depth = SAMPLE_TEXTURE(_CameraDepthTexture, screenUV);
+                float depth = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_CameraDepthTexture, screenUV);
                 float depth01 = Linear01Depth(depth);
                 clip(depth01 - _DepthClip);
 
@@ -107,23 +100,23 @@
                 r += r2 * (0.8 + aNoise * 0.2);
 
                 r *= 1 + _Exaggerate * 2;
-                
+
                 // Flutter
                 const float flutterRate = sin(_Time.y * 100.587);
                 r *= 1 + flutterRate * _Flutter;
-                
+
                 float c = pow(saturate(1 - length(uv)), 50) * _CenterBrightness + r * _FlareBrightness * _FlareOpacity;
                 float alpha = c;
                 col *= alpha;
                 col *= 3;
-                
+
                 col = saturate(col);
                 float3 coloring = palette(length(uv * 7), 0.5, 0.5, 1, float3(0.00, 0.10, 0.2));
                 col *= coloring;
 
                 float flicker = 1 + noise1d(_Time.y * 100 * _Exaggerate) * 0.4;
                 col += pow(saturate(pow(1. - abs(uv.x) * abs(uv.y), 20) * (1. - abs(uv.y) * 0.1) - length(uv) * 0.3), 30) * 3 * _Exaggerate * flicker;
-                
+
                 for (int j = 6; j <= 7; j++) {
                     float e = floor(_Exaggerate * j * 3) / j / 3;
                     float len = length(i.uv.xy - 0.5) * e;
