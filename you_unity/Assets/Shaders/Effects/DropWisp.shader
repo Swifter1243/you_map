@@ -68,6 +68,8 @@
 
             fixed4 frag (v2f i) : SV_Target
             {
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
+
                 //Scaled pixel coordinates
                 float2 p = i.uv;
                 p.y += _Time.y * _TimeScale * 0.1;
@@ -97,7 +99,7 @@
                 col *= _Opacity;
 
                 float2 screenUV = i.screenUV.xy / i.screenUV.w;
-                float depth = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_CameraDepthTexture, screenUV);
+                float depth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, screenUV);
                 float depth01 = Linear01Depth(depth);
                 col *= depth01 > 0.5;
 
