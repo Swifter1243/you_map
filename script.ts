@@ -1148,9 +1148,13 @@ map.rawSettings = rm.SETTINGS_PRESET.CHROMA_SETTINGS
 map.settings.bloom = true
 map.settings.maxShockwaveParticles = 0
 map.settings.reduceDebris = false
-map.info._customData!._qualitySettings = {
-    _realtimeReflectionProbes: true,
-}
+
+rm.setRenderingSetting({
+    qualitySettings: {
+        realtimeReflectionProbes: true
+    }
+}).push()
+
 map.save()
 
 rm.exportZip(['ExpertPlusNoArrows'], undefined, bundleinfo)

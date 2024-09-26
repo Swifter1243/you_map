@@ -24,7 +24,8 @@
             }
         },
         "_assetBundle": {
-            "_windows2021": 3052948401
+            "_windows2021": 3052948401,
+            "_windows2019": 2771267995
         }
     },
     "_difficultyBeatmapSets": [
@@ -60,9 +61,6 @@
                             "Noodle Extensions",
                             "Vivify"
                         ],
-                        "_qualitySettings": {
-                            "_realtimeReflectionProbes": true
-                        },
                         "_colorLeft": {
                             "r": 1,
                             "g": 0.459,
