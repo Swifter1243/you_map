@@ -1139,11 +1139,13 @@ rm.setCameraProperty({
 }).push()
 
 info.environmentName = 'BillieEnvironment'
+
 map.difficultyInfo.requirements = [
     'Chroma',
     'Noodle Extensions',
     'Vivify',
 ]
+
 map.difficultyInfo.settingsSetter = {
     graphics: {
         bloomGraphicsSettings: 'On',
