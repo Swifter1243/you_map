@@ -1165,10 +1165,13 @@ map.difficultyInfo.settingsSetter = {
     environments: {},
 }
 
-rm.setRenderingSetting({
+rm.setRenderingSettings({
     qualitySettings: {
         realtimeReflectionProbes: rm.BOOLEAN.True,
     },
+    renderSettings: {
+        fog: rm.BOOLEAN.False,
+    }
 }).push()
 
 map.save()
