@@ -5,62 +5,51 @@
     "_songAuthorName": "Simplifi",
     "_levelAuthorName": "Swifter",
     "_beatsPerMinute": 70,
-    "_previewStartTime": 12,
+    "_songFilename": "song.ogg",
+    "_environmentNames": [],
+    "_coverImageFilename": "cover.jpg",
     "_previewDuration": 10,
-    "_songTimeOffset": 0,
+    "_previewStartTime": 12,
     "_shuffle": 0,
     "_shufflePeriod": 0.5,
-    "_coverImageFilename": "cover.jpg",
-    "_songFilename": "song.ogg",
-    "_environmentName": "BillieEnvironment",
     "_allDirectionsEnvironmentName": "GlassDesertEnvironment",
-    "_environmentNames": [],
+    "_environmentName": "BillieEnvironment",
+    "_songTimeOffset": 0,
     "_colorSchemes": [],
-    "_customData": {
-        "_editors": {
-            "_lastEditedBy": "ChroMapper",
-            "ChroMapper": {
-                "version": "0.9.661"
-            }
-        },
-        "_assetBundle": {
-            "_windows2021": 3052948401,
-            "_windows2019": 2771267995
-        }
-    },
     "_difficultyBeatmapSets": [
         {
             "_beatmapCharacteristicName": "Standard",
             "_difficultyBeatmaps": [
                 {
                     "_difficulty": "Hard",
-                    "_difficultyRank": 5,
                     "_beatmapFilename": "HardStandard.dat",
+                    "_difficultyRank": 5,
+                    "_beatmapColorSchemeIdx": 0,
                     "_noteJumpMovementSpeed": 8,
                     "_noteJumpStartBeatOffset": -0.25,
-                    "_beatmapColorSchemeIdx": 0,
                     "_environmentNameIdx": 0,
                     "_customData": {
-                        "_settings": {
-                            "_playerOptions": {
-                                "_environmentEffectsFilterExpertPlusPreset": "AllEffects",
-                                "_environmentEffectsFilterDefaultPreset": "AllEffects",
-                                "_reduceDebris": false
-                            },
-                            "_graphics": {
-                                "_mainEffectGraphicsSettings": 1,
-                                "_maxShockwaveParticles": 0
-                            },
-                            "_chroma": {
-                                "_disableEnvironmentEnhancements": false,
-                                "_disableChromaEvents": false
-                            }
-                        },
                         "_requirements": [
                             "Chroma",
                             "Noodle Extensions",
                             "Vivify"
                         ],
+                        "_settings": {
+                            "_chroma": {
+                                "_disableEnvironmentEnhancements": false
+                            },
+                            "_graphics": {
+                                "_mainEffectGraphicsSettings": 1,
+                                "_maxShockwaveParticles": 0,
+                                "_screenDisplacementEffectsEnabled": true
+                            },
+                            "_modifiers": {
+                                "_noFailOn0Energy": true
+                            },
+                            "_playerOptions": {
+                                "_reduceDebris": false
+                            }
+                        },
                         "_colorLeft": {
                             "r": 1,
                             "g": 0.459,
@@ -80,20 +69,32 @@
             "_difficultyBeatmaps": [
                 {
                     "_difficulty": "ExpertPlus",
-                    "_difficultyRank": 9,
                     "_beatmapFilename": "ExpertPlusNoArrows.dat",
+                    "_difficultyRank": 9,
+                    "_beatmapColorSchemeIdx": 0,
                     "_noteJumpMovementSpeed": 16,
                     "_noteJumpStartBeatOffset": 0,
-                    "_beatmapColorSchemeIdx": 0,
                     "_environmentNameIdx": 0,
                     "_customData": {
-                        "_difficultyLabel": "input",
                         "_suggestions": [
                             "Chroma"
-                        ]
+                        ],
+                        "_difficultyLabel": "input"
                     }
                 }
             ]
         }
-    ]
+    ],
+    "_customData": {
+        "_editors": {
+            "_lastEditedBy": "ChroMapper",
+            "ChroMapper": {
+                "version": "0.9.661"
+            }
+        },
+        "_assetBundle": {
+            "_windows2021": 3052948401,
+            "_windows2019": 2771267995
+        }
+    }
 }

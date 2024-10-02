@@ -2,6 +2,7 @@ import * as rm from 'file:E:/Users/Programs/ReMapper Vivify/src/mod.ts'
 import * as bundleinfo from './bundleinfo.json' with { type: 'json' }
 
 const map = await rm.readDifficultyV3('ExpertPlusNoArrows', 'HardStandard')
+const info = rm.getActiveInfoAsV2()
 
 // ----------- { SCRIPT } -----------
 
@@ -509,7 +510,7 @@ rm.assignObjectPrefab({
         trailTopPos: [0, 0, 1],
         trailBottomPos: [0, 0, 0],
         // trailGranularity: 100,
-        trailSamplingFrequency: 100
+        trailSamplingFrequency: 100,
     },
 }).push()
 
@@ -623,9 +624,7 @@ materials.ambientskybox.set(
 )
 
 function getFlicker(brightness: number, alt: boolean): rm.ComplexKeyframesLinear {
-    return alt
-        ? [[brightness * 1.2, 0.05, 'easeInExpo'], [brightness, 0.4]]
-        : [[brightness, 0.07, 'easeInBounce']]
+    return alt ? [[brightness * 1.2, 0.05, 'easeInExpo'], [brightness, 0.4]] : [[brightness, 0.07, 'easeInBounce']]
 }
 
 for (let i = 38; i < TIMES.d_BUILDUP; i += 4) {
@@ -1139,20 +1138,35 @@ rm.setCameraProperty({
     depthTextureMode: ['Depth'],
 }).push()
 
-map.require('Chroma')
-map.require('Noodle Extensions')
-map.require('Vivify')
-
-rm.getActiveInfo()._environmentName = 'BillieEnvironment'
-map.rawSettings = rm.SETTINGS_PRESET.CHROMA_SETTINGS
-map.settings.bloom = true
-map.settings.maxShockwaveParticles = 0
-map.settings.reduceDebris = false
+info.environmentName = 'BillieEnvironment'
+map.difficultyInfo.requirements = [
+    'Chroma',
+    'Noodle Extensions',
+    'Vivify',
+]
+map.difficultyInfo.settingsSetter = {
+    graphics: {
+        bloomGraphicsSettings: 'On',
+        maxShockwaveParticles: 0,
+        screenDisplacementEffectsEnabled: true
+    },
+    chroma: {
+        disableEnvironmentEnhancements: false,
+    },
+    modifiers: {
+        noFailOn0Energy: true,
+    },
+    playerOptions: {
+        reduceDebris: false,
+    },
+    colors: {},
+    environments: {},
+}
 
 rm.setRenderingSetting({
     qualitySettings: {
-        realtimeReflectionProbes: true
-    }
+        realtimeReflectionProbes: rm.BOOLEAN.True,
+    },
 }).push()
 
 map.save()
