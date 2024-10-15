@@ -11,7 +11,7 @@ This script was created on ReMapper V3, and later ported to V4.
 I realized that having an example for launch would be ideal.
 */
 
-const bundle = rm.loadBundle(bundleinfo)
+const bundle = rm.loadBundle(map, bundleinfo)
 const materials = bundle.materials
 const prefabs = bundle.prefabs
 
@@ -29,7 +29,7 @@ const TIMES = {
 //#region Environment
 
 // Clear space
-rm.getBaseEnvironment((x) => {
+rm.getBaseEnvironment(map, (x) => {
     x.position = [0, -69420, 0]
     x.components ??= {}
     x.components.BloomFogEnvironment = {
@@ -62,17 +62,17 @@ map.allNotes.forEach((x) => {
 })
 
 // Parent to player
-rm.assignTrackParent(0, ['noteChild'], 'player').push()
-rm.assignPlayerToTrack(0, 'player').push()
+rm.assignTrackParent(map, 0, ['noteChild'], 'player')
+rm.assignPlayerToTrack(map, 0, 'player')
 
 // Intro notes
-rm.assignObjectPrefab({
+rm.assignObjectPrefab(map, {
     colorNotes: {
         track: 'introNote',
         asset: prefabs.reflectivenote.path,
         debrisAsset: prefabs.reflectivenote_debris.path,
     },
-}).push()
+})
 
 map.allNotes.forEach((x) => {
     if (
@@ -101,15 +101,15 @@ map.allNotes.forEach((x) => {
 })
 
 // Ambient
-rm.assignObjectPrefab({
+rm.assignObjectPrefab(map, {
     colorNotes: {
         track: 'ambientNote',
         asset: prefabs.glassnote.path,
         debrisAsset: prefabs.glassnote_debris.path,
     },
-}).push()
+})
 
-rm.assignPathAnimation({
+rm.assignPathAnimation(map, {
     track: 'ambientNote',
     animation: {
         offsetPosition: [
@@ -117,9 +117,9 @@ rm.assignPathAnimation({
             [0, 0, 0, 0.455, 'easeOutCirc'],
         ],
     },
-}).push()
+})
 
-rm.assignPathAnimation({
+rm.assignPathAnimation(map, {
     beat: 34,
     duration: 4,
     track: 'ambientNote',
@@ -127,7 +127,7 @@ rm.assignPathAnimation({
         offsetPosition: [0, 0, 0],
     },
     easing: 'easeInOutExpo',
-}).push()
+})
 
 map.allNotes.forEach((x) => {
     if (
@@ -183,15 +183,15 @@ map.allNotes.forEach((x) => {
     }
 })
 
-rm.assignPlayerToTrack({
+rm.assignPlayerToTrack(map, {
     track: 'head',
     target: 'Head',
-}).push()
+})
 
 {
     const headStartMovingBeat = TIMES.c_AMBIENT_RISE
 
-    rm.animateTrack({
+    rm.animateTrack(map, {
         track: 'head',
         beat: headStartMovingBeat,
         duration: TIMES.d_BUILDUP - headStartMovingBeat,
@@ -202,21 +202,21 @@ rm.assignPlayerToTrack({
                 [0, 0, 0, 1, 'easeInOutQuart'],
             ],
         },
-    }).push()
+    })
 }
 
 // Drop
 const DROP_DUR = TIMES.f_OUTRO - TIMES.e_DROP
 
-rm.assignObjectPrefab({
+rm.assignObjectPrefab(map, {
     colorNotes: {
         track: 'dropNote',
         asset: prefabs.dropnote.path,
         debrisAsset: prefabs.dropnote_debris.path,
     },
-}).push()
+})
 
-rm.assignPathAnimation({
+rm.assignPathAnimation(map, {
     beat: TIMES.b_AMBIENT - 1,
     track: 'dropNote',
     duration: 2,
@@ -224,16 +224,16 @@ rm.assignPathAnimation({
         dissolve: [[1, 0], [0, 0.1]],
     },
     easing: 'easeInOutCirc',
-}).push()
+})
 
-rm.assignPathAnimation({
+rm.assignPathAnimation(map, {
     track: 'dropHitNote',
     animation: {
         scale: [0, 0, 0],
     },
-}).push()
+})
 
-rm.assignPathAnimation({
+rm.assignPathAnimation(map, {
     track: 'dropHitNote',
     beat: 107,
     duration: TIMES.e_DROP - 107,
@@ -241,23 +241,23 @@ rm.assignPathAnimation({
     animation: {
         scale: [1, 1, 1],
     },
-}).push()
+})
 
-rm.assignPathAnimation({
+rm.assignPathAnimation(map, {
     track: 'dropHitNote',
     beat: 111.25,
     animation: {
         scale: [0, 0, 0],
     },
-}).push()
+})
 
-rm.assignPathAnimation({
+rm.assignPathAnimation(map, {
     track: 'dropHitNote',
     beat: TIMES.e_DROP,
     animation: {
         scale: [1, 1, 1],
     },
-}).push()
+})
 
 function cutDirectionAngle(cut: rm.NoteCut) {
     switch (cut) {
@@ -314,7 +314,7 @@ function doDropNoteMods(note: rm.ColorNote, index: number) {
     note.track.add([track1, track2])
 
     // initialization
-    rm.assignPathAnimation({
+    rm.assignPathAnimation(map, {
         track: track2,
         animation: {
             offsetWorldRotation: [
@@ -328,7 +328,7 @@ function doDropNoteMods(note: rm.ColorNote, index: number) {
             dissolve: [[0, 0], [1, 0.35, 'easeInOutCubic']],
             dissolveArrow: [[1, 0.35], [0, 0.55, 'easeInOutQuart']],
         },
-    }).push()
+    })
 
     let lastDir = -1
     for (let t = TIMES.e_DROP; t <= note.beat && t < TIMES.f_OUTRO - 0.5; t += 1.75) {
@@ -341,7 +341,7 @@ function doDropNoteMods(note: rm.ColorNote, index: number) {
         const deltaX = Math.cos(rm.toRadians(nextDir)) * scalar
         const deltaY = Math.sin(rm.toRadians(nextDir)) * scalar
 
-        rm.assignPathAnimation({
+        rm.assignPathAnimation(map, {
             track: track1,
             beat: t - 1.75 / 2,
             duration: 1.75,
@@ -354,11 +354,11 @@ function doDropNoteMods(note: rm.ColorNote, index: number) {
                 dissolve: [[0, 0], [1, 0.35, 'easeInOutCubic']],
                 dissolveArrow: [[0, 0.37], [1, 0.42, 'easeOutBounce']],
             },
-        }).push()
+        })
 
         const randRange = 30
         const randRot = () => rand(-randRange, randRange)
-        rm.assignPathAnimation({
+        rm.assignPathAnimation(map, {
             track: track2,
             beat: t,
             duration: 2.4,
@@ -373,18 +373,18 @@ function doDropNoteMods(note: rm.ColorNote, index: number) {
                     [0, 0, 0, 0.55, 'easeInOutSine'],
                 ],
             },
-        }).push()
+        })
     }
 }
 
 // Outro
-rm.assignObjectPrefab({
+rm.assignObjectPrefab(map, {
     colorNotes: {
         track: 'outroNote',
         asset: prefabs.glassnote.path,
         debrisAsset: prefabs.glassnote_debris.path,
     },
-}).push()
+})
 
 map.allNotes.forEach((x) => {
     if (x.beat >= 141 && x instanceof rm.ColorNote) {
@@ -426,13 +426,13 @@ function insertTrailerCamera(beat: number, prefab: rm.Prefab) {
 
     const track = prefab.name
     note.track.add(track)
-    rm.assignObjectPrefab({
+    rm.assignObjectPrefab(map, {
         loadMode: 'Additive',
         colorNotes: {
             track,
             asset: prefab.path,
         },
-    }).push()
+    })
 }
 
 insertTrailerCamera(TIMES.a_INTRO + 14, prefabs.trailercamera_1)
@@ -446,31 +446,31 @@ insertTrailerCamera(TIMES.f_OUTRO + 10, prefabs.trailercamera_5)
 //#region Setup assets
 
 // Initialize
-prefabs.darkness.instantiate()
+prefabs.darkness.instantiate(map)
 
 // Intro
-const introScene = prefabs.introscene.instantiate()
+const introScene = prefabs.introscene.instantiate(map)
 
 // Ambient
 introScene.destroy(TIMES.b_AMBIENT)
-const ambientScene = prefabs.ambientscene.instantiate(TIMES.b_AMBIENT)
-const ambientFlare = prefabs.ambientflare.instantiate(TIMES.b_AMBIENT)
+const ambientScene = prefabs.ambientscene.instantiate(map, TIMES.b_AMBIENT)
+const ambientFlare = prefabs.ambientflare.instantiate(map, TIMES.b_AMBIENT)
 
 // Buildup
 ambientScene.destroy(TIMES.d_BUILDUP)
 
-const flower = prefabs.flower.instantiate(TIMES.d_BUILDUP)
-const explosions = prefabs.explosions.instantiate(TIMES.d_BUILDUP)
-const buildupPanel = prefabs.builduppanel.instantiate(TIMES.d_BUILDUP)
+const flower = prefabs.flower.instantiate(map, TIMES.d_BUILDUP)
+const explosions = prefabs.explosions.instantiate(map, TIMES.d_BUILDUP)
+const buildupPanel = prefabs.builduppanel.instantiate(map, TIMES.d_BUILDUP)
 
 flower.destroy(102)
 
-const buildupParticles = prefabs.buildupparticles.instantiate(104.5)
-const buildupSphere = prefabs.buildupsphere.instantiate(104.5)
-const veinBacklight = prefabs.veinbacklight.instantiate(108.5)
+const buildupParticles = prefabs.buildupparticles.instantiate(map, 104.5)
+const buildupSphere = prefabs.buildupsphere.instantiate(map, 104.5)
+const veinBacklight = prefabs.veinbacklight.instantiate(map, 108.5)
 
 // Drop
-rm.destroyPrefabInstances([
+rm.destroyPrefabInstances(map, [
     explosions,
     buildupPanel,
     buildupParticles,
@@ -478,20 +478,20 @@ rm.destroyPrefabInstances([
     veinBacklight,
 ], 111.25)
 
-const dropScene = prefabs.dropscene.instantiate(TIMES.e_DROP)
+const dropScene = prefabs.dropscene.instantiate(map, TIMES.e_DROP)
 
 // Outro
 dropScene.destroy(TIMES.f_OUTRO)
 
-const endingScene = prefabs.endingscene.instantiate(TIMES.f_OUTRO)
+const endingScene = prefabs.endingscene.instantiate(map, TIMES.f_OUTRO)
 
 // Outro Text
-rm.destroyPrefabInstances([
+rm.destroyPrefabInstances(map, [
     endingScene,
     ambientFlare,
 ], TIMES.g_TEXT)
 
-const outroText = prefabs.outrotext.instantiate(TIMES.g_TEXT)
+const outroText = prefabs.outrotext.instantiate(map, TIMES.g_TEXT)
 
 //#endregion
 
@@ -501,7 +501,7 @@ const glassNoteMaterials = [materials.glassnote, materials.glassarrow, materials
 const reflectiveNoteMaterials = [materials.reflectivenote, materials.reflectivenote_debris]
 const dropNoteMaterials = [materials.dropnote, materials.dropnote_debris]
 
-rm.assignObjectPrefab({
+rm.assignObjectPrefab(map, {
     saber: {
         type: 'Both',
         asset: prefabs.saberbase.path,
@@ -512,17 +512,18 @@ rm.assignObjectPrefab({
         // trailGranularity: 100,
         trailSamplingFrequency: 100,
     },
-}).push()
+})
 
 // Intro
 
-glassNoteMaterials.forEach((x) => x.set('_FadeDistance', 10))
+glassNoteMaterials.forEach((x) => x.set(map, '_FadeDistance', 10))
 
 const introFilter = (e: rm.BasicEvent) => e.type === 1
 const introEvents = map.lightEvents.filter((x) => introFilter(x))
 map.lightEvents = map.lightEvents.filter((x) => !introFilter(x))
 
 materials.introskybox.set(
+    map,
     {
         _Zoom: 0,
         _ID: 0,
@@ -541,6 +542,7 @@ for (let i = 0; i < introEvents.length - 1; i++) {
     const dur = e2.beat - e.beat
 
     materials.introskybox.set(
+        map,
         {
             _Zoom: [[0, 0], [1, 1]],
             _ID: i,
@@ -550,9 +552,10 @@ for (let i = 0; i < introEvents.length - 1; i++) {
     )
 }
 
-materials.introskybox.set('_Hue', [[1, 0], [0, 1]], 1, 20 - 1)
+materials.introskybox.set(map, '_Hue', [[1, 0], [0, 1]], 1, 20 - 1)
 
 materials.introskybox.set(
+    map,
     {
         _Opacity: [[1, 0], [0, 1, 'easeInExpo']],
         _RingCompress: [[0, 0], [1, 1, 'easeInQuint']],
@@ -562,6 +565,7 @@ materials.introskybox.set(
 )
 
 materials.introskybox.set(
+    map,
     '_Light',
     [[0, 0], [1, 1]],
     19,
@@ -571,6 +575,7 @@ materials.introskybox.set(
 
 reflectiveNoteMaterials.forEach((x) => {
     x.set(
+        map,
         '_FadeDistance',
         [[40, 0], [100, 1]],
         0,
@@ -582,6 +587,7 @@ reflectiveNoteMaterials.forEach((x) => {
 // Ambient
 glassNoteMaterials.forEach((x) => {
     x.set(
+        map,
         '_FadeDistance',
         [[10, 0], [30, 1, 'easeOutCirc']],
         TIMES.b_AMBIENT,
@@ -589,7 +595,7 @@ glassNoteMaterials.forEach((x) => {
     )
 })
 
-rm.animateTrack({
+rm.animateTrack(map, {
     beat: TIMES.b_AMBIENT,
     duration: 10,
     track: ambientScene.id,
@@ -599,9 +605,10 @@ rm.animateTrack({
             [1, 1, 1, 1, 'easeOutExpo'],
         ],
     },
-}).push()
+})
 
 materials.ambientskybox.set(
+    map,
     '_Opacity',
     [[0, 0], [1, 1]],
     TIMES.b_AMBIENT,
@@ -610,6 +617,7 @@ materials.ambientskybox.set(
 )
 
 materials.ambientflare.set(
+    map,
     '_FlareOpacity',
     [[0, 0], [1, 0.06], [0, 1, 'easeInSine']],
     TIMES.b_AMBIENT,
@@ -617,6 +625,7 @@ materials.ambientflare.set(
 )
 
 materials.ambientskybox.set(
+    map,
     '_LightBrightness',
     [[0, 0], [1, 0.06], [0, 1, 'easeInSine']],
     TIMES.b_AMBIENT,
@@ -631,6 +640,7 @@ for (let i = 38; i < TIMES.d_BUILDUP; i += 4) {
     const alt = i % 8 === 6
 
     materials.ambientflare.set(
+        map,
         '_FlareOpacity',
         [[0, 0], ...getFlicker(1, alt), [0, 1, 'easeInSine']],
         i - 0.15,
@@ -638,6 +648,7 @@ for (let i = 38; i < TIMES.d_BUILDUP; i += 4) {
     )
 
     materials.ambientskybox.set(
+        map,
         '_LightBrightness',
         [[0, 0], ...getFlicker(1, alt), [0, 1, 'easeInSine']],
         i - 0.15,
@@ -646,16 +657,18 @@ for (let i = 38; i < TIMES.d_BUILDUP; i += 4) {
 }
 
 materials.ambientskybox.set(
+    map,
     '_Evolve',
     [[0, 0], [1, 1, 'easeOutSine']],
     65.5,
     TIMES.d_BUILDUP - 65.5,
 )
 
-materials.implosion.set('_Distance', 1)
-materials.ribbon.set('_Opacity', 0)
+materials.implosion.set(map, '_Distance', 1)
+materials.ribbon.set(map, '_Opacity', 0)
 
 materials.ribbon.set(
+    map,
     {
         _Opacity: [[0, 0], [1, 0.98], [0, 1, 'easeInExpo']],
         _Movement: [[1, 0], [0, 1, 'easeOutSine']],
@@ -666,6 +679,7 @@ materials.ribbon.set(
 )
 
 materials.ambientskybox.set(
+    map,
     '_Opacity',
     [[1, 0], [0, 1, 'easeInExpo']],
     95,
@@ -673,6 +687,7 @@ materials.ambientskybox.set(
 )
 
 materials.implosion.set(
+    map,
     '_Distance',
     [[1, 0], [0.2, 1, 'easeInExpo']],
     95,
@@ -680,6 +695,7 @@ materials.implosion.set(
 )
 
 materials.ambientparticles.set(
+    map,
     '_Opacity',
     [[1, 0], [0, 1, 'easeInExpo']],
     97,
@@ -687,12 +703,13 @@ materials.ambientparticles.set(
 )
 
 // Buildup
-materials.buildupeffects.blit(TIMES.d_BUILDUP, 104.5 - TIMES.d_BUILDUP)
-materials.buildupeffects.blit(108.5, 111.25 - 108.5)
+materials.buildupeffects.blit(map, TIMES.d_BUILDUP, 104.5 - TIMES.d_BUILDUP)
+materials.buildupeffects.blit(map, 108.5, 111.25 - 108.5)
 
-glassNoteMaterials.forEach((x) => x.set('_Cutout', 1))
+glassNoteMaterials.forEach((x) => x.set(map, '_Cutout', 1))
 
 materials.ambientparticles.set(
+    map,
     '_Opacity',
     [[1, 0], [0, 1, 'easeInExpo']],
     97,
@@ -700,6 +717,7 @@ materials.ambientparticles.set(
 )
 
 materials.ambientflare.set(
+    map,
     {
         '_Opacity': [[1, 0], [0, 0.5, 'easeInExpo'], [1, 1, 'easeOutExpo']],
         '_Exaggerate': [[0, 0], [1, 0.5], [0, 0.5]],
@@ -713,6 +731,7 @@ materials.ambientflare.set(
 )
 
 materials.ambientflare.set(
+    map,
     '_Exaggerate',
     [[0, 0], [1, 1, 'easeOutExpo']],
     TIMES.d_BUILDUP,
@@ -720,6 +739,7 @@ materials.ambientflare.set(
 )
 
 materials.pedal.set(
+    map,
     {
         '_LightBrightness': [[60, 0], [569.5, 0.25, 'easeOutCirc'], [30, 1]],
         '_PetalCurl': [[0.35, 0], [0, 0.5, 'easeOutBack']],
@@ -729,6 +749,7 @@ materials.pedal.set(
 )
 
 materials.flowertiddle.set(
+    map,
     {
         '_Brightness': [[0, 0.1], [1, 0.5], [0, 1]],
         '_Glow': [[0, 0.1], [1, 0.5], [0, 1]],
@@ -738,6 +759,7 @@ materials.flowertiddle.set(
 )
 
 materials.explosion.set(
+    map,
     {
         _Distance: [[0, 0], [0.6, 1, 'easeOutExpo']],
         _Opacity: [[0.2, 0], [0, 0.8, 'easeOutExpo']],
@@ -747,6 +769,7 @@ materials.explosion.set(
 )
 
 materials.ambientflare.set(
+    map,
     '_Flutter',
     [[0.05, 0], [-0.6, 1]],
     99,
@@ -754,6 +777,7 @@ materials.ambientflare.set(
 )
 
 materials.ambientflare.set(
+    map,
     '_Opacity',
     [[1, 0], [0, 1]],
     99,
@@ -761,6 +785,7 @@ materials.ambientflare.set(
 )
 
 materials.builduppanel.set(
+    map,
     '_Opacity',
     [[0, 0.15], [1, 0.8], [0, 1]],
     TIMES.d_BUILDUP,
@@ -768,6 +793,7 @@ materials.builduppanel.set(
 )
 
 materials.builduppanel.set(
+    map,
     {
         '_Progress': [[0, 0], [35, 1, 'easeOutCubic']],
         '_Angle': [[0, 0], [200.4, 1, 'easeOutExpo']],
@@ -777,6 +803,7 @@ materials.builduppanel.set(
 )
 
 materials.shaft.set(
+    map,
     '_Progress',
     [[0, 0], [1, 1]],
     104.5,
@@ -784,13 +811,14 @@ materials.shaft.set(
 )
 
 materials.outline.set(
+    map,
     '_Progress',
     [[0, 0], [1, 1]],
     104.5,
     108.5 - 104.5,
 )
 
-rm.animateTrack({
+rm.animateTrack(map, {
     track: buildupSphere.id,
     beat: 104.5,
     duration: 108.5 - 104.5,
@@ -798,9 +826,10 @@ rm.animateTrack({
         position: [[0, 0, 700, 0], [0, 0, 800, 1, 'easeInOutSine']],
         rotation: [[0, 0, 30, 0], [0, 0, 0, 1, 'easeOutExpo']],
     },
-}).push()
+})
 
 materials.veinbacklight.set(
+    map,
     '_Progress',
     [[0, 0], [1, 1]],
     108.5,
@@ -808,6 +837,7 @@ materials.veinbacklight.set(
 )
 
 materials.ambientflare.set(
+    map,
     {
         _CenterBrightness: -16,
         _Flutter: 0,
@@ -819,12 +849,14 @@ materials.ambientflare.set(
 )
 
 materials.ambientflare.set(
+    map,
     '_Opacity',
     0,
     111.25,
 )
 
 materials.buildupwisps.set(
+    map,
     '_Opacity',
     [[0, 0], [1, 1, 'easeInQuart']],
     108.5,
@@ -832,6 +864,7 @@ materials.buildupwisps.set(
 )
 
 materials.buildupwisps.set(
+    map,
     '_Opacity',
     0,
     111.25,
@@ -844,6 +877,7 @@ let offset = 0
 const offsetStep = 1.2
 
 materials.ambientflare.set(
+    map,
     {
         _Opacity: 0,
         _Steepness: 40,
@@ -857,6 +891,7 @@ materials.ambientflare.set(
 
 dropNoteMaterials.forEach((x) => {
     x.set(
+        map,
         {
             _Void: 1,
             _Cutout: 0,
@@ -864,11 +899,11 @@ dropNoteMaterials.forEach((x) => {
     )
 })
 
-materials.dropnotearrow.set('_Flicker', 1)
-dropNoteMaterials.forEach((x) => x.set('_Void', 0, TIMES.e_DROP))
-materials.dropnotearrow.set('_Flicker', 0, TIMES.e_DROP)
+materials.dropnotearrow.set(map, '_Flicker', 1)
+dropNoteMaterials.forEach((x) => x.set(map, '_Void', 0, TIMES.e_DROP))
+materials.dropnotearrow.set(map, '_Flicker', 0, TIMES.e_DROP)
 
-materials.dropeffects.blit(TIMES.e_DROP, DROP_DUR)
+materials.dropeffects.blit(map, TIMES.e_DROP, DROP_DUR)
 
 let mirrorIndex = 0
 const mirrors = [5, 3, 7, 4]
@@ -883,6 +918,7 @@ for (let i = TIMES.e_DROP; i < TIMES.f_OUTRO; i += DROP_STEP) {
     mirrorIndex++
 
     materials.dropskybox.set(
+        map,
         {
             _TimeOffset: [
                 [offset, 0],
@@ -898,7 +934,7 @@ for (let i = TIMES.e_DROP; i < TIMES.f_OUTRO; i += DROP_STEP) {
         DROP_STEP,
     )
 
-    rm.animateTrack({
+    rm.animateTrack(map, {
         track: dropScene.id,
         beat: i,
         duration: DROP_STEP,
@@ -913,12 +949,13 @@ for (let i = TIMES.e_DROP; i < TIMES.f_OUTRO; i += DROP_STEP) {
             ],
             rotation: [0, 0, rand(0, 360)],
         },
-    }).push()
+    })
 
     // Veins
     const flip = mirrorIndex % 2 === 0 ? 1 : -1
 
     materials.dropveins.set(
+        map,
         {
             _Flicker: [[0.2, 0], [0, 1, 'easeOutExpo']],
             _Opacity: [[1, 0], [0, 1, 'easeInCirc']],
@@ -930,6 +967,7 @@ for (let i = TIMES.e_DROP; i < TIMES.f_OUTRO; i += DROP_STEP) {
 
     // Wisps
     materials.dropwisps.set(
+        map,
         {
             _Opacity: [[0.2, 0], [1, 0.9, 'easeInCirc'], [0, 1]],
         },
@@ -939,6 +977,7 @@ for (let i = TIMES.e_DROP; i < TIMES.f_OUTRO; i += DROP_STEP) {
 
     // Flare
     materials.ambientflare.set(
+        map,
         {
             _Exaggerate: [[0.1, 0], [1, 0.8], [0.1, 1, 'easeInCirc']],
             _Opacity: [[0.4, 0], [1, 0.8, 'easeOutExpo'], [
@@ -951,12 +990,13 @@ for (let i = TIMES.e_DROP; i < TIMES.f_OUTRO; i += DROP_STEP) {
         DROP_STEP,
     )
 
-    rm.animateTrack(i, ambientFlare.id, 0, {
+    rm.animateTrack(map, i, ambientFlare.id, 0, {
         rotation: [0, rand(-30, 30), rand(0, 360)],
-    }).push()
+    })
 
     // Post Processing
     materials.dropeffects.set(
+        map,
         {
             _Strength: [[1, 0], [0, 0.7, 'easeOutQuad'], [
                 -0.3,
@@ -977,9 +1017,9 @@ for (let i = TIMES.e_DROP; i < TIMES.f_OUTRO; i += DROP_STEP) {
 }
 
 // Outro
-materials.ambientflare.set('_LightBrightness', materials.ambientflare.defaults._LightBrightness, TIMES.f_OUTRO)
+materials.ambientflare.set(map, '_LightBrightness', materials.ambientflare.defaults._LightBrightness, TIMES.f_OUTRO)
 
-rm.animateTrack({
+rm.animateTrack(map, {
     track: endingScene.id,
     beat: TIMES.f_OUTRO,
     duration: 18,
@@ -994,13 +1034,14 @@ rm.animateTrack({
         ],
     },
     easing: 'easeOutCirc',
-}).push()
+})
 
-rm.animateTrack(TIMES.f_OUTRO, ambientFlare.id, 0, {
+rm.animateTrack(map, TIMES.f_OUTRO, ambientFlare.id, 0, {
     rotation: [0, 0, 0],
-}).push()
+})
 
 materials.ambientflare.set(
+    map,
     {
         _Steepness: 1,
         _Size: 1.21,
@@ -1015,6 +1056,7 @@ materials.ambientflare.set(
 )
 
 materials.ambientparticles.set(
+    map,
     '_Opacity',
     1,
     TIMES.e_DROP,
@@ -1032,6 +1074,7 @@ materials.ambientparticles.set(
             ]]
 
         materials.ambientflare.set(
+            map,
             '_FlareBrightness',
             [[0, 0], ...arr, [0, 1]],
             i - 0.1,
@@ -1044,6 +1087,7 @@ materials.ambientparticles.set(
     const high = 0.4
 
     materials.endingskybox.set(
+        map,
         '_Flash',
         [[2, 0], [0, 1, 'easeOutExpo']],
         TIMES.f_OUTRO,
@@ -1060,6 +1104,7 @@ materials.ambientparticles.set(
             ]]
 
         materials.endingskybox.set(
+            map,
             '_Flash',
             [[0, 0], ...arr, [0, 1]],
             i,
@@ -1069,6 +1114,7 @@ materials.ambientparticles.set(
 }
 
 materials.endingskybox.set(
+    map,
     '_Darken',
     [[1, 0], [0, 1, 'easeInCirc']],
     TIMES.g_TEXT - 1,
@@ -1079,6 +1125,7 @@ materials.endingskybox.set(
 const endingOffset = 10000
 
 materials.outrotext.set(
+    map,
     {
         _Whiteness: [[0, 0], [1, 0.8]],
         _Opacity: [[5, 0], [1, 0.2], [0, 1]],
@@ -1089,12 +1136,13 @@ materials.outrotext.set(
 )
 
 materials.outrotext.set(
+    map,
     '_Opacity',
     0,
     TIMES.g_TEXT + 8,
 )
 
-rm.animateTrack({
+rm.animateTrack(map, {
     track: outroText.id,
     beat: TIMES.g_TEXT,
     duration: 5,
@@ -1107,36 +1155,36 @@ rm.animateTrack({
             'easeOutSine',
         ]],
     },
-}).push()
+})
 
-rm.animateTrack({
+rm.animateTrack(map, {
     track: 'head',
     beat: TIMES.g_TEXT,
     animation: {
         position: [0, 0, endingOffset],
     },
-}).push()
+})
 
-rm.assignPlayerToTrack({
+rm.assignPlayerToTrack(map, {
     track: 'rightHand',
     target: 'RightHand',
-}).push()
+})
 
-rm.animateTrack({
+rm.animateTrack(map, {
     beat: TIMES.g_TEXT,
     track: 'rightHand',
     animation: {
         position: [0, -69420, 0],
     },
-}).push()
+})
 
 //#endregion
 
 // ----------- { OUTPUT } -----------
 
-rm.setCameraProperty({
+rm.setCameraProperty(map, {
     depthTextureMode: ['Depth'],
-}).push()
+})
 
 info.environmentName = 'BillieEnvironment'
 
@@ -1150,7 +1198,7 @@ map.difficultyInfo.settingsSetter = {
     graphics: {
         bloomGraphicsSettings: 'On',
         maxShockwaveParticles: 0,
-        screenDisplacementEffectsEnabled: true
+        screenDisplacementEffectsEnabled: true,
     },
     chroma: {
         disableEnvironmentEnhancements: false,
@@ -1165,14 +1213,14 @@ map.difficultyInfo.settingsSetter = {
     environments: {},
 }
 
-rm.setRenderingSettings({
+rm.setRenderingSettings(map, {
     qualitySettings: {
         realtimeReflectionProbes: rm.BOOLEAN.True,
     },
     renderSettings: {
         fog: rm.BOOLEAN.False,
-    }
-}).push()
+    },
+})
 
 map.save()
 
