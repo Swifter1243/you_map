@@ -754,7 +754,7 @@ materials.ambientflare.set(
         '_Opacity': [[1, 0], [0, 0.5, 'easeInExpo'], [1, 1, 'easeOutExpo']],
         '_Exaggerate': [[0, 0], [1, 0.5], [0, 0.5]],
         '_FlareBrightness': [[-10, 0], [0.18, 0.5, 'easeStep']],
-        '_FlareOpacity': 1,
+        '_FlareOpacity': [1],
         '_Size': [[1.2, 0], [0.72, 0.5, 'easeStep']],
         '_LightBrightness': 0,
     },
