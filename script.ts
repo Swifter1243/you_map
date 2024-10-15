@@ -516,7 +516,11 @@ rm.assignObjectPrefab(map, {
 
 // Intro
 
-glassNoteMaterials.forEach((x) => x.set(map, '_FadeDistance', 10))
+glassNoteMaterials.forEach((x) =>
+    x.set(map, {
+        '_FadeDistance': 10,
+    })
+)
 
 const introFilter = (e: rm.BasicEvent) => e.type === 1
 const introEvents = map.lightEvents.filter((x) => introFilter(x))
@@ -552,7 +556,14 @@ for (let i = 0; i < introEvents.length - 1; i++) {
     )
 }
 
-materials.introskybox.set(map, '_Hue', [[1, 0], [0, 1]], 1, 20 - 1)
+materials.introskybox.set(
+    map,
+    {
+        '_Hue': [[1, 0], [0, 1]],
+    },
+    1,
+    20 - 1,
+)
 
 materials.introskybox.set(
     map,
@@ -566,8 +577,9 @@ materials.introskybox.set(
 
 materials.introskybox.set(
     map,
-    '_Light',
-    [[0, 0], [1, 1]],
+    {
+        '_Light': [[0, 0], [1, 1]],
+    },
     19,
     TIMES.b_AMBIENT - 19,
     'easeOutCirc',
@@ -576,8 +588,9 @@ materials.introskybox.set(
 reflectiveNoteMaterials.forEach((x) => {
     x.set(
         map,
-        '_FadeDistance',
-        [[40, 0], [100, 1]],
+        {
+            '_FadeDistance': [[40, 0], [100, 1]],
+        },
         0,
         20,
         'easeInCirc',
@@ -588,8 +601,9 @@ reflectiveNoteMaterials.forEach((x) => {
 glassNoteMaterials.forEach((x) => {
     x.set(
         map,
-        '_FadeDistance',
-        [[10, 0], [30, 1, 'easeOutCirc']],
+        {
+            '_FadeDistance': [[10, 0], [30, 1, 'easeOutCirc']],
+        },
         TIMES.b_AMBIENT,
         0.2,
     )
@@ -609,8 +623,9 @@ rm.animateTrack(map, {
 
 materials.ambientskybox.set(
     map,
-    '_Opacity',
-    [[0, 0], [1, 1]],
+    {
+        '_Opacity': [[0, 0], [1, 1]],
+    },
     TIMES.b_AMBIENT,
     1,
     'easeOutExpo',
@@ -618,16 +633,18 @@ materials.ambientskybox.set(
 
 materials.ambientflare.set(
     map,
-    '_FlareOpacity',
-    [[0, 0], [1, 0.06], [0, 1, 'easeInSine']],
+    {
+        '_FlareOpacity': [[0, 0], [1, 0.06], [0, 1, 'easeInSine']],
+    },
     TIMES.b_AMBIENT,
     4,
 )
 
 materials.ambientskybox.set(
     map,
-    '_LightBrightness',
-    [[0, 0], [1, 0.06], [0, 1, 'easeInSine']],
+    {
+        '_LightBrightness': [[0, 0], [1, 0.06], [0, 1, 'easeInSine']],
+    },
     TIMES.b_AMBIENT,
     4,
 )
@@ -641,16 +658,18 @@ for (let i = 38; i < TIMES.d_BUILDUP; i += 4) {
 
     materials.ambientflare.set(
         map,
-        '_FlareOpacity',
-        [[0, 0], ...getFlicker(1, alt), [0, 1, 'easeInSine']],
+        {
+            '_FlareOpacity': [[0, 0], ...getFlicker(1, alt), [0, 1, 'easeInSine']],
+        },
         i - 0.15,
         4,
     )
 
     materials.ambientskybox.set(
         map,
-        '_LightBrightness',
-        [[0, 0], ...getFlicker(1, alt), [0, 1, 'easeInSine']],
+        {
+            '_LightBrightness': [[0, 0], ...getFlicker(1, alt), [0, 1, 'easeInSine']],
+        },
         i - 0.15,
         4,
     )
@@ -658,14 +677,19 @@ for (let i = 38; i < TIMES.d_BUILDUP; i += 4) {
 
 materials.ambientskybox.set(
     map,
-    '_Evolve',
-    [[0, 0], [1, 1, 'easeOutSine']],
+    {
+        '_Evolve': [[0, 0], [1, 1, 'easeOutSine']],
+    },
     65.5,
     TIMES.d_BUILDUP - 65.5,
 )
 
-materials.implosion.set(map, '_Distance', 1)
-materials.ribbon.set(map, '_Opacity', 0)
+materials.implosion.set(map, {
+    '_Distance': 1,
+})
+materials.ribbon.set(map, {
+    '_Opacity': 0,
+})
 
 materials.ribbon.set(
     map,
@@ -680,24 +704,27 @@ materials.ribbon.set(
 
 materials.ambientskybox.set(
     map,
-    '_Opacity',
-    [[1, 0], [0, 1, 'easeInExpo']],
+    {
+        '_Opacity': [[1, 0], [0, 1, 'easeInExpo']],
+    },
     95,
     TIMES.d_BUILDUP - 95,
 )
 
 materials.implosion.set(
     map,
-    '_Distance',
-    [[1, 0], [0.2, 1, 'easeInExpo']],
+    {
+        '_Distance': [[1, 0], [0.2, 1, 'easeInExpo']],
+    },
     95,
     TIMES.d_BUILDUP - 95,
 )
 
 materials.ambientparticles.set(
     map,
-    '_Opacity',
-    [[1, 0], [0, 1, 'easeInExpo']],
+    {
+        '_Opacity': [[1, 0], [0, 1, 'easeInExpo']],
+    },
     97,
     TIMES.d_BUILDUP - 97,
 )
@@ -706,12 +733,17 @@ materials.ambientparticles.set(
 materials.buildupeffects.blit(map, TIMES.d_BUILDUP, 104.5 - TIMES.d_BUILDUP)
 materials.buildupeffects.blit(map, 108.5, 111.25 - 108.5)
 
-glassNoteMaterials.forEach((x) => x.set(map, '_Cutout', 1))
+glassNoteMaterials.forEach((x) =>
+    x.set(map, {
+        '_Cutout': 1,
+    })
+)
 
 materials.ambientparticles.set(
     map,
-    '_Opacity',
-    [[1, 0], [0, 1, 'easeInExpo']],
+    {
+        '_Opacity': [[1, 0], [0, 1, 'easeInExpo']],
+    },
     97,
     TIMES.d_BUILDUP - 97,
 )
@@ -732,8 +764,9 @@ materials.ambientflare.set(
 
 materials.ambientflare.set(
     map,
-    '_Exaggerate',
-    [[0, 0], [1, 1, 'easeOutExpo']],
+    {
+        '_Exaggerate': [[0, 0], [1, 1, 'easeOutExpo']],
+    },
     TIMES.d_BUILDUP,
     104 - TIMES.d_BUILDUP,
 )
@@ -770,24 +803,27 @@ materials.explosion.set(
 
 materials.ambientflare.set(
     map,
-    '_Flutter',
-    [[0.05, 0], [-0.6, 1]],
+    {
+        '_Flutter': [[0.05, 0], [-0.6, 1]],
+    },
     99,
     101 - 99,
 )
 
 materials.ambientflare.set(
     map,
-    '_Opacity',
-    [[1, 0], [0, 1]],
+    {
+        '_Opacity': [[1, 0], [0, 1]],
+    },
     99,
     103 - 99,
 )
 
 materials.builduppanel.set(
     map,
-    '_Opacity',
-    [[0, 0.15], [1, 0.8], [0, 1]],
+    {
+        '_Opacity': [[0, 0.15], [1, 0.8], [0, 1]],
+    },
     TIMES.d_BUILDUP,
     105 - TIMES.d_BUILDUP,
 )
@@ -804,16 +840,18 @@ materials.builduppanel.set(
 
 materials.shaft.set(
     map,
-    '_Progress',
-    [[0, 0], [1, 1]],
+    {
+        '_Progress': [[0, 0], [1, 1]],
+    },
     104.5,
     108.5 - 104.5,
 )
 
 materials.outline.set(
     map,
-    '_Progress',
-    [[0, 0], [1, 1]],
+    {
+        '_Progress': [[0, 0], [1, 1]],
+    },
     104.5,
     108.5 - 104.5,
 )
@@ -830,8 +868,9 @@ rm.animateTrack(map, {
 
 materials.veinbacklight.set(
     map,
-    '_Progress',
-    [[0, 0], [1, 1]],
+    {
+        '_Progress': [[0, 0], [1, 1]],
+    },
     108.5,
     111.25 - 108.5,
 )
@@ -850,23 +889,26 @@ materials.ambientflare.set(
 
 materials.ambientflare.set(
     map,
-    '_Opacity',
-    0,
+    {
+        '_Opacity': 0,
+    },
     111.25,
 )
 
 materials.buildupwisps.set(
     map,
-    '_Opacity',
-    [[0, 0], [1, 1, 'easeInQuart']],
+    {
+        '_Opacity': [[0, 0], [1, 1, 'easeInQuart']],
+    },
     108.5,
     111.25 - 108.5,
 )
 
 materials.buildupwisps.set(
     map,
-    '_Opacity',
-    0,
+    {
+        '_Opacity': 0,
+    },
     111.25,
 )
 
@@ -899,9 +941,17 @@ dropNoteMaterials.forEach((x) => {
     )
 })
 
-materials.dropnotearrow.set(map, '_Flicker', 1)
-dropNoteMaterials.forEach((x) => x.set(map, '_Void', 0, TIMES.e_DROP))
-materials.dropnotearrow.set(map, '_Flicker', 0, TIMES.e_DROP)
+materials.dropnotearrow.set(map, {
+    '_Flicker': 1,
+})
+dropNoteMaterials.forEach((x) =>
+    x.set(map, {
+        '_Void': 0,
+    }, TIMES.e_DROP)
+)
+materials.dropnotearrow.set(map, {
+    '_Flicker': 0,
+}, TIMES.e_DROP)
 
 materials.dropeffects.blit(map, TIMES.e_DROP, DROP_DUR)
 
@@ -1017,7 +1067,9 @@ for (let i = TIMES.e_DROP; i < TIMES.f_OUTRO; i += DROP_STEP) {
 }
 
 // Outro
-materials.ambientflare.set(map, '_LightBrightness', materials.ambientflare.defaults._LightBrightness, TIMES.f_OUTRO)
+materials.ambientflare.set(map, {
+    '_LightBrightness': materials.ambientflare.defaults._LightBrightness,
+}, TIMES.f_OUTRO)
 
 rm.animateTrack(map, {
     track: endingScene.id,
@@ -1057,8 +1109,9 @@ materials.ambientflare.set(
 
 materials.ambientparticles.set(
     map,
-    '_Opacity',
-    1,
+    {
+        '_Opacity': 1,
+    },
     TIMES.e_DROP,
 )
 
@@ -1075,8 +1128,9 @@ materials.ambientparticles.set(
 
         materials.ambientflare.set(
             map,
-            '_FlareBrightness',
-            [[0, 0], ...arr, [0, 1]],
+            {
+                '_FlareBrightness': [[0, 0], ...arr, [0, 1]],
+            },
             i - 0.1,
             4,
         )
@@ -1088,8 +1142,9 @@ materials.ambientparticles.set(
 
     materials.endingskybox.set(
         map,
-        '_Flash',
-        [[2, 0], [0, 1, 'easeOutExpo']],
+        {
+            '_Flash': [[2, 0], [0, 1, 'easeOutExpo']],
+        },
         TIMES.f_OUTRO,
         1,
     )
@@ -1105,8 +1160,9 @@ materials.ambientparticles.set(
 
         materials.endingskybox.set(
             map,
-            '_Flash',
-            [[0, 0], ...arr, [0, 1]],
+            {
+                '_Flash': [[0, 0], ...arr, [0, 1]],
+            },
             i,
             2,
         )
@@ -1115,8 +1171,9 @@ materials.ambientparticles.set(
 
 materials.endingskybox.set(
     map,
-    '_Darken',
-    [[1, 0], [0, 1, 'easeInCirc']],
+    {
+        '_Darken': [[1, 0], [0, 1, 'easeInCirc']],
+    },
     TIMES.g_TEXT - 1,
     1,
 )
@@ -1137,8 +1194,9 @@ materials.outrotext.set(
 
 materials.outrotext.set(
     map,
-    '_Opacity',
-    0,
+    {
+        '_Opacity': 0,
+    },
     TIMES.g_TEXT + 8,
 )
 
