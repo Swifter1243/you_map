@@ -1280,6 +1280,6 @@ rm.setRenderingSettings(map, {
     },
 })
 
-map.save()
+await map.save()
 
-rm.exportZip(['ExpertPlusNoArrows'], undefined, bundleinfo)
+// rm.exportZip(['ExpertPlusNoArrows'], undefined, bundleinfo)
