@@ -649,7 +649,7 @@ materials.ambientskybox.set(
     4,
 )
 
-function getFlicker(brightness: number, alt: boolean): rm.ComplexKeyframesLinear {
+function getFlicker(brightness: number, alt: boolean): rm.ComplexPointsLinear {
     return alt ? [[brightness * 1.2, 0.05, 'easeInExpo'], [brightness, 0.4]] : [[brightness, 0.07, 'easeInBounce']]
 }
 
@@ -1118,7 +1118,7 @@ materials.ambientparticles.set(
 {
     const high = 1.76
     for (let i = 144.75; i <= TIMES.g_TEXT; i += 4) {
-        const arr: rm.ComplexKeyframesLinear = i % 8 === 4.75
+        const arr: rm.ComplexPointsLinear = i % 8 === 4.75
             ? [[high, 0.1, 'easeOutExpo']]
             : [[high, 0, 'easeOutExpo'], [high * 0.6, 0.01, 'easeStep'], [
                 high,
@@ -1150,7 +1150,7 @@ materials.ambientparticles.set(
     )
 
     for (let i = 148.75; i <= TIMES.g_TEXT; i += 8) {
-        const arr: rm.ComplexKeyframesLinear = i !== 164.75
+        const arr: rm.ComplexPointsLinear = i !== 164.75
             ? [[high, 0.1, 'easeOutExpo']]
             : [[high, 0, 'easeOutExpo'], [high * 0.9, 0.01, 'easeStep'], [
                 high,
@@ -1282,4 +1282,4 @@ rm.setRenderingSettings(map, {
 
 await map.save()
 
-// rm.exportZip(['ExpertPlusNoArrows'], undefined, bundleinfo)
+rm.exportZip(['ExpertPlusNoArrows'], undefined, bundleinfo)
