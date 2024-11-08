@@ -17,13 +17,13 @@ const prefabs = bundle.prefabs
 
 const TIMES = {
     // forcing sorting order in intellisense
-    a_INTRO: 0,
-    b_AMBIENT: 34,
-    c_AMBIENT_RISE: 70,
-    d_BUILDUP: 98,
-    e_DROP: 112.5,
-    f_OUTRO: 140.75,
-    g_TEXT: 172.75,
+    _0_INTRO: 0,
+    _1_AMBIENT: 34,
+    _2_AMBIENT_RISE: 70,
+    _3_BUILDUP: 98,
+    _4_DROP: 112.5,
+    _5_OUTRO: 140.75,
+    _6_TEXT: 172.75,
 } as const // this provides the value in the type instead of "number"
 
 //#region Environment
@@ -142,8 +142,8 @@ map.allNotes.forEach((x) => {
 
         let scalar = Math.sin(x.beat * 0.3) * 0.5 + 0.5
 
-        const movement = (x.beat - TIMES.c_AMBIENT_RISE) /
-            (TIMES.d_BUILDUP - TIMES.c_AMBIENT_RISE)
+        const movement = (x.beat - TIMES._2_AMBIENT_RISE) /
+            (TIMES._3_BUILDUP - TIMES._2_AMBIENT_RISE)
 
         if (movement > 0) {
             const fraction = Math.pow(1 - movement, 2)
@@ -189,12 +189,12 @@ rm.assignPlayerToTrack(map, {
 })
 
 {
-    const headStartMovingBeat = TIMES.c_AMBIENT_RISE
+    const headStartMovingBeat = TIMES._2_AMBIENT_RISE
 
     rm.animateTrack(map, {
         track: 'head',
         beat: headStartMovingBeat,
-        duration: TIMES.d_BUILDUP - headStartMovingBeat,
+        duration: TIMES._3_BUILDUP - headStartMovingBeat,
         animation: {
             position: [
                 [0, 0, 0, 0],
@@ -206,7 +206,7 @@ rm.assignPlayerToTrack(map, {
 }
 
 // Drop
-const DROP_DUR = TIMES.f_OUTRO - TIMES.e_DROP
+const DROP_DUR = TIMES._5_OUTRO - TIMES._4_DROP
 
 rm.assignObjectPrefab(map, {
     colorNotes: {
@@ -217,7 +217,7 @@ rm.assignObjectPrefab(map, {
 })
 
 rm.assignPathAnimation(map, {
-    beat: TIMES.b_AMBIENT - 1,
+    beat: TIMES._1_AMBIENT - 1,
     track: 'dropNote',
     duration: 2,
     animation: {
@@ -236,7 +236,7 @@ rm.assignPathAnimation(map, {
 rm.assignPathAnimation(map, {
     track: 'dropHitNote',
     beat: 107,
-    duration: TIMES.e_DROP - 107,
+    duration: TIMES._4_DROP - 107,
     easing: 'easeInOutExpo',
     animation: {
         scale: [1, 1, 1],
@@ -253,7 +253,7 @@ rm.assignPathAnimation(map, {
 
 rm.assignPathAnimation(map, {
     track: 'dropHitNote',
-    beat: TIMES.e_DROP,
+    beat: TIMES._4_DROP,
     animation: {
         scale: [1, 1, 1],
     },
@@ -284,14 +284,14 @@ function cutDirectionAngle(cut: rm.NoteCut) {
 
 map.allNotes.forEach((x, i) => {
     if (
-        x.beat >= TIMES.e_DROP && x.beat <= TIMES.f_OUTRO &&
+        x.beat >= TIMES._4_DROP && x.beat <= TIMES._5_OUTRO &&
         x instanceof rm.ColorNote
     ) {
         x.track.add('dropNote')
         x.noteJumpOffset = 1.5
         x.noteJumpSpeed = 15
 
-        if (x.beat > TIMES.e_DROP + 1) {
+        if (x.beat > TIMES._4_DROP + 1) {
             doDropNoteMods(x, i)
         } else {
             x.animation.dissolve = [[0.8, 0], [0.2, 0.6, 'easeInOutExpo']]
@@ -331,7 +331,7 @@ function doDropNoteMods(note: rm.ColorNote, index: number) {
     })
 
     let lastDir = -1
-    for (let t = TIMES.e_DROP; t <= note.beat && t < TIMES.f_OUTRO - 0.5; t += 1.75) {
+    for (let t = TIMES._4_DROP; t <= note.beat && t < TIMES._5_OUTRO - 0.5; t += 1.75) {
         const nextNote = map.colorNotes.find(
             (n) => (n.beat >= t && n.cutDirection != lastDir),
         )!
@@ -435,11 +435,11 @@ function insertTrailerCamera(beat: number, prefab: rm.Prefab) {
     })
 }
 
-insertTrailerCamera(TIMES.a_INTRO + 14, prefabs.trailercamera_1)
-insertTrailerCamera(TIMES.b_AMBIENT + 18, prefabs.trailercamera_2)
-insertTrailerCamera(TIMES.c_AMBIENT_RISE + 20, prefabs.trailercamera_3)
-insertTrailerCamera(TIMES.e_DROP + 10, prefabs.trailercamera_4)
-insertTrailerCamera(TIMES.f_OUTRO + 10, prefabs.trailercamera_5)
+insertTrailerCamera(TIMES._0_INTRO + 14, prefabs.trailercamera_1)
+insertTrailerCamera(TIMES._1_AMBIENT + 18, prefabs.trailercamera_2)
+insertTrailerCamera(TIMES._2_AMBIENT_RISE + 20, prefabs.trailercamera_3)
+insertTrailerCamera(TIMES._4_DROP + 10, prefabs.trailercamera_4)
+insertTrailerCamera(TIMES._5_OUTRO + 10, prefabs.trailercamera_5)
 
 //#endregion
 
@@ -452,16 +452,16 @@ prefabs.darkness.instantiate(map)
 const introScene = prefabs.introscene.instantiate(map)
 
 // Ambient
-introScene.destroyObject(TIMES.b_AMBIENT)
-const ambientScene = prefabs.ambientscene.instantiate(map, TIMES.b_AMBIENT)
-const ambientFlare = prefabs.ambientflare.instantiate(map, TIMES.b_AMBIENT)
+introScene.destroyObject(TIMES._1_AMBIENT)
+const ambientScene = prefabs.ambientscene.instantiate(map, TIMES._1_AMBIENT)
+const ambientFlare = prefabs.ambientflare.instantiate(map, TIMES._1_AMBIENT)
 
 // Buildup
-ambientScene.destroyObject(TIMES.d_BUILDUP)
+ambientScene.destroyObject(TIMES._3_BUILDUP)
 
-const flower = prefabs.flower.instantiate(map, TIMES.d_BUILDUP)
-const explosions = prefabs.explosions.instantiate(map, TIMES.d_BUILDUP)
-const buildupPanel = prefabs.builduppanel.instantiate(map, TIMES.d_BUILDUP)
+const flower = prefabs.flower.instantiate(map, TIMES._3_BUILDUP)
+const explosions = prefabs.explosions.instantiate(map, TIMES._3_BUILDUP)
+const buildupPanel = prefabs.builduppanel.instantiate(map, TIMES._3_BUILDUP)
 
 flower.destroyObject(102)
 
@@ -478,20 +478,20 @@ rm.destroyObjects(map, [
     veinBacklight,
 ], 111.25)
 
-const dropScene = prefabs.dropscene.instantiate(map, TIMES.e_DROP)
+const dropScene = prefabs.dropscene.instantiate(map, TIMES._4_DROP)
 
 // Outro
-dropScene.destroyObject(TIMES.f_OUTRO)
+dropScene.destroyObject(TIMES._5_OUTRO)
 
-const endingScene = prefabs.endingscene.instantiate(map, TIMES.f_OUTRO)
+const endingScene = prefabs.endingscene.instantiate(map, TIMES._5_OUTRO)
 
 // Outro Text
 rm.destroyObjects(map, [
     endingScene,
     ambientFlare,
-], TIMES.g_TEXT)
+], TIMES._6_TEXT)
 
-const outroText = prefabs.outrotext.instantiate(map, TIMES.g_TEXT)
+const outroText = prefabs.outrotext.instantiate(map, TIMES._6_TEXT)
 
 //#endregion
 
@@ -571,7 +571,7 @@ materials.introskybox.set(
         _Opacity: [[1, 0], [0, 1, 'easeInExpo']],
         _RingCompress: [[0, 0], [1, 1, 'easeInQuint']],
     },
-    TIMES.b_AMBIENT - 3,
+    TIMES._1_AMBIENT - 3,
     3,
 )
 
@@ -581,7 +581,7 @@ materials.introskybox.set(
         '_Light': [[0, 0], [1, 1]],
     },
     19,
-    TIMES.b_AMBIENT - 19,
+    TIMES._1_AMBIENT - 19,
     'easeOutCirc',
 )
 
@@ -604,13 +604,13 @@ glassNoteMaterials.forEach((x) => {
         {
             '_FadeDistance': [[10, 0], [30, 1, 'easeOutCirc']],
         },
-        TIMES.b_AMBIENT,
+        TIMES._1_AMBIENT,
         0.2,
     )
 })
 
 rm.animateTrack(map, {
-    beat: TIMES.b_AMBIENT,
+    beat: TIMES._1_AMBIENT,
     duration: 10,
     track: ambientScene.id,
     animation: {
@@ -626,7 +626,7 @@ materials.ambientskybox.set(
     {
         '_Opacity': [[0, 0], [1, 1]],
     },
-    TIMES.b_AMBIENT,
+    TIMES._1_AMBIENT,
     1,
     'easeOutExpo',
 )
@@ -636,7 +636,7 @@ materials.ambientflare.set(
     {
         '_FlareOpacity': [[0, 0], [1, 0.06], [0, 1, 'easeInSine']],
     },
-    TIMES.b_AMBIENT,
+    TIMES._1_AMBIENT,
     4,
 )
 
@@ -645,7 +645,7 @@ materials.ambientskybox.set(
     {
         '_LightBrightness': [[0, 0], [1, 0.06], [0, 1, 'easeInSine']],
     },
-    TIMES.b_AMBIENT,
+    TIMES._1_AMBIENT,
     4,
 )
 
@@ -653,7 +653,7 @@ function getFlicker(brightness: number, alt: boolean): rm.ComplexPointsLinear {
     return alt ? [[brightness * 1.2, 0.05, 'easeInExpo'], [brightness, 0.4]] : [[brightness, 0.07, 'easeInBounce']]
 }
 
-for (let i = 38; i < TIMES.d_BUILDUP; i += 4) {
+for (let i = 38; i < TIMES._3_BUILDUP; i += 4) {
     const alt = i % 8 === 6
 
     materials.ambientflare.set(
@@ -681,7 +681,7 @@ materials.ambientskybox.set(
         '_Evolve': [[0, 0], [1, 1, 'easeOutSine']],
     },
     65.5,
-    TIMES.d_BUILDUP - 65.5,
+    TIMES._3_BUILDUP - 65.5,
 )
 
 materials.implosion.set(map, {
@@ -699,7 +699,7 @@ materials.ribbon.set(
         _DissolveBorder: [[1, 0], [0, 0.98, 'easeStep']],
     },
     68.5,
-    TIMES.d_BUILDUP - 68.5,
+    TIMES._3_BUILDUP - 68.5,
 )
 
 materials.ambientskybox.set(
@@ -708,7 +708,7 @@ materials.ambientskybox.set(
         '_Opacity': [[1, 0], [0, 1, 'easeInExpo']],
     },
     95,
-    TIMES.d_BUILDUP - 95,
+    TIMES._3_BUILDUP - 95,
 )
 
 materials.implosion.set(
@@ -717,7 +717,7 @@ materials.implosion.set(
         '_Distance': [[1, 0], [0.2, 1, 'easeInExpo']],
     },
     95,
-    TIMES.d_BUILDUP - 95,
+    TIMES._3_BUILDUP - 95,
 )
 
 materials.ambientparticles.set(
@@ -726,11 +726,11 @@ materials.ambientparticles.set(
         '_Opacity': [[1, 0], [0, 1, 'easeInExpo']],
     },
     97,
-    TIMES.d_BUILDUP - 97,
+    TIMES._3_BUILDUP - 97,
 )
 
 // Buildup
-materials.buildupeffects.blit(map, TIMES.d_BUILDUP, 104.5 - TIMES.d_BUILDUP)
+materials.buildupeffects.blit(map, TIMES._3_BUILDUP, 104.5 - TIMES._3_BUILDUP)
 materials.buildupeffects.blit(map, 108.5, 111.25 - 108.5)
 
 glassNoteMaterials.forEach((x) =>
@@ -745,7 +745,7 @@ materials.ambientparticles.set(
         '_Opacity': [[1, 0], [0, 1, 'easeInExpo']],
     },
     97,
-    TIMES.d_BUILDUP - 97,
+    TIMES._3_BUILDUP - 97,
 )
 
 materials.ambientflare.set(
@@ -758,7 +758,7 @@ materials.ambientflare.set(
         '_Size': [[1.2, 0], [0.72, 0.5, 'easeStep']],
         '_LightBrightness': 0,
     },
-    TIMES.d_BUILDUP - 2 * 0.5,
+    TIMES._3_BUILDUP - 2 * 0.5,
     2,
 )
 
@@ -767,8 +767,8 @@ materials.ambientflare.set(
     {
         '_Exaggerate': [[0, 0], [1, 1, 'easeOutExpo']],
     },
-    TIMES.d_BUILDUP,
-    104 - TIMES.d_BUILDUP,
+    TIMES._3_BUILDUP,
+    104 - TIMES._3_BUILDUP,
 )
 
 materials.pedal.set(
@@ -777,8 +777,8 @@ materials.pedal.set(
         '_LightBrightness': [[60, 0], [569.5, 0.25, 'easeOutCirc'], [30, 1]],
         '_PetalCurl': [[0.35, 0], [0, 0.5, 'easeOutBack']],
     },
-    TIMES.d_BUILDUP,
-    104 - TIMES.d_BUILDUP,
+    TIMES._3_BUILDUP,
+    104 - TIMES._3_BUILDUP,
 )
 
 materials.flowertiddle.set(
@@ -787,8 +787,8 @@ materials.flowertiddle.set(
         '_Brightness': [[0, 0.1], [1, 0.5], [0, 1]],
         '_Glow': [[0, 0.1], [1, 0.5], [0, 1]],
     },
-    TIMES.d_BUILDUP,
-    101 - TIMES.d_BUILDUP,
+    TIMES._3_BUILDUP,
+    101 - TIMES._3_BUILDUP,
 )
 
 materials.explosion.set(
@@ -797,8 +797,8 @@ materials.explosion.set(
         _Distance: [[0, 0], [0.6, 1, 'easeOutExpo']],
         _Opacity: [[0.2, 0], [0, 0.8, 'easeOutExpo']],
     },
-    TIMES.d_BUILDUP,
-    102 - TIMES.d_BUILDUP,
+    TIMES._3_BUILDUP,
+    102 - TIMES._3_BUILDUP,
 )
 
 materials.ambientflare.set(
@@ -824,8 +824,8 @@ materials.builduppanel.set(
     {
         '_Opacity': [[0, 0.15], [1, 0.8], [0, 1]],
     },
-    TIMES.d_BUILDUP,
-    105 - TIMES.d_BUILDUP,
+    TIMES._3_BUILDUP,
+    105 - TIMES._3_BUILDUP,
 )
 
 materials.builduppanel.set(
@@ -928,7 +928,7 @@ materials.ambientflare.set(
         _CenterBrightness: 1,
         _Flutter: 0,
     },
-    TIMES.e_DROP,
+    TIMES._4_DROP,
 )
 
 dropNoteMaterials.forEach((x) => {
@@ -947,18 +947,18 @@ materials.dropnotearrow.set(map, {
 dropNoteMaterials.forEach((x) =>
     x.set(map, {
         '_Void': 0,
-    }, TIMES.e_DROP)
+    }, TIMES._4_DROP)
 )
 materials.dropnotearrow.set(map, {
     '_Flicker': 0,
-}, TIMES.e_DROP)
+}, TIMES._4_DROP)
 
-materials.dropeffects.blit(map, TIMES.e_DROP, DROP_DUR)
+materials.dropeffects.blit(map, TIMES._4_DROP, DROP_DUR)
 
 let mirrorIndex = 0
 const mirrors = [5, 3, 7, 4]
 
-for (let i = TIMES.e_DROP; i < TIMES.f_OUTRO; i += DROP_STEP) {
+for (let i = TIMES._4_DROP; i < TIMES._5_OUTRO; i += DROP_STEP) {
     if (i >= 138.5) DROP_STEP += 0.25
 
     const rand = mulberry32(i)
@@ -1069,11 +1069,11 @@ for (let i = TIMES.e_DROP; i < TIMES.f_OUTRO; i += DROP_STEP) {
 // Outro
 materials.ambientflare.set(map, {
     '_LightBrightness': materials.ambientflare.defaults._LightBrightness,
-}, TIMES.f_OUTRO)
+}, TIMES._5_OUTRO)
 
 rm.animateTrack(map, {
     track: endingScene.id,
-    beat: TIMES.f_OUTRO,
+    beat: TIMES._5_OUTRO,
     duration: 18,
     animation: {
         position: [
@@ -1088,7 +1088,7 @@ rm.animateTrack(map, {
     easing: 'easeOutCirc',
 })
 
-rm.animateTrack(map, TIMES.f_OUTRO, ambientFlare.track.value!, 0, {
+rm.animateTrack(map, TIMES._5_OUTRO, ambientFlare.track.value!, 0, {
     rotation: [0, 0, 0],
 })
 
@@ -1103,7 +1103,7 @@ materials.ambientflare.set(
         _Exaggerate: [[1, 0], [0, 0.5, 'easeOutExpo']],
         _Opacity: [[0.4, 0], [0.1, 1, 'easeOutExpo']],
     },
-    TIMES.f_OUTRO,
+    TIMES._5_OUTRO,
     12,
 )
 
@@ -1112,12 +1112,12 @@ materials.ambientparticles.set(
     {
         '_Opacity': 1,
     },
-    TIMES.e_DROP,
+    TIMES._4_DROP,
 )
 
 {
     const high = 1.76
-    for (let i = 144.75; i <= TIMES.g_TEXT; i += 4) {
+    for (let i = 144.75; i <= TIMES._6_TEXT; i += 4) {
         const arr: rm.ComplexPointsLinear = i % 8 === 4.75
             ? [[high, 0.1, 'easeOutExpo']]
             : [[high, 0, 'easeOutExpo'], [high * 0.6, 0.01, 'easeStep'], [
@@ -1145,11 +1145,11 @@ materials.ambientparticles.set(
         {
             '_Flash': [[2, 0], [0, 1, 'easeOutExpo']],
         },
-        TIMES.f_OUTRO,
+        TIMES._5_OUTRO,
         1,
     )
 
-    for (let i = 148.75; i <= TIMES.g_TEXT; i += 8) {
+    for (let i = 148.75; i <= TIMES._6_TEXT; i += 8) {
         const arr: rm.ComplexPointsLinear = i !== 164.75
             ? [[high, 0.1, 'easeOutExpo']]
             : [[high, 0, 'easeOutExpo'], [high * 0.9, 0.01, 'easeStep'], [
@@ -1174,7 +1174,7 @@ materials.endingskybox.set(
     {
         '_Darken': [[1, 0], [0, 1, 'easeInCirc']],
     },
-    TIMES.g_TEXT - 1,
+    TIMES._6_TEXT - 1,
     1,
 )
 
@@ -1188,7 +1188,7 @@ materials.outrotext.set(
         _Opacity: [[5, 0], [1, 0.2], [0, 1]],
         _PlaneOffset: endingOffset,
     },
-    TIMES.g_TEXT,
+    TIMES._6_TEXT,
     8,
 )
 
@@ -1197,12 +1197,12 @@ materials.outrotext.set(
     {
         '_Opacity': 0,
     },
-    TIMES.g_TEXT + 8,
+    TIMES._6_TEXT + 8,
 )
 
 rm.animateTrack(map, {
     track: outroText.id,
-    beat: TIMES.g_TEXT,
+    beat: TIMES._6_TEXT,
     duration: 5,
     animation: {
         position: [[0, 0, endingOffset, 0], [
@@ -1217,7 +1217,7 @@ rm.animateTrack(map, {
 
 rm.animateTrack(map, {
     track: 'head',
-    beat: TIMES.g_TEXT,
+    beat: TIMES._6_TEXT,
     animation: {
         position: [0, 0, endingOffset],
     },
@@ -1229,7 +1229,7 @@ rm.assignPlayerToTrack(map, {
 })
 
 rm.animateTrack(map, {
-    beat: TIMES.g_TEXT,
+    beat: TIMES._6_TEXT,
     track: 'rightHand',
     animation: {
         position: [0, -69420, 0],
