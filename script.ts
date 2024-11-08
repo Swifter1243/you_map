@@ -11,7 +11,7 @@ This script was created on ReMapper V3, and later ported to V4.
 I realized that having an example for launch would be ideal.
 */
 
-const bundle = rm.loadBundle(map, bundleinfo)
+const bundle = rm.loadBundle(bundleinfo)
 const materials = bundle.materials
 const prefabs = bundle.prefabs
 
@@ -452,25 +452,25 @@ prefabs.darkness.instantiate(map)
 const introScene = prefabs.introscene.instantiate(map)
 
 // Ambient
-introScene.destroy(TIMES.b_AMBIENT)
+introScene.destroyObject(TIMES.b_AMBIENT)
 const ambientScene = prefabs.ambientscene.instantiate(map, TIMES.b_AMBIENT)
 const ambientFlare = prefabs.ambientflare.instantiate(map, TIMES.b_AMBIENT)
 
 // Buildup
-ambientScene.destroy(TIMES.d_BUILDUP)
+ambientScene.destroyObject(TIMES.d_BUILDUP)
 
 const flower = prefabs.flower.instantiate(map, TIMES.d_BUILDUP)
 const explosions = prefabs.explosions.instantiate(map, TIMES.d_BUILDUP)
 const buildupPanel = prefabs.builduppanel.instantiate(map, TIMES.d_BUILDUP)
 
-flower.destroy(102)
+flower.destroyObject(102)
 
 const buildupParticles = prefabs.buildupparticles.instantiate(map, 104.5)
 const buildupSphere = prefabs.buildupsphere.instantiate(map, 104.5)
 const veinBacklight = prefabs.veinbacklight.instantiate(map, 108.5)
 
 // Drop
-rm.destroyPrefabInstances(map, [
+rm.destroyObjects(map, [
     explosions,
     buildupPanel,
     buildupParticles,
@@ -481,12 +481,12 @@ rm.destroyPrefabInstances(map, [
 const dropScene = prefabs.dropscene.instantiate(map, TIMES.e_DROP)
 
 // Outro
-dropScene.destroy(TIMES.f_OUTRO)
+dropScene.destroyObject(TIMES.f_OUTRO)
 
 const endingScene = prefabs.endingscene.instantiate(map, TIMES.f_OUTRO)
 
 // Outro Text
-rm.destroyPrefabInstances(map, [
+rm.destroyObjects(map, [
     endingScene,
     ambientFlare,
 ], TIMES.g_TEXT)
@@ -1040,7 +1040,7 @@ for (let i = TIMES.e_DROP; i < TIMES.f_OUTRO; i += DROP_STEP) {
         DROP_STEP,
     )
 
-    rm.animateTrack(map, i, ambientFlare.id, 0, {
+    rm.animateTrack(map, i, ambientFlare.track.value!, 0, {
         rotation: [0, rand(-30, 30), rand(0, 360)],
     })
 
@@ -1088,7 +1088,7 @@ rm.animateTrack(map, {
     easing: 'easeOutCirc',
 })
 
-rm.animateTrack(map, TIMES.f_OUTRO, ambientFlare.id, 0, {
+rm.animateTrack(map, TIMES.f_OUTRO, ambientFlare.track.value!, 0, {
     rotation: [0, 0, 0],
 })
 
