@@ -87,9 +87,12 @@
     ],
     "_customData": {
         "_editors": {
-            "_lastEditedBy": "ChroMapper",
+            "_lastEditedBy": "ReMapper",
             "ChroMapper": {
                 "version": "0.9.661"
+            },
+            "ReMapper": {
+                "version": "4.0.0"
             }
         },
         "_assetBundle": {

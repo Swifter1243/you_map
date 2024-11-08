@@ -1241,7 +1241,9 @@ rm.animateTrack(map, {
 // ----------- { OUTPUT } -----------
 
 rm.setCameraProperty(map, {
-    depthTextureMode: ['Depth'],
+    properties: {
+        depthTextureMode: ['Depth']
+    }
 })
 
 info.environmentName = 'BillieEnvironment'
