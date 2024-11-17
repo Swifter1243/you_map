@@ -11,9 +11,6 @@ bundle_android2021*.manifest
 # Export Zip
 you.zip
 
-# Output Difficulty
-HardStandard.dat
-
 # Bundle Info from Exporter
 bundleinfo.json
 

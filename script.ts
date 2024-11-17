@@ -1,8 +1,11 @@
 import * as rm from 'file:E:/Users/Programs/ReMapper Vivify/src/mod.ts'
-import * as bundleinfo from './bundleinfo.json' with { type: 'json' }
+import * as bundleInfo from './bundleinfo.json' with { type: 'json' }
 
-const map = await rm.readDifficultyV3('ExpertPlusNoArrows', 'HardStandard')
-const info = rm.getActiveInfoAsV2()
+const workspace = await rm.createWorkspace({
+    bundleInfo
+})
+const map = await rm.readDifficultyV3(workspace, 'HardStandard')
+const info = workspace.infoAsV2
 
 // ----------- { SCRIPT } -----------
 
@@ -11,7 +14,7 @@ This script was created on ReMapper V3, and later ported to V4.
 I realized that having an example for launch would be ideal.
 */
 
-const bundle = rm.loadBundle(bundleinfo)
+const bundle = rm.loadBundle(bundleInfo)
 const materials = bundle.materials
 const prefabs = bundle.prefabs
 
@@ -1282,6 +1285,10 @@ rm.setRenderingSettings(map, {
     },
 })
 
-await map.save()
-
-rm.exportZip(['ExpertPlusNoArrows'], undefined, bundleinfo)
+workspace.export({
+    outputDirectory: '../OutputMaps',
+    zip: {
+        name: 'you',
+        includeBundles: true
+    }
+})
