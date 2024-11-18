@@ -1,11 +1,11 @@
 import * as rm from 'file:E:/Users/Programs/ReMapper Vivify/src/mod.ts'
 import * as bundleInfo from './bundleinfo.json' with { type: 'json' }
 
-const workspace = await rm.createWorkspace({
+const pipeline = await rm.createPipeline({
     bundleInfo
 })
-const map = await rm.readDifficultyV3(workspace, 'HardStandard')
-const info = workspace.infoAsV2
+const map = await rm.readDifficultyV3(pipeline, 'HardStandard')
+const info = pipeline.infoAsV2
 
 // ----------- { SCRIPT } -----------
 
@@ -1285,7 +1285,7 @@ rm.setRenderingSettings(map, {
     },
 })
 
-workspace.export({
+pipeline.export({
     outputDirectory: '../OutputMaps',
     zip: {
         name: 'you',
