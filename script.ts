@@ -449,6 +449,7 @@ insertTrailerCamera(TIMES._5_OUTRO + 10, prefabs.trailercamera_5)
 //#region Setup assets
 
 // Initialize
+const reflectionProbe1 = prefabs['reflection probe'].instantiate(map)
 prefabs.darkness.instantiate(map)
 
 // Intro
@@ -479,11 +480,13 @@ rm.destroyObjects(map, [
     buildupParticles,
     buildupSphere,
     veinBacklight,
+    reflectionProbe1
 ], 111.25)
 
 const dropScene = prefabs.dropscene.instantiate(map, TIMES._4_DROP)
 
 // Outro
+const reflectionProbe2 = prefabs['reflection probe'].instantiate(map, TIMES._5_OUTRO)
 dropScene.destroyObject(TIMES._5_OUTRO)
 
 const endingScene = prefabs.endingscene.instantiate(map, TIMES._5_OUTRO)
@@ -492,6 +495,7 @@ const endingScene = prefabs.endingscene.instantiate(map, TIMES._5_OUTRO)
 rm.destroyObjects(map, [
     endingScene,
     ambientFlare,
+    reflectionProbe2
 ], TIMES._6_TEXT)
 
 const outroText = prefabs.outrotext.instantiate(map, TIMES._6_TEXT)
