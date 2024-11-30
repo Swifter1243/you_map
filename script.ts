@@ -1290,7 +1290,7 @@ rm.setRenderingSettings(map, {
 })
 
 pipeline.export({
-    outputDirectory: '../OutputMaps',
+    outputDirectory: '../OutputMaps/you',
     zip: {
         name: 'you',
         includeBundles: true
