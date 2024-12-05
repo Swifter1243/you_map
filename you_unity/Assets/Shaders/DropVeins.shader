@@ -11,7 +11,7 @@ Shader "You/DropVeins"
         _VeinTwist ("Vein Twist", Float) = 1
         _VeinSwirl ("Vein Swirl", Float) = 60
         [ToggleUI] _YAxis ("Y Axis", Int) = 0
-        _Opacity ("Opacity", Range(0,1)) = 1 
+        _Opacity ("Opacity", Range(0,1)) = 1
     }
     SubShader
     {
@@ -54,10 +54,13 @@ Shader "You/DropVeins"
 
 
             float3 rotateZ(float angle, float3 vec) {
+                float c = cos(angle);
+                float s = sin(angle);
+
                 return float3(
-                vec[0] * cos(angle) - vec[1] * sin(angle),
-                vec[0] * sin(angle) + vec[1] * cos(angle),
-                vec[2]
+                    vec[0] * c - vec[1] * s,
+                    vec[0] * s + vec[1] * c,
+                    vec[2]
                 );
             }
 
@@ -71,7 +74,7 @@ Shader "You/DropVeins"
 
                 float f = 1 - o.pos.z / 900;
                 v.vertex += gnoise(v.vertex.xy * 60 + _Time.y * 0.3) * 0.001 * f * 2;
-                
+
                 float twist = f * _VeinTwist * sin(_Time.y * 0.2) * 0.3 + 60 - o.pos.z * 8 * _VeinSwirl / _Size;
                 float4 worldVertex = mul(unity_ObjectToWorld, v.vertex);
                 worldVertex.xy *= pow((_InflexPoint - worldVertex.z) / _InflexPoint, 1);
@@ -90,7 +93,6 @@ Shader "You/DropVeins"
                 float2 vec = i.pos.xy;
                 float angle = atan2(vec.y, vec.x);
 
-
                 float f = 1 - length(i.pos.xy) / _Size;
                 float twist = f * _Twist * sin(_Time.y * 0.2) + 10 - pos.z * 5;
                 float a = sin(angle * 3 + cos(_Time.y) + twist);
@@ -98,12 +100,9 @@ Shader "You/DropVeins"
 
                 float t = f + a + _Time.y;
                 float3 col1 = palette(t, 0.5, 0.5, 1, float3(0.00, 0.10, sin(_Time.y * 0.3 + pos.z)));
-                float3 col2 = palette(t + cos(_Time.y * 0.3 + pos.z), 0.5, 0.5, 1, float3(0.30, cos(_Time.y * 0.1 + pos.z), 0.20));
 
-                float3 col = lerp(col1, col2, a);
-                
                 float t2 = pow(saturate(f), 2);
-                col = lerp(col1, 1, t2);
+                float3 col = lerp(col1, 1, t2);
 
                 col *= pow(saturate(f), 2) - a * 0.3;
 
