@@ -21,7 +21,7 @@ RM_Cache.json
 /autosaves
 
 # Code Workspace
-you.code-workspace
+*.code-workspace
 
 # Deno Lock
 deno.lock
