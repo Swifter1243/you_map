@@ -1,4 +1,4 @@
-import * as rm from 'file:E:/Users/Programs/ReMapper Vivify/src/mod.ts'
+import { rm } from './deps.ts'
 import * as bundleInfo from './bundleinfo.json' with { type: 'json' }
 
 const pipeline = await rm.createPipeline({

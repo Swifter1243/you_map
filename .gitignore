@@ -25,3 +25,6 @@ RM_Cache.json
 
 # Deno Lock
 deno.lock
+
+# Deps
+deps.ts
