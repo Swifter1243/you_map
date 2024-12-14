@@ -27,6 +27,7 @@
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #pragma multi_compile_instancing
 
             #include "UnityCG.cginc"
 
@@ -41,11 +42,15 @@
             {
                 float3 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
             };
 
+            UNITY_INSTANCING_BUFFER_START(Props)
+            UNITY_DEFINE_INSTANCED_PROP(fixed4, _Color)
+            UNITY_INSTANCING_BUFFER_END(Props)
+
             sampler2D _MainTex;
-            float4 _Color;
             float4 _MainTex_ST;
             float3 _VirtualOffset;
             float _GuideWidth;
@@ -106,10 +111,14 @@
 
             fixed4 frag(v2f i) : SV_Target
             {
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
+                UNITY_SETUP_INSTANCE_ID(i);
+                fixed4 Color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
+                
                 float fade = smoothstep(0, _GuideFade, 1 - i.uv.z);
                 float v = fade * _GuideOpacity;
 
-                float4 col = tex2D(_MainTex, i.uv) * v * _Color;
+                float4 col = tex2D(_MainTex, i.uv) * v * Color;
                 col.a *= _Alpha;
                 return col;
             }
