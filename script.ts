@@ -222,7 +222,8 @@ function commenceOutOfBodyExperience(position: rm.RawPointsVec3, beat: number, d
 }
 
 materials.saberguide.set(map, {
-    _GuideOpacity: 0
+    _GuideOpacity: 0,
+    _GuideSteepness: 0
 })
 
 {
@@ -239,13 +240,21 @@ materials.saberguide.set(map, {
         _GuideOpacity: [
             [0, 0],
             [1, 1],
+        ],
+        _GuideSteepness: [
+            [0, 0],
+            [materials.saberguide.defaults._GuideSteepness, 1]
         ]
-    }, headStartMovingBeat, 2)
+    }, headStartMovingBeat, 20)
 
     materials.saberguide.set(map, {
         _GuideOpacity: [
             [1, 0],
             [0, 1],
+        ],
+        _GuideSteepness: [
+            [materials.saberguide.defaults._GuideSteepness, 0],
+            [0, 1]
         ]
     }, TIMES._3_BUILDUP - 2, 2)
 }

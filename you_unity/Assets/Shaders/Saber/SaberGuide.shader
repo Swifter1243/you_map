@@ -10,6 +10,7 @@
         _GuideFade ("Guide Fade", Float) = 0.1
         _GuideTaper ("Guide Taper", Float) = 0.3
         _GuideTaperStart ("Guide Taper Start", Float) = 0.4
+        _GuideSteepness ("Guide Steepness", Float) = 1
         _Alpha ("Alpha", Float) = 1
     }
     SubShader
@@ -21,6 +22,7 @@
         }
         Cull Off
         Blend One OneMinusSrcColor
+        ZWrite Off
 
         Pass
         {
@@ -58,6 +60,7 @@
             float _GuideFade;
             float _GuideTaper;
             float _GuideTaperStart;
+            float _GuideSteepness;
             float _Alpha;
 
             float3 cubicSpline(in float3 p0, in float3 p1, in float3 p2, in float t)
@@ -84,14 +87,13 @@
                 float3 saberCenter = mul(unity_ObjectToWorld, float4(0, 0, 0, v.vertex.w));
                 float3 saberForward = mul(unity_ObjectToWorld, float4(0, 0, 1, v.vertex.w)) - saberCenter;
                 
-                float3 p0 = saberCenter + saberForward;
-                float3 p1 = saberCenter + saberForward * 2;
-                float3 p2 = saberCenter + saberForward + _VirtualOffset;
-                float3 p3 = saberCenter + _VirtualOffset;
+                float3 p0 = saberCenter;
+                float3 p1 = saberCenter - saberForward * _GuideSteepness;
+                float3 p2 = saberCenter + _VirtualOffset;
 
                 float t = v.vertex.z;
-                float3 p = quadracticSpline(p0, p1, p2, p3, t);
-                float3 pAhead = quadracticSpline(p0, p1, p2, p3, t + 1e-3);
+                float3 p = cubicSpline(p0, p1, p2, t);
+                float3 pAhead = cubicSpline(p0, p1, p2, t + 1e-3);
                 
                 float3 forward = normalize(pAhead - p);
                 float3 up = p - _WorldSpaceCameraPos;
@@ -119,8 +121,11 @@
                 float fade = smoothstep(0, _GuideFade, 1 - i.uv.z);
                 float v = fade * _GuideOpacity;
 
-                float4 col = tex2D(_MainTex, i.uv) * v * Color;
-                col.a *= _Alpha;
+                float4 col = tex2D(_MainTex, i.uv);
+                col = pow(col, 2);
+                col *= Color;
+                col.a *= Luminance(col.rgb) * _Alpha;
+                col *= v;
                 return col;
             }
             ENDCG
