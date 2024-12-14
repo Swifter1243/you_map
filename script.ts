@@ -186,26 +186,68 @@ map.allNotes.forEach((x) => {
     }
 })
 
+const headTrack = 'head'
+
 rm.assignPlayerToTrack(map, {
-    track: 'head',
+    track: headTrack,
     target: 'Head',
+})
+
+function homogenousPointsVec3ToVec4(points: rm.RawPointsVec3): rm.RawPointsVec4 {
+
+    const complexVec3 = rm.complexifyPoints(points)
+    const complexVec4: rm.ComplexPointsVec4 = []
+
+    complexVec3.forEach(point => {
+        const leftover = point.slice(3) as [number, rm.PointFlag]
+        complexVec4.push([point[0], point[1], point[2], 0, ...leftover])
+    })
+
+    return rm.simplifyPoints(complexVec4)
+}
+
+function commenceOutOfBodyExperience(position: rm.RawPointsVec3, beat: number, duration?: number) {
+    rm.animateTrack(map, {
+        track: headTrack,
+        beat,
+        duration,
+        animation: {
+            position,
+        },
+    })
+
+    materials.saberguide.set(map, {
+        _VirtualOffset: homogenousPointsVec3ToVec4(position)
+    }, beat, duration)
+}
+
+materials.saberguide.set(map, {
+    _GuideOpacity: 0
 })
 
 {
     const headStartMovingBeat = TIMES._2_AMBIENT_RISE
+    const duration = TIMES._3_BUILDUP - headStartMovingBeat
 
-    rm.animateTrack(map, {
-        track: 'head',
-        beat: headStartMovingBeat,
-        duration: TIMES._3_BUILDUP - headStartMovingBeat,
-        animation: {
-            position: [
-                [0, 0, 0, 0],
-                [0, 0.8, -4, 0.86, 'easeInOutQuart'],
-                [0, 0, 0, 1, 'easeInOutQuart'],
-            ],
-        },
-    })
+    commenceOutOfBodyExperience([
+        [0, 0, 0, 0],
+        [0, 0.8, -4, 0.86, 'easeInOutQuart'],
+        [0, 0, 0, 1, 'easeInOutQuart'],
+    ], headStartMovingBeat, duration)
+
+    materials.saberguide.set(map, {
+        _GuideOpacity: [
+            [0, 0],
+            [1, 1],
+        ]
+    }, headStartMovingBeat, 2)
+
+    materials.saberguide.set(map, {
+        _GuideOpacity: [
+            [1, 0],
+            [0, 1],
+        ]
+    }, TIMES._3_BUILDUP - 2, 2)
 }
 
 // Drop
@@ -1223,7 +1265,7 @@ rm.animateTrack(map, {
 })
 
 rm.animateTrack(map, {
-    track: 'head',
+    track: headTrack,
     beat: TIMES._6_TEXT,
     animation: {
         position: [0, 0, endingOffset],
