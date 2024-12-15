@@ -65,12 +65,12 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _GuideFade: 0.02
+    - _GuideFade: 0.23
     - _GuideOpacity: 1
     - _GuideSteepness: 0.5
-    - _GuideTaper: 1.58
+    - _GuideTaper: 0.08
     - _GuideTaperStart: 0.97
-    - _GuideWidth: 0.02
+    - _GuideWidth: 0.2
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1

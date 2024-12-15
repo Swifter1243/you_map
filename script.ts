@@ -243,11 +243,11 @@ materials.saberguide.set(map, {
     materials.saberguide.set(map, {
         _GuideOpacity: [
             [0, 0],
-            [1, 1],
+            [1, 1, 'easeInOutQuart'],
         ],
         _GuideSteepness: [
             [0, 0],
-            [materials.saberguide.defaults._GuideSteepness, 1]
+            [materials.saberguide.defaults._GuideSteepness, 1, 'easeInOutQuart']
         ]
     }, headStartMovingBeat, 20)
 
@@ -260,7 +260,7 @@ materials.saberguide.set(map, {
             [materials.saberguide.defaults._GuideSteepness, 0],
             [0, 1]
         ]
-    }, TIMES._3_BUILDUP - 2, 2)
+    }, TIMES._3_BUILDUP - 8, 8 - 1)
 }
 
 // Drop
