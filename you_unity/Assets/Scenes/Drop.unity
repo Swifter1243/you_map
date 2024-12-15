@@ -351,9 +351,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f4eb1b3ba9ae1548aa50ab59c9469c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _postProcessingMaterial: {fileID: 2100000, guid: d8ef7efecc02cb44f9b4f433d1c728e8,
+  postProcessingMaterial: {fileID: 2100000, guid: d8ef7efecc02cb44f9b4f433d1c728e8,
     type: 2}
-  _pass: 0
 --- !u!1001 &886288101
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,31 +1,19 @@
-﻿using JetBrains.Annotations;
-using UnityEngine;
-using UnityEngine.Rendering;
+﻿using UnityEngine;
 
 [ExecuteInEditMode]
 [RequireComponent(typeof(Camera))]
 public class SimplePostProcessing : MonoBehaviour
 {
     [SerializeField]
-    public Material _postProcessingMaterial;
-
-    [SerializeField]
-    public int _pass;
+    public Material postProcessingMaterial;
     private void OnRenderImage(RenderTexture src, RenderTexture dst) {
-        if(_postProcessingMaterial != null) {
-            Graphics.Blit(src, dst, _postProcessingMaterial,
-                                    (_pass >= 0) ? _pass : -1);
-        } else {
-            Graphics.Blit(src, dst);
-        }
-
-        Graphics.Blit(src, dst, _postProcessingMaterial);
+        Graphics.Blit(src, dst, postProcessingMaterial);
     }
 
     private void OnEnable() {
-        Camera camera = GetComponent<Camera>();
-        if (camera != null) {
-            camera.depthTextureMode |= DepthTextureMode.Depth | DepthTextureMode.MotionVectors | DepthTextureMode.DepthNormals;
+        Camera cam = GetComponent<Camera>();
+        if (cam != null) {
+            cam.depthTextureMode |= DepthTextureMode.Depth | DepthTextureMode.MotionVectors | DepthTextureMode.DepthNormals;
         }
     }
 }
