@@ -12,6 +12,7 @@
         _GuideTaper ("Guide Taper", Float) = 0.3
         _GuideTaperStart ("Guide Taper Start", Float) = 0.4
         _GuideSteepness ("Guide Steepness", Float) = 1
+        _GuideBorderDistance ("Guide Border Distance", Range(0,1)) = 0.2
         _Alpha ("Alpha", Float) = 1
         _AlphaTaper ("Alpha Taper", Float) = 0.2
         _VertexWiggle ("Vertex Wiggle", Float) = 0.2
@@ -47,6 +48,7 @@
             struct v2f
             {
                 float4 uv : TEXCOORD0;
+                float2 rawUV : TEXCOORD1;
                 float4 vertex : SV_POSITION;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
@@ -66,6 +68,7 @@
             float _GuideTaper;
             float _GuideTaperStart;
             float _GuideSteepness;
+            float _GuideBorderDistance;
             float _Alpha;
             float _AlphaTaper;
             float _VertexWiggle;
@@ -111,6 +114,7 @@
 
                 float2 transformedUV = TRANSFORM_TEX(v.uv, _MainTex);
                 o.uv = float4(transformedUV, t, wiggle);
+                o.rawUV = v.uv;
                 
                 return o;
             }
@@ -124,7 +128,9 @@
                 float t = i.uv.z;
                 float wiggle = i.uv.w;
                 float fade = smoothstep(0, _GuideFade, 1 - t);
+                
                 float v = fade * _GuideOpacity;
+                v = lerp(v, v * 0.2, step(abs(i.rawUV.x - 0.5), 0.5 - _GuideBorderDistance * 0.5));
 
                 float alpha = smoothstep(0, _AlphaTaper, 1 - t) * _Alpha;
 

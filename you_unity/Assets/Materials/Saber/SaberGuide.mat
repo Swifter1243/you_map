@@ -65,6 +65,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _GuideBorderDistance: 0.2
     - _GuideFade: 0.23
     - _GuideOpacity: 1
     - _GuideSteepness: 0.5
