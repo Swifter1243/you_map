@@ -194,7 +194,6 @@ rm.assignPlayerToTrack(map, {
 })
 
 materials.saberguide.set(map, {
-    // @ts-ignore 2202
     _EyePosition: ['baseHeadPosition', 0]
 }, 0, 99999)
 
