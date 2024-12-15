@@ -11,8 +11,7 @@
     "watcher": {
         "match": [
             "script.ts",
-            "bundleinfo.json",
-            "bundle_windows2019.manifest"
+            "bundleinfo.json"
         ],
         "legacy": false
     }

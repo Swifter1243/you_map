@@ -1,12 +1,5 @@
-# Bundle files and their manifest files
-bundle_windows2019*
-bundle_windows2021*
-bundle_android2019*
-bundle_android2021*
-bundle_windows2019*.manifest
-bundle_windows2021*.manifest
-bundle_android2019*.manifest
-bundle_android2021*.manifest
+# Ignore vivify bundles
+*.vivify
 
 # Export Zip
 you.zip
