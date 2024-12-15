@@ -8,15 +8,18 @@ namespace VivifyTemplate.Exporter.Scripts
         private string _log = string.Empty;
         private bool _empty = true;
 
-        public async void Log(string message)
+        public void Log(string message)
         {
-            _empty = false;
+            string time = DateTime.Now.ToString("HH:mm:ss");
 
-            await Task.Run(() =>
+            if (!_empty)
             {
-                string time = DateTime.Now.ToString("HH:mm:ss");
-                _log += $"[{time}] " + message + Environment.NewLine;
-            });
+                _log += Environment.NewLine;
+            }
+
+            _log += $"[{time}] " + message;
+
+            _empty = false;
         }
 
         public string GetOutput()

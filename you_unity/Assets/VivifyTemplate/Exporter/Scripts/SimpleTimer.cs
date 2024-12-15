@@ -4,14 +4,27 @@ namespace VivifyTemplate.Exporter.Scripts
 {
     public class SimpleTimer
     {
-        private float _lastMarkedTime = 0;
+        private float _startTime = 0;
+        private float _elapsed = 0;
 
-        public float Mark()
+        public float Reset()
         {
-            float currentTime = Time.realtimeSinceStartup;
-            float elapsed = currentTime - _lastMarkedTime;
-            _lastMarkedTime = currentTime;
-            return elapsed;
+            UpdateElapsed();
+            float oldElapsed = _elapsed;
+            _startTime = Time.realtimeSinceStartup;
+            UpdateElapsed();
+            return oldElapsed;
+        }
+
+        public float UpdateElapsed()
+        {
+            _elapsed = Time.realtimeSinceStartup - _startTime;
+            return _elapsed;
+        }
+
+        public float GetElapsed()
+        {
+            return _elapsed;
         }
     }
 }

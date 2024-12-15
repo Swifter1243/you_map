@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using VivifyTemplate.Exporter.Scripts.Structures;
@@ -7,6 +9,8 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
 {
     public class BuildProgressWindow : EditorWindow
     {
+        public SimpleTimer timer = new SimpleTimer();
+
         public enum BuildState
         {
             InProgress,
@@ -17,7 +21,8 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
         private readonly List<BuildTask> _individualBuilds = new List<BuildTask>();
         private readonly List<BuildTask> _shaderKeywordsRewriterTasks = new List<BuildTask>();
         private BuildTask _serializeTask;
-        private string _finishMessage = string.Empty;
+        private bool _finished = false;
+        private BuildSettings _buildSettings;
 
         private readonly TaskWindowData _individualBuildTaskWindow = new TaskWindowData();
         private readonly TaskWindowData _shaderKeywordRewriterTaskWindow = new TaskWindowData();
@@ -43,9 +48,16 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
             return buildTask;
         }
 
-        public void FinishBuild(string message)
+        public void FinishBuild(BuildSettings buildSettings)
         {
-            _finishMessage = message;
+            _buildSettings = buildSettings;
+            timer.UpdateElapsed();
+            _finished = true;
+        }
+
+        private void Update()
+        {
+            Repaint();
         }
 
         private void OnGUI()
@@ -92,31 +104,52 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
                 EditorGUI.EndDisabledGroup();
 
                 EditorGUILayout.EndScrollView();
+                LogCopyButton(log);
             }
 
             GUILayout.EndVertical();
         }
 
+        private static void LogCopyButton(string log)
+        {
+            if (GUILayout.Button("Copy Log"))
+            {
+                GUIUtility.systemCopyBuffer = log;
+            }
+        }
+
         private void DrawStatus()
         {
-            bool finished = _finishMessage != string.Empty;
-
-            if (finished)
+            if (_finished)
             {
-                GUILayout.Label(_finishMessage, EditorStyles.largeLabel);
+                float elapsed = Mathf.Round(timer.GetElapsed() * 100) / 100;
+                string message = $"Build done in {elapsed}s!";
+                GUILayout.Label(message, EditorStyles.largeLabel);
+
+                if (GUILayout.Button("Open Output Folder"))
+                {
+                    FolderOpener.OpenFolder(_buildSettings.OutputDirectory);
+                }
             }
             else
             {
-                int dotAmount = Mathf.FloorToInt(Time.realtimeSinceStartup) % 3 + 1;
-                string message = "Building";
-
-                for (int i = 0; i < dotAmount; i++)
-                {
-                    message += ".";
-                }
-
+                float elapsed = Mathf.Floor(timer.UpdateElapsed());
+                string message = $"Building ({elapsed}s elapsed)...";
                 GUILayout.Label(message, EditorStyles.largeLabel);
             }
+        }
+
+        private string GetEllipses()
+        {
+            int dotAmount = Mathf.FloorToInt(timer.GetElapsed() * 2f) % 3 + 1;
+
+            switch (dotAmount)
+            {
+                case 1: return ".";
+                case 2: return "..";
+                case 3: return "...";
+                default: return "...";
+            };
         }
 
         private Color GetTaskColor(BuildTask buildTask)
@@ -149,28 +182,7 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
 
             for (int i = 0; i < buildTasks.Count; i++)
             {
-                bool isSelected = data.SelectedTaskIndex == i;
-                BuildTask selectedTask = buildTasks[i];
-
-                GUIStyle selectedStyle = new GUIStyle(EditorStyles.miniButton);
-                GUIStyle unselectedStyle = new GUIStyle(EditorStyles.miniButton)
-                {
-                    normal =
-                    {
-                        background = Texture2D.blackTexture,
-                    },
-                };
-
-                GUIStyle buttonStyle = isSelected ? selectedStyle : unselectedStyle;
-
-                Color taskColor = GetTaskColor(selectedTask);
-                buttonStyle.normal.textColor = taskColor;
-                buttonStyle.hover.textColor = taskColor;
-
-                if (GUILayout.Button(selectedTask.GetName(), buttonStyle))
-                {
-                    data.SelectedTaskIndex = i;
-                }
+                DrawTaskButton(data, buildTasks, i);
             }
 
             EditorGUILayout.EndScrollView();
@@ -183,26 +195,72 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
             {
                 BuildTask task = buildTasks[data.SelectedTaskIndex];
                 string log = task.GetLogger().GetOutput();
-                data.ContentScrollPosition = EditorGUILayout.BeginScrollView(data.ContentScrollPosition, GUILayout.MaxHeight(height));
 
-                GUIStyle textAreaStyle = new GUIStyle(EditorStyles.textArea)
-                {
-                    wordWrap = true,
-                    normal = {
-                        textColor = Color.white,  // Override text color
-                        background = EditorStyles.textArea.normal.background // Use normal background
-                    }
-                };
-
-                EditorGUI.BeginDisabledGroup(true); // Disable editing
-                EditorGUILayout.TextArea(log, textAreaStyle, GUILayout.ExpandHeight(true));
-                EditorGUI.EndDisabledGroup();
-
-                EditorGUILayout.EndScrollView();
+                DrawTaskLog(data, task, log, height, width);
             }
 
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
+        }
+
+        private void DrawTaskButton(TaskWindowData data, List<BuildTask> buildTasks, int i)
+        {
+            bool isSelected = data.SelectedTaskIndex == i;
+            BuildTask selectedTask = buildTasks[i];
+
+            GUIStyle selectedStyle = new GUIStyle(EditorStyles.miniButton);
+            GUIStyle unselectedStyle = new GUIStyle(EditorStyles.miniButton)
+            {
+                normal =
+                {
+                    background = Texture2D.blackTexture,
+                },
+            };
+
+            GUIStyle buttonStyle = isSelected ? selectedStyle : unselectedStyle;
+
+            Color taskColor = GetTaskColor(selectedTask);
+            buttonStyle.normal.textColor = taskColor;
+            buttonStyle.hover.textColor = taskColor;
+
+            if (GUILayout.Button(selectedTask.GetName(), buttonStyle))
+            {
+                data.SelectedTaskIndex = i;
+            }
+        }
+
+        private void DrawTaskLog(TaskWindowData data, BuildTask task, string log, float height, float width)
+        {
+            if (task.GetState() == BuildState.InProgress && !task.GetLogger().IsEmpty())
+            {
+                log += "\n" + GetEllipses();
+            }
+
+            GUIStyle textAreaStyle = new GUIStyle(EditorStyles.textArea)
+            {
+                wordWrap = true,
+                normal = {
+                    textColor = Color.white,  // Override text color
+                    background = EditorStyles.textArea.normal.background // Use normal background
+                }
+            };
+
+            float contentHeight = Math.Max(height, textAreaStyle.CalcHeight(new GUIContent(log), width));
+
+            // Convert Y position (distance from top -> distance from bottom)
+            data.ContentScrollPosition.y = contentHeight + data.ContentScrollPosition.y;
+
+            data.ContentScrollPosition = EditorGUILayout.BeginScrollView(data.ContentScrollPosition, GUILayout.MaxHeight(height));
+
+            // Convert Y position (distance from bottom -> distance from top)
+            data.ContentScrollPosition.y -= contentHeight;
+
+            EditorGUI.BeginDisabledGroup(true); // Disable editing
+            EditorGUILayout.TextArea(log, textAreaStyle, GUILayout.ExpandHeight(true));
+            EditorGUI.EndDisabledGroup();
+
+            EditorGUILayout.EndScrollView();
+            LogCopyButton(log);
         }
 
         public static BuildProgressWindow CreatePopup()
@@ -212,6 +270,7 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
             window.minSize = new Vector2(800, 150 + 150 + 150 + 100);
             window.maxSize = window.minSize;
             window.ShowUtility();
+            window.timer.Reset();
             return window;
         }
     }

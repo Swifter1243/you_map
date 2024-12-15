@@ -39,7 +39,7 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
 			}, BuildAssetBundleOptions.None);
 		}
 
-		private static Task<uint?> FixShaderKeywords(string bundlePath, string targetPath, Logger logger, bool compress)
+		private static Task<uint> FixShaderKeywords(string bundlePath, string targetPath, Logger logger, bool compress)
 		{
 			return Task.Run(() => ShaderKeywordRewriter.ShaderKeywordRewriter.Rewrite(bundlePath, targetPath, logger, compress));
 		}
@@ -54,6 +54,12 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
 				Is2019 = is2019,
 				NeedsShaderKeywordsFixed = !is2019,
 			};
+		}
+
+		private static void ResetStereoRenderingPath()
+		{
+			PlayerSettings.stereoRenderingPath = StereoRenderingPath.SinglePass;
+			AssetDatabase.SaveAssets();
 		}
 
 		private static async Task<BuildReport> Build(
@@ -98,6 +104,9 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
 
 			BuildTarget buildTarget = DoBuild(buildSettings, buildOptions, buildVersionBuildInfo, assetPaths, tempDirectory);
 
+			// Set Single Pass mode back
+			ResetStereoRenderingPath();
+
 			// Fix new shader keywords
 			uint crc = 0;
 
@@ -113,18 +122,9 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
 
 				try
 				{
-					uint? resultCRC = await FixShaderKeywords(builtBundlePath, expectedOutput, buildTask.GetLogger(), isCompressed);
+					crc = await FixShaderKeywords(builtBundlePath, expectedOutput, buildTask.GetLogger(), isCompressed);
 					fixedBundlePath = expectedOutput;
 					usedBundlePath = expectedOutput;
-
-					if (resultCRC.HasValue)
-					{
-						crc = resultCRC.Value;
-					}
-					else
-					{
-						shaderKeywordsFixed = false;
-					}
 
 					buildTask.Success();
 				}
@@ -133,8 +133,7 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
 					buildTask.Fail("There was an error trying to rewrite shader keywords: " + e);
 				}
 			}
-
-			if (!shaderKeywordsFixed)
+			else
 			{
 				BuildPipeline.GetCRCForAssetBundle(usedBundlePath, out uint crcOut);
 				crc = crcOut;
@@ -202,7 +201,7 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
 			string[] assetPaths = AssetDatabase.GetAssetPathsFromAssetBundle(bundleName);
 			if (assetPaths.Length == 0)
 			{
-				throw new Exception($"The bundle '{bundleName}' is empty.");
+				throw new Exception($"The bundle '{bundleName}' contained no assets. Try adding assets to the asset bundle.");
 			}
 
 			return assetPaths;
@@ -218,7 +217,7 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
 
 		private static async void BuildSingleUncompressed(BuildVersion version)
 		{
-			Timer.Mark();
+			Timer.Reset();
 			Logger mainLogger = new Logger();
 			Logger shaderKeywordsLogger = null;
 			BuildSettings buildSettings = BuildSettings.Snapshot();
@@ -251,7 +250,7 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
 				await Build(buildSettings, BuildAssetBundleOptions.UncompressedAssetBundle, version, mainLogger, OnShaderKeywordsRewritten);
 			}
 
-			Debug.Log($"Build done in {Timer.Mark()}s!");
+			Debug.Log($"Build done in {Timer.Reset()}s!");
 			Debug.Log($"--- Main Output --- \n{mainLogger.GetOutput()}");
 
 			if (shaderKeywordsLogger != null)
@@ -262,7 +261,6 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
 
 		public static async void BuildAll(List<BuildVersion> buildVersions, BuildAssetBundleOptions buildOptions)
 		{
-			Timer.Mark();
 			BuildProgressWindow buildProgressWindow = BuildProgressWindow.CreatePopup();
 			BuildSettings buildSettings = BuildSettings.Snapshot();
 
@@ -292,7 +290,7 @@ namespace VivifyTemplate.Exporter.Scripts.Editor
 				ExportBundleInfo(buildOptions, builds.OfType<BuildReport>(), buildProgressWindow, buildSettings);
 			}
 
-			buildProgressWindow.FinishBuild($"Build done in {Timer.Mark()}s!");
+			buildProgressWindow.FinishBuild(buildSettings);
 		}
 
 		private static void ExportBundleInfo(BuildAssetBundleOptions buildOptions, IEnumerable<BuildReport> builds,
