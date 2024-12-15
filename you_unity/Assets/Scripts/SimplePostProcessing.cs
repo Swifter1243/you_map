@@ -4,10 +4,12 @@
 [RequireComponent(typeof(Camera))]
 public class SimplePostProcessing : MonoBehaviour
 {
-    [SerializeField]
     public Material postProcessingMaterial;
+
+    public bool doPass = false;
+    public uint pass = 0;
     private void OnRenderImage(RenderTexture src, RenderTexture dst) {
-        Graphics.Blit(src, dst, postProcessingMaterial);
+        Graphics.Blit(src, dst, postProcessingMaterial, doPass ? (int)pass : -1);
     }
 
     private void OnEnable() {

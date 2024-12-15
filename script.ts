@@ -1015,7 +1015,20 @@ materials.dropnotearrow.set(map, {
     '_Flicker': 0,
 }, TIMES._4_DROP)
 
-materials.dropeffects.blit(map, TIMES._4_DROP, DROP_DUR)
+// horizontal blur
+materials.dropeffects.blit(map, {
+    beat: TIMES._4_DROP,
+    duration: DROP_DUR,
+    priority: 0,
+    pass: 0
+})
+// vertical blur
+materials.dropeffects.blit(map, {
+    beat: TIMES._4_DROP,
+    duration: DROP_DUR,
+    priority: 1,
+    pass: 1
+})
 
 let mirrorIndex = 0
 const mirrors = [5, 3, 7, 4]

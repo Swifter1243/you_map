@@ -19,8 +19,7 @@
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
-        LOD 100
+        Cull Off ZWrite Off ZTest Always
 
         Pass
         {
@@ -29,15 +28,58 @@
             #pragma fragment frag
 
             #include "UnityCG.cginc"
-            #include "Assets/CGIncludes/Noise.cginc"
 
-            struct v2f
+            UNITY_DECLARE_SCREENSPACE_TEXTURE(_MainTex);
+
+            int _BlurSteps;
+            float _BlurRadius;
+            float _Blur;
+            float _BlurFlicker;
+
+            v2f_img vert(appdata_img v)
             {
-                float4 pos : SV_POSITION;
-                float2 uv : TEXCOORD0;
-                float3 viewVector : TEXCOORD1;
-                UNITY_VERTEX_OUTPUT_STEREO
-            };
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_INITIALIZE_OUTPUT(v2f_img, v2f_img o);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+                o.pos = UnityObjectToClipPos(v.vertex);
+                o.uv = v.texcoord;
+                return o;
+            }
+
+            float3 getScreenCol(float2 uv)
+            {
+                return UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex, UnityStereoTransformScreenSpaceTex(uv));
+            }
+
+            float3 blur(float2 uv, float amount)
+            {
+                float3 total = 0;
+
+                for (int i = -_BlurSteps; i <= _BlurSteps; i++)
+                {
+                    float offset = (float)i / _BlurSteps;
+                    offset *= amount;
+                    total += getScreenCol(uv + float2(offset * _BlurRadius, 0));
+                }
+
+                return total / (_BlurSteps * 2 + 1);
+            }
+
+            fixed4 frag(v2f_img i) : SV_Target
+            {
+                float blurAmount = saturate(_Blur + sin(_Time.y * 100) * _BlurFlicker * _Blur) * _BlurRadius;
+                return float4(blur(i.uv, blurAmount), 0);
+            }
+            ENDCG
+        }
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+
+            #include "UnityCG.cginc"
+            #include "Assets/CGIncludes/Noise.cginc"
 
             UNITY_DECLARE_SCREENSPACE_TEXTURE(_MainTex);
 
@@ -52,65 +94,40 @@
             int _BlurSteps;
             float _BlurRadius;
 
-            v2f vert (appdata_img v)
+            v2f_img vert(appdata_img v)
             {
                 UNITY_SETUP_INSTANCE_ID(v);
-                UNITY_INITIALIZE_OUTPUT(v2f, v2f o);
+                UNITY_INITIALIZE_OUTPUT(v2f_img, v2f_img o);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
                 o.pos = UnityObjectToClipPos(v.vertex);
-
-                float3 viewDir = mul(unity_CameraInvProjection, float4(v.texcoord.xy * 2.0 - 1.0, 0, 1)).xyz;
-                viewDir.z = -viewDir.z;
-                o.viewVector = mul(unity_CameraToWorld, float4(viewDir, 0)).xyz;
-
                 o.uv = v.texcoord;
                 return o;
             }
 
-            float3 getScreenCol(float2 uv) {
-                return UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex, uv);
+            float3 getScreenCol(float2 uv)
+            {
+                return UNITY_SAMPLE_SCREENSPACE_TEXTURE(_MainTex, UnityStereoTransformScreenSpaceTex(uv));
             }
 
-            float3 blur(float2 uv) {
-                // if (_Blur == 0) return getScreenCol(uv);
-
+            float3 blur(float2 uv, float amount)
+            {
                 float3 total = 0;
-                
-                float aspect = _ScreenParams.y / _ScreenParams.x;
 
-                uint kernelSize = 0;
-
-                for (int x = -_BlurSteps; x <= _BlurSteps; x++) {
-                    for (int y = -_BlurSteps; y <= _BlurSteps; y++) {
-                        if (x == 0 && y == 0) {
-                            continue;
-                        }
-
-                        float2 offset = float2(x, y) / _BlurSteps;
-
-                        if (length(offset) > 1) {
-                            continue;
-                        }
-
-                        offset.x *= aspect;
-
-                        offset *= _Blur;
-
-                        kernelSize++;
-                        total += getScreenCol(uv + offset * _BlurRadius);
-                    }
+                for (int i = -_BlurSteps; i <= _BlurSteps; i++)
+                {
+                    float offset = (float)i / _BlurSteps;
+                    offset *= amount;
+                    total += getScreenCol(uv + float2(0, offset * _BlurRadius));
                 }
 
-                return total / kernelSize;
+                return total / (_BlurSteps * 2 + 1);
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f_img i) : SV_Target
             {
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
-
-                _Blur = saturate(_Blur + sin(_Time.y * 100) * _BlurFlicker * _Blur);
-
+                
                 float2 uv = i.uv;
 
                 // Offset
@@ -121,12 +138,11 @@
                 float borderY = max(uv.y, 1 - uv.y);
                 float border = smoothstep(1, _BorderStrength, max(borderY, borderX));
 
-                // return border;
-
                 // Apply offset
-                float2 screenUV = UnityStereoTransformScreenSpaceTex(uv);
-                screenUV += offset * _Multiplier * _Strength * border;
-                return float4(blur(screenUV), 0);
+                uv += offset * _Multiplier * _Strength * border;
+
+                float blurAmount = saturate(_Blur + sin(_Time.y * 100) * _BlurFlicker * _Blur) * _BlurRadius;
+                return float4(blur(uv, blurAmount), 0);
             }
             ENDCG
         }

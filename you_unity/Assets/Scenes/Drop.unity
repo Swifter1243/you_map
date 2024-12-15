@@ -353,6 +353,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   postProcessingMaterial: {fileID: 2100000, guid: d8ef7efecc02cb44f9b4f433d1c728e8,
     type: 2}
+  doPass: 1
+  pass: 0
+--- !u!114 &858701241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858701239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f4eb1b3ba9ae1548aa50ab59c9469c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  postProcessingMaterial: {fileID: 2100000, guid: d8ef7efecc02cb44f9b4f433d1c728e8,
+    type: 2}
+  doPass: 1
+  pass: 1
 --- !u!1001 &886288101
 PrefabInstance:
   m_ObjectHideFlags: 0

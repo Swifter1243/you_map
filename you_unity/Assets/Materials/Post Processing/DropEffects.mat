@@ -58,8 +58,8 @@ Material:
     m_Floats:
     - _Blur: 0
     - _BlurFlicker: 0.758
-    - _BlurRadius: 0.0091
-    - _BlurSteps: 2
+    - _BlurRadius: 0.109
+    - _BlurSteps: 3
     - _BorderStrength: 0.81
     - _BumpScale: 1
     - _Cutoff: 0.5
