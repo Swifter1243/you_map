@@ -57,6 +57,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Alpha: 20
+    - _AlphaTaper: 0.2
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -64,7 +65,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _GuideFade: 0
+    - _GuideFade: 0.02
     - _GuideOpacity: 1
     - _GuideSteepness: 0.5
     - _GuideTaper: 1.58
@@ -82,4 +83,5 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 0.39215687, b: 0.39215687, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EyePosition: {r: 0, g: 0, b: 0, a: 1}
     - _VirtualOffset: {r: 0, g: 0, b: -4.49, a: 0}

@@ -193,8 +193,12 @@ rm.assignPlayerToTrack(map, {
     target: 'Head',
 })
 
-function homogenousPointsVec3ToVec4(points: rm.RawPointsVec3): rm.RawPointsVec4 {
+materials.saberguide.set(map, {
+    // @ts-ignore 2202
+    _EyePosition: ['baseHeadPosition', 0]
+}, 0, 99999)
 
+function homogenousPointsVec3ToVec4(points: rm.RawPointsVec3): rm.RawPointsVec4 {
     const complexVec3 = rm.complexifyPoints(points)
     const complexVec4: rm.ComplexPointsVec4 = []
 

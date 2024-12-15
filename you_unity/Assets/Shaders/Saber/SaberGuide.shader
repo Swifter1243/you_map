@@ -5,6 +5,7 @@
         _MainTex ("Texture", 2D) = "white" {}
         _Color ("Color", Color) = (1,1,1)
         _VirtualOffset ("Virtual Offset", Vector) = (0,0,0,0)
+        _EyePosition ("Eye Position", Vector) = (0,0,0)
         _GuideWidth ("Guide Width", Float) = 1
         _GuideOpacity ("Guide Opacity", Range(0,1)) = 1
         _GuideFade ("Guide Fade", Float) = 0.1
@@ -12,6 +13,7 @@
         _GuideTaperStart ("Guide Taper Start", Float) = 0.4
         _GuideSteepness ("Guide Steepness", Float) = 1
         _Alpha ("Alpha", Float) = 1
+        _AlphaTaper ("Alpha Taper", Float) = 0.2
     }
     SubShader
     {
@@ -55,6 +57,7 @@
             sampler2D _MainTex;
             float4 _MainTex_ST;
             float3 _VirtualOffset;
+            float3 _EyePosition;
             float _GuideWidth;
             float _GuideOpacity;
             float _GuideFade;
@@ -62,6 +65,7 @@
             float _GuideTaperStart;
             float _GuideSteepness;
             float _Alpha;
+            float _AlphaTaper;
 
             float3 cubicSpline(in float3 p0, in float3 p1, in float3 p2, in float t)
             {
@@ -96,7 +100,7 @@
                 float3 pAhead = cubicSpline(p0, p1, p2, t + 1e-3);
                 
                 float3 forward = normalize(pAhead - p);
-                float3 up = p - _WorldSpaceCameraPos;
+                float3 up = p - _EyePosition;
                 float3 right = normalize(cross(up, forward));
 
                 float taperAmount = smoothstep(0, _GuideTaperStart, t);
@@ -121,10 +125,12 @@
                 float fade = smoothstep(0, _GuideFade, 1 - i.uv.z);
                 float v = fade * _GuideOpacity;
 
+                float alpha = smoothstep(0, _AlphaTaper, 1 - i.uv.z) * _Alpha;
+
                 float4 col = tex2D(_MainTex, i.uv);
                 col = pow(col, 2);
                 col *= Color;
-                col.a *= Luminance(col.rgb) * _Alpha;
+                col.a *= Luminance(col.rgb) * alpha;
                 col *= v;
                 return col;
             }
