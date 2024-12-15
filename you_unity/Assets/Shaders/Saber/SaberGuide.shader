@@ -67,17 +67,10 @@
             float _Alpha;
             float _AlphaTaper;
 
-            float3 cubicSpline(in float3 p0, in float3 p1, in float3 p2, in float t)
+            float3 cubicBezier(in float3 p0, in float3 p1, in float3 p2, in float t)
             {
                 float3 c0 = lerp(p0, p1, t);
                 float3 c1 = lerp(p1, p2, t);
-                return lerp(c0, c1, t);
-            }
-            
-            float3 quadracticSpline(in float3 p0, in float3 p1, in float3 p2, in float3 p3, in float t)
-            {
-                float3 c0 = cubicSpline(p0, p1, p2, t);
-                float3 c1 = cubicSpline(p1, p2, p3, t);
                 return lerp(c0, c1, t);
             }
 
@@ -96,8 +89,8 @@
                 float3 p2 = saberCenter + _VirtualOffset;
 
                 float t = v.vertex.z;
-                float3 p = cubicSpline(p0, p1, p2, t);
-                float3 pAhead = cubicSpline(p0, p1, p2, t + 1e-3);
+                float3 p = cubicBezier(p0, p1, p2, t);
+                float3 pAhead = cubicBezier(p0, p1, p2, t + 1e-3);
                 
                 float3 forward = normalize(pAhead - p);
                 float3 up = p - _EyePosition;
