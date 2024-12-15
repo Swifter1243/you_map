@@ -14,6 +14,8 @@
         _GuideSteepness ("Guide Steepness", Float) = 1
         _Alpha ("Alpha", Float) = 1
         _AlphaTaper ("Alpha Taper", Float) = 0.2
+        _VertexWiggle ("Vertex Wiggle", Float) = 0.2
+        _TextureWiggle ("Texture Wiggle", Float) = 0.1
     }
     SubShader
     {
@@ -44,7 +46,7 @@
 
             struct v2f
             {
-                float3 uv : TEXCOORD0;
+                float4 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
@@ -66,6 +68,8 @@
             float _GuideSteepness;
             float _Alpha;
             float _AlphaTaper;
+            float _VertexWiggle;
+            float _TextureWiggle;
 
             float3 cubicBezier(in float3 p0, in float3 p1, in float3 p2, in float t)
             {
@@ -98,13 +102,15 @@
 
                 float taperAmount = smoothstep(0, _GuideTaperStart, t);
                 float taper = lerp(_GuideTaper, 1, taperAmount);
-                float3 worldPos = v.vertex.x * right * _GuideWidth * taper + p;
+                float wiggle = sin(_Time.y * 2 + length(p) * 4) * t;
+                
+                float3 worldPos = (v.vertex.x + wiggle * _VertexWiggle) * right * _GuideWidth * taper + p;
                 float3 localPos = mul(unity_WorldToObject, float4(worldPos, v.vertex.w));
 
                 o.vertex = UnityObjectToClipPos(localPos);
 
                 float2 transformedUV = TRANSFORM_TEX(v.uv, _MainTex);
-                o.uv = float3(transformedUV, t);
+                o.uv = float4(transformedUV, t, wiggle);
                 
                 return o;
             }
@@ -114,13 +120,18 @@
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
                 UNITY_SETUP_INSTANCE_ID(i);
                 fixed4 Color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
-                
-                float fade = smoothstep(0, _GuideFade, 1 - i.uv.z);
+
+                float t = i.uv.z;
+                float wiggle = i.uv.w;
+                float fade = smoothstep(0, _GuideFade, 1 - t);
                 float v = fade * _GuideOpacity;
 
-                float alpha = smoothstep(0, _AlphaTaper, 1 - i.uv.z) * _Alpha;
+                float alpha = smoothstep(0, _AlphaTaper, 1 - t) * _Alpha;
 
-                float4 col = tex2D(_MainTex, i.uv);
+                float2 uv = i.uv;
+                uv.x += wiggle * _TextureWiggle;
+
+                float4 col = tex2D(_MainTex, uv);
                 col = pow(col, 2);
                 col *= Color;
                 col.a *= Luminance(col.rgb) * alpha;
