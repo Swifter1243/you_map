@@ -10,7 +10,7 @@
         _NearFadeOutPoint ("Near Fade Out Point", Float) = 0
         _FarFadeOutPoint ("Far Fade Out Point", Float) = 0
         _Opacity ("Opacity", Range(0,1)) = 1
-        [ToggleUI] _DissolveBorder ("Dissolve Border", Int) = 0
+        [Toggle(DISSOLVE_BORDER)] _DissolveBorder ("Dissolve Border", Int) = 0
         _Movement ("Movement", Range(0,1)) = 1
         _MovementOffset ("Movement Offset", Float) = 0
     }
@@ -25,6 +25,7 @@
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #pragma shader_feature DISSOLVE_BORDER
 
             #include "UnityCG.cginc"
             #include "Assets/CGIncludes/Colors.cginc"
@@ -58,7 +59,6 @@
             float _Opacity;
             float _Movement;
             float _MovementOffset;
-            bool _DissolveBorder;
 
             v2f vert (appdata v)
             {
@@ -123,7 +123,13 @@
                 float dissolveFac = 1 - pow(_Opacity, 30);
                 clip(outlineDist);
                 if (outlineDist < 0) return lerp(output, 0, dissolveFac);
-                if (outlineDist < dissolveFac * 6 && _DissolveBorder) return (1 - pow(1 - _Opacity, 40)) * 10;
+
+                #if DISSOLVE_BORDER
+                if (outlineDist < dissolveFac * 6)
+                {
+                    return (1 - pow(1 - _Opacity, 40)) * 10;
+                }
+                #endif
 
                 output *= _Opacity;
 

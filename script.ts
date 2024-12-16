@@ -775,7 +775,7 @@ materials.ribbon.set(
     {
         _Opacity: [[0, 0], [1, 0.98], [0, 1, 'easeInExpo']],
         _Movement: [[1, 0], [0, 1, 'easeOutSine']],
-        _DissolveBorder: [[1, 0], [0, 0.98, 'easeStep']],
+        // _DissolveBorder: [[1, 0], [0, 0.98, 'easeStep']], not sure what this is for?
     },
     68.5,
     TIMES._3_BUILDUP - 68.5,
