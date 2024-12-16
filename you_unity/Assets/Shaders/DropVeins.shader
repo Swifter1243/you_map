@@ -10,13 +10,11 @@ Shader "You/DropVeins"
         _InflexPoint ("Inflex Point", Float) = 1000
         _VeinTwist ("Vein Twist", Float) = 1
         _VeinSwirl ("Vein Swirl", Float) = 60
-        [ToggleUI] _YAxis ("Y Axis", Int) = 0
         _Opacity ("Opacity", Range(0,1)) = 1
     }
     SubShader
     {
         Tags { "RenderType"="Opaque" }
-        LOD 100
 
         Pass
         {
@@ -48,7 +46,6 @@ Shader "You/DropVeins"
             float _Flicker;
             float _InflexPoint;
             float _VeinTwist;
-            bool _YAxis;
             float _Opacity;
             float _VeinSwirl;
 
