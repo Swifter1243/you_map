@@ -1011,26 +1011,50 @@ materials.ambientflare.set(
 )
 
 dropNoteMaterials.forEach((x) => {
+    rm.setMaterialProperty(map, {
+        asset: x.path,
+        properties: [{
+            id: 'VOID',
+            type: 'Keyword',
+            value: true
+        }]
+    })
     x.set(
         map,
         {
-            _Void: 1,
             _Cutout: 0,
         },
     )
 })
-
-materials.dropnotearrow.set(map, {
-    _Flicker: 1,
+rm.setMaterialProperty(map, {
+    asset: materials.dropnotearrow.path,
+    properties: [{
+        id: 'FLICKER',
+        type: 'Keyword',
+        value: true
+    }]
 })
+
 dropNoteMaterials.forEach((x) =>
-    x.set(map, {
-        _Void: 0,
-    }, TIMES._4_DROP)
+    rm.setMaterialProperty(map, {
+        beat: TIMES._4_DROP,
+        asset: x.path,
+        properties: [{
+            id: 'VOID',
+            type: 'Keyword',
+            value: false
+        }]
+    })
 )
-materials.dropnotearrow.set(map, {
-    _Flicker: 0,
-}, TIMES._4_DROP)
+rm.setMaterialProperty(map, {
+    beat: TIMES._4_DROP,
+    asset: materials.dropnotearrow.path,
+    properties: [{
+        id: 'FLICKER',
+        type: 'Keyword',
+        value: false
+    }]
+})
 
 // horizontal blur
 materials.dropeffects.blit(map, {

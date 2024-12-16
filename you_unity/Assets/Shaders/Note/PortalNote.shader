@@ -20,7 +20,7 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
-            #pragma shader_feature VOID
+            #pragma multi_compile _ VOID
             #pragma shader_feature DEBRIS
 
             #include "UnityCG.cginc"

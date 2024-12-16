@@ -4,19 +4,22 @@
     {
         _Color ("Note Color", Color) = (1,1,1)
         _FadeDistance ("Fade Distance", float) = 15
-        [ToggleUI] _Flicker ("Flicker", Int) = 0
+        [Toggle(FLICKER)] _Flicker ("Flicker", Int) = 0
         _Cutout ("Cutout", Float) = 1
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
-        LOD 100
+        Tags
+        {
+            "RenderType"="Opaque"
+        }
 
         Pass
         {
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #pragma multi_compile _ FLICKER
 
             #include "UnityCG.cginc"
 
@@ -37,15 +40,14 @@
 
             float3 _Color;
             float _FadeDistance;
-            int _Flicker;
             float _Cutout;
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 UNITY_SETUP_INSTANCE_ID(v);
                 UNITY_INITIALIZE_OUTPUT(v2f, v2f o);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
-                
+
                 o.vertex = UnityObjectToClipPos(v.vertex);
 
                 // worldspace position
@@ -57,21 +59,25 @@
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 float clipVal = _Cutout - (-i.localPos.y) - 0.5;
                 clip(clipVal);
 
-                if (clipVal < 0.02 || !_Flicker) {
+                #if FLICKER
+                if (clipVal < 0.02) {
                     return float4(1, 1, 1, 20);
                 }
 
                 float zDist = saturate(1 - (i.pos.z / _FadeDistance));
                 float flicker = sin(_Time.y * 100);
-                float3 col = zDist * _Flicker * flicker;
+                float3 col = zDist * flicker;
                 
                 float alpha = Luminance(col);
                 return float4(col, alpha);
+                #else
+                return float4(1, 1, 1, 20);
+                #endif
             }
             ENDCG
         }
