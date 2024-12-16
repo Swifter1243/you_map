@@ -5,21 +5,24 @@ Shader "You/GlassNote"
         _Color ("Note Color", Color) = (1,1,1)
         _RefractiveIndex ("Refractive Index", Float) = 1
         _RGBSplit ("RGB Split", Float) = 0.01
-        [ToggleUI] _Arrow ("Arrow", Int) = 0
+        [Toggle(ARROW)] _Arrow ("Arrow", Int) = 0
         _Cutout ("Cutout", Range(0,1)) = 1
         _ColorMix ("Color Mix", Range(0,1)) = 1
         _DistortionAmount ("Distortion Amount", Float) = 1
         _FadeDistance ("Fade Distance", Float) = 40
-        [ToggleUI] _Debris ("Debris", Int) = 0
+        [Toggle(DEBRIS)] _Debris ("Debris", Int) = 0
         _CutPlane ("Cut Plane", Vector) = (0, 0, 1, 0)
     }
     SubShader
     {
-        Tags { "RenderType"="Transparent" "Queue"="Transparent" }
-        // Blend One One
-        // ZWrite Off
-
-        GrabPass { "_GrabTexture1" }
+        Tags
+        {
+            "RenderType"="Transparent" "Queue"="Transparent"
+        }
+        GrabPass
+        {
+            "_GrabTexture1"
+        }
         Cull Off
 
         Pass
@@ -29,6 +32,8 @@ Shader "You/GlassNote"
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
+            #pragma shader_feature ARROW
+            #pragma shader_feature DEBRIS
 
             #include "UnityCG.cginc"
             #include "Assets/CGIncludes/Noise.cginc"
@@ -55,22 +60,20 @@ Shader "You/GlassNote"
             };
 
             UNITY_INSTANCING_BUFFER_START(Props)
-            UNITY_DEFINE_INSTANCED_PROP(float3, _Color)
-            UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
-            UNITY_DEFINE_INSTANCED_PROP(float4, _CutPlane)
+                UNITY_DEFINE_INSTANCED_PROP(float3, _Color)
+                UNITY_DEFINE_INSTANCED_PROP(float, _Cutout)
+                UNITY_DEFINE_INSTANCED_PROP(float4, _CutPlane)
             UNITY_INSTANCING_BUFFER_END(Props)
 
             float _RefractiveIndex;
             float _RGBSplit;
-            bool _Arrow;
             float _ColorMix;
             float _DistortionAmount;
             float _FadeDistance;
-            bool _Debris;
 
             UNITY_DECLARE_SCREENSPACE_TEXTURE(_GrabTexture1);
 
-            v2f vert (appdata v)
+            v2f vert(appdata v)
             {
                 UNITY_INITIALIZE_OUTPUT(v2f, v2f o);
                 UNITY_SETUP_INSTANCE_ID(v);
@@ -92,7 +95,7 @@ Shader "You/GlassNote"
                 o.normal = normalize(mul((float3x3)unity_ObjectToWorld, SCALED_NORMAL));
 
                 // UV
-                o.uv =  WorldSpaceViewDir(v.vertex);
+                o.uv = WorldSpaceViewDir(v.vertex);
 
                 // screenUV
                 o.screenUV = ComputeGrabScreenPos(o.vertex);
@@ -108,25 +111,30 @@ Shader "You/GlassNote"
                 sincos(x, sx, cx);
                 sincos(y, sy, cy);
                 sincos(z, sz, cz);
-                return mul(p, half3x3(cy*cz, -cy*sz, sy, cx*sz+cz*sx*sy, cx*cz-sx*sy*sz, -cy*sx, sx*sz-cx*cz*sy, cz*sx+cx*sy*sz, cx*cy));
+                return mul(p, half3x3(cy * cz, -cy * sz, sy, cx * sz + cz * sx * sy, cx * cz - sx * sy * sz, -cy * sx,
+                                      sx * sz - cx * cz * sy, cz * sx + cx * sy * sz, cx * cy));
             }
 
-            float3 getSkyColor(float3 viewVector) {
-                return float4(DecodeHDR(UNITY_SAMPLE_TEXCUBE_LOD(unity_SpecCube0, viewVector, 0), unity_SpecCube0_HDR), 0);
+            float3 getSkyColor(float3 viewVector)
+            {
+                return float4(DecodeHDR(UNITY_SAMPLE_TEXCUBE_LOD(unity_SpecCube0, viewVector, 0), unity_SpecCube0_HDR),
+                              0);
             }
 
-            float4 getGrabPassCol(v2f i) {
+            float4 getGrabPassCol(v2f i)
+            {
                 float2 uv = i.uv;
                 float4 screenUV = (i.screenUV) / i.screenUV.w;
                 // screenUV.xy += uv.xy*uv.xy*0.05;
                 return UNITY_SAMPLE_SCREENSPACE_TEXTURE(_GrabTexture1, uv);
             }
 
-            float4 getGrabPassUV(v2f i) {
+            float4 getGrabPassUV(v2f i)
+            {
                 return i.screenUV / i.screenUV.w;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
                 UNITY_SETUP_INSTANCE_ID(i);
@@ -140,20 +148,19 @@ Shader "You/GlassNote"
 
                 float noise = (gnoise3D(i.localPos * 2) * 0.5 + 0.25) * 2;
 
-                float c = 0;
-                if (_Debris) {
-                    float3 p = i.localPos + CutPlane.xyz * CutPlane.w;
-                    float dist = dot(p, CutPlane.xyz) / length(CutPlane.xyz);
-                    c = dist - Cutout * 0.5;
-                } else {
-                    c = Cutout - noise;
-                }
+                #if DEBRIS
+                float3 debrisPlanePoint = i.localPos + CutPlane.xyz * CutPlane.w;
+                float debrisPlaneDist = dot(debrisPlanePoint, CutPlane.xyz) / length(CutPlane.xyz);
+                float c = debrisPlaneDist - Cutout * 0.5;
+                #else
+                float c = Cutout - noise;
+                #endif
 
                 clip(c);
 
-                if (_Arrow) {
-                    return lerp(rawScreenCol, float4(Color, 2), fog);
-                }
+                #if ARROW
+                return lerp(rawScreenCol, float4(Color, 2), fog);
+                #endif
 
                 float noiseAngle = noise *= UNITY_PI;
                 float2 noiseVec = float2(cos(noiseAngle), sin(noiseAngle)) * _DistortionAmount;
@@ -167,13 +174,15 @@ Shader "You/GlassNote"
 
                 float3 col = saturate(getSkyColor(refraction));
 
-                if (refraction.x == 0 && refraction.y == 0 && refraction.z == 0) {
+                if (refraction.x == 0 && refraction.y == 0 && refraction.z == 0)
+                {
                     col = 0;
                 }
 
                 col *= 3;
 
-                if (c < 0.02) {
+                if (c < 0.02)
+                {
                     return lerp(rawScreenCol, float4(col * 30, 0.5), fog);
                 }
 

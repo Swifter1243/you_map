@@ -194,6 +194,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GlassNote_Debris
       objectReference: {fileID: 0}
+    - target: {fileID: 2654187270438510913, guid: 1d04ea58e9603fd4ba3c81fefe6f6985,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d04ea58e9603fd4ba3c81fefe6f6985, type: 3}
 --- !u!1 &736125184
@@ -353,6 +358,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ReflectiveNote
       objectReference: {fileID: 0}
+    - target: {fileID: 2686290126132974488, guid: 0dd8b4cf53d16f04bb959306c563fcee,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2686290126132974489, guid: 0dd8b4cf53d16f04bb959306c563fcee,
         type: 3}
       propertyPath: m_RootOrder
@@ -407,6 +417,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2992351075688130772, guid: 0dd8b4cf53d16f04bb959306c563fcee,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0dd8b4cf53d16f04bb959306c563fcee, type: 3}
@@ -546,6 +561,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GlassNote
       objectReference: {fileID: 0}
+    - target: {fileID: 8244077005594140685, guid: 144c79f83815b26479118a04a2b55274,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 144c79f83815b26479118a04a2b55274, type: 3}
 --- !u!1001 &6456855511023446836
@@ -559,6 +579,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DropNote_Debris
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997283050790124822, guid: e71ff4d0041dcb848a0c31c6f80da9b1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8997283050790124823, guid: e71ff4d0041dcb848a0c31c6f80da9b1,
         type: 3}
@@ -629,6 +654,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DropNote
       objectReference: {fileID: 0}
+    - target: {fileID: 5454495677845065516, guid: f1372bba2637bdd4db655e5274de86f5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5454495677845065517, guid: f1372bba2637bdd4db655e5274de86f5,
         type: 3}
       propertyPath: m_RootOrder
@@ -697,6 +727,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ReflectiveNote_Debris
+      objectReference: {fileID: 0}
+    - target: {fileID: 5956948411457100826, guid: b725abe1bd98bec4da2d8cb1bde688be,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5956948411457100827, guid: b725abe1bd98bec4da2d8cb1bde688be,
         type: 3}

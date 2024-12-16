@@ -6,15 +6,14 @@ Shader "You/ReflectiveNote"
         _Blur ("Blur", Range(0, 1)) = 0
         _BlurSteps ("Blur Steps", Int) = 10
         _FadeDistance ("Fade Distance", float) = 15
-        [ToggleUI] _Arrow ("Arrow", Int) = 0
+        [Toggle(ARROW)] _Arrow ("Arrow", Int) = 0
         _Cutout ("Cutout", Range(0,1)) = 1
-        [ToggleUI] _Debris ("Debris", Int) = 0
+        [Toggle(DEBRIS)] _Debris ("Debris", Int) = 0
         _CutPlane ("Cut Plane", Vector) = (0, 0, 1, 0)
     }
     SubShader
     {
         Tags { "RenderType"="Opaque" }
-        LOD 100
         Cull Off
 
         Pass
@@ -23,6 +22,8 @@ Shader "You/ReflectiveNote"
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
+            #pragma shader_feature ARROW
+            #pragma shader_feature DEBRIS
 
             #include "UnityCG.cginc"
 
@@ -145,15 +146,14 @@ Shader "You/ReflectiveNote"
                 float Cutout = UNITY_ACCESS_INSTANCED_PROP(Props, _Cutout);
                 float3 Color = UNITY_ACCESS_INSTANCED_PROP(Props, _Color);
                 float4 CutPlane = UNITY_ACCESS_INSTANCED_PROP(Props, _CutPlane);
-
-                float c = 0;
-                if (_Debris) {
-                    float3 p = i.localPos + CutPlane.xyz * CutPlane.w;
-                    float dist = dot(p, CutPlane.xyz) / length(CutPlane.xyz);
-                    c = dist - Cutout * 0.5;
-                } else {
-                    c = Cutout - (-i.localPos.y) - 0.5;
-                }
+                
+                #if DEBRIS
+                float3 debrisPlanePoint = i.localPos + CutPlane.xyz * CutPlane.w;
+                float debrisPlaneDist = dot(debrisPlanePoint, CutPlane.xyz) / length(CutPlane.xyz);
+                float c = debrisPlaneDist - Cutout * 0.5;
+                #else
+                float c = Cutout - (-i.localPos.y) - 0.5;
+                #endif
 
                 clip(c);
 
@@ -179,11 +179,11 @@ Shader "You/ReflectiveNote"
                 // col = Luminance(pow(col, 2)) * ogColor;
 
                 float alpha = Luminance(col);
-                if (_Arrow) {
-                    col += blurredSkybox(i.viewVector);
-                    alpha *= 10;
-                    col *= 69;
-                }
+                #if ARROW
+                col += blurredSkybox(i.viewVector);
+                alpha *= 10;
+                col *= 69;
+                #endif
 
                 // float3 darkenedColor = pow(col, 3);
                 // darkenedColor = lerp(darkenedColor, Luminance(darkenedColor), 0.8);
