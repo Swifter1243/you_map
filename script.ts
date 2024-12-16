@@ -268,8 +268,8 @@ const DROP_DUR = TIMES._5_OUTRO - TIMES._4_DROP
 rm.assignObjectPrefab(map, {
     colorNotes: {
         track: 'dropNote',
-        asset: prefabs.dropnote.path,
-        debrisAsset: prefabs.dropnote_debris.path,
+        asset: prefabs.portalnote.path,
+        debrisAsset: prefabs.portalnote_debris.path,
     },
 })
 
