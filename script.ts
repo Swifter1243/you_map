@@ -79,7 +79,7 @@ rm.assignObjectPrefab(map, {
 
 map.allNotes.forEach((x) => {
     if (
-        x.beat >= 0 && x.beat <= 33 && x instanceof rm.ColorNote
+        x.beat >= 0 && x.beat <= 33
     ) {
         x.disableNoteGravity = true
         x.noteJumpOffset = 4
@@ -110,6 +110,16 @@ rm.assignObjectPrefab(map, {
         asset: prefabs.glassnote.path,
         debrisAsset: prefabs.glassnote_debris.path,
     },
+    chainHeads: {
+        track: 'ambientNote',
+        asset: prefabs.glassnotechain.path,
+        debrisAsset: prefabs.glassnotechain_debris.path
+    },
+    chainLinks: {
+        track: 'ambientNote',
+        asset: prefabs.glassnotechainlink.path,
+        debrisAsset: prefabs.glassnotechainlink_debris.path
+    }
 })
 
 rm.assignPathAnimation(map, {
@@ -134,8 +144,7 @@ rm.assignPathAnimation(map, {
 
 map.allNotes.forEach((x) => {
     if (
-        x.beat >= 33 && x.beat <= 98.5 &&
-        x instanceof rm.ColorNote
+        x.beat >= 33 && x.beat <= 98.5
     ) {
         x.disableNoteGravity = true
         x.noteJumpOffset = 4
@@ -341,8 +350,7 @@ function cutDirectionAngle(cut: rm.NoteCut) {
 
 map.allNotes.forEach((x, i) => {
     if (
-        x.beat >= TIMES._4_DROP && x.beat <= TIMES._5_OUTRO &&
-        x instanceof rm.ColorNote
+        x.beat >= TIMES._4_DROP && x.beat <= TIMES._5_OUTRO
     ) {
         x.track.add('dropNote')
         x.noteJumpOffset = 1.5
@@ -360,7 +368,7 @@ map.allNotes.forEach((x, i) => {
     }
 })
 
-function doDropNoteMods(note: rm.ColorNote, index: number) {
+function doDropNoteMods(note: rm.AnyNote, index: number) {
     note.track.add('dropHitNote')
     note.noteJumpOffset = 5
 
@@ -441,10 +449,20 @@ rm.assignObjectPrefab(map, {
         asset: prefabs.glassnote.path,
         debrisAsset: prefabs.glassnote_debris.path,
     },
+    chainHeads: {
+        track: 'outroNote',
+        asset: prefabs.glassnotechain.path,
+        debrisAsset: prefabs.glassnotechain_debris.path
+    },
+    chainLinks: {
+        track: 'outroNote',
+        asset: prefabs.glassnotechainlink.path,
+        debrisAsset: prefabs.glassnotechainlink_debris.path
+    }
 })
 
 map.allNotes.forEach((x) => {
-    if (x.beat >= 141 && x instanceof rm.ColorNote) {
+    if (x.beat >= 141) {
         x.track.add('outroNote')
         x.disableNoteGravity = true
         x.noteJumpOffset = 4

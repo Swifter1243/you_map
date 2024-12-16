@@ -1,58 +1,55 @@
 {
-    "_version": "2.1.0",
-    "_songName": "you",
-    "_songSubName": "",
-    "_songAuthorName": "Simplifi",
-    "_levelAuthorName": "Swifter",
-    "_beatsPerMinute": 70,
-    "_songFilename": "song.ogg",
-    "_environmentNames": [],
-    "_coverImageFilename": "cover.jpg",
-    "_previewDuration": 10,
-    "_previewStartTime": 12,
-    "_shuffle": 0,
-    "_shufflePeriod": 0.5,
-    "_allDirectionsEnvironmentName": "GlassDesertEnvironment",
-    "_environmentName": "BillieEnvironment",
-    "_songTimeOffset": 0,
-    "_colorSchemes": [],
-    "_difficultyBeatmapSets": [
+  "_version" : "2.1.0",
+  "_songName" : "you",
+  "_songSubName" : "",
+  "_songAuthorName" : "Simplifi",
+  "_levelAuthorName" : "Swifter",
+  "_beatsPerMinute" : 70,
+  "_songFilename" : "song.ogg",
+  "_environmentNames" : [
+  ],
+  "_coverImageFilename" : "cover.jpg",
+  "_previewDuration" : 10,
+  "_previewStartTime" : 12,
+  "_shuffle" : 0,
+  "_shufflePeriod" : 0.5,
+  "_allDirectionsEnvironmentName" : "GlassDesertEnvironment",
+  "_environmentName" : "BillieEnvironment",
+  "_songTimeOffset" : 0,
+  "_colorSchemes" : [
+  ],
+  "_difficultyBeatmapSets" : [
+    {
+      "_beatmapCharacteristicName" : "Standard",
+      "_difficultyBeatmaps" : [
         {
-            "_beatmapCharacteristicName": "Standard",
-            "_difficultyBeatmaps": [
-                {
-                    "_difficulty": "Hard",
-                    "_beatmapFilename": "HardStandard.dat",
-                    "_difficultyRank": 5,
-                    "_beatmapColorSchemeIdx": 0,
-                    "_noteJumpMovementSpeed": 8,
-                    "_noteJumpStartBeatOffset": -0.25,
-                    "_environmentNameIdx": 0,
-                    "_customData": {
-                        "_colorLeft": {
-                            "r": 1,
-                            "g": 0.459,
-                            "b": 0.459
-                        },
-                        "_colorRight": {
-                            "r": 0.311,
-                            "g": 0.721,
-                            "b": 0.964
-                        }
-                    }
-                }
+          "_difficulty" : "Hard",
+          "_difficultyRank" : 5,
+          "_beatmapFilename" : "HardStandard.dat",
+          "_noteJumpMovementSpeed" : 8,
+          "_noteJumpStartBeatOffset" : -0.25,
+          "_beatmapColorSchemeIdx" : 0,
+          "_environmentNameIdx" : 0,
+          "_customData" : {
+            "_colorLeft" : {"r":1,"g":0.459,"b":0.459},
+            "_colorRight" : {"r":0.311,"g":0.721,"b":0.964},
+            "_suggestions" : [
+              "Chroma"
             ]
+          }
         }
-    ],
-    "_customData": {
-        "_editors": {
-            "_lastEditedBy": "ReMapper",
-            "ChroMapper": {
-                "version": "0.9.661"
-            },
-            "ReMapper": {
-                "version": "4.0.0"
-            }
-        }
+      ]
     }
+  ],
+  "_customData" : {
+    "_editors" : {
+      "_lastEditedBy" : "ChroMapper",
+      "ChroMapper" : {
+        "version" : "0.10.779"
+      },
+      "ReMapper" : {
+        "version" : "4.0.0"
+      }
+    }
+  }
 }
