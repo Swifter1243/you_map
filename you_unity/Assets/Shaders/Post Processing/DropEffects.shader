@@ -67,6 +67,8 @@
 
             fixed4 frag(v2f_img i) : SV_Target
             {
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
+
                 float blurAmount = saturate(_Blur + sin(_Time.y * 100) * _BlurFlicker * _Blur) * _BlurRadius;
                 return float4(blur(i.uv, blurAmount), 0);
             }
@@ -127,7 +129,7 @@
             fixed4 frag(v2f_img i) : SV_Target
             {
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
-                
+
                 float2 uv = i.uv;
 
                 // Offset
