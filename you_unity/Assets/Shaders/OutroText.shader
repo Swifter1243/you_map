@@ -7,6 +7,7 @@
         _PlaneOffset ("Plane Offset", Float) = 0
         _Whiteness ("Whiteness", Range(0,1)) = 0
         _Opacity ("Opacity", Range(0,1)) = 1
+        _TextSoftness ("Text Softness", Float) = 0
     }
     SubShader
     {
@@ -44,6 +45,7 @@
             float _PlaneOffset;
             float _Whiteness;
             float _Opacity;
+            float _TextSoftness;
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
@@ -53,9 +55,9 @@
                 UNITY_SETUP_INSTANCE_ID(v);
                 UNITY_INITIALIZE_OUTPUT(v2f, v2f o);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
-                
+
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uv = v.uv;
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex);
                 return o;
             }
@@ -63,23 +65,20 @@
             fixed4 frag (v2f i) : SV_Target
             {
                 _PlaneDistance += _PlaneOffset;
-                float3 textCol = tex2D(_MainTex, i.uv).xyz;
-                if (textCol.x < 0.9) textCol = 0;
 
                 float3 toText = i.worldPos - _WorldSpaceCameraPos;
-                // col = gnoise((toText * 2 + _WorldSpaceCameraPos).xy);
 
                 float planeDist = _PlaneDistance - i.worldPos.z;
                 float3 planeIntersect = i.worldPos + normalize(toText) * planeDist;
                 float n = gnoise3D(float3(planeIntersect.xy / 30, _Time.y * 4));
 
+                float sdf = tex2D(_MainTex, i.uv).a;
+                float textCol = smoothstep(0.5 - _TextSoftness, 0.5 + _TextSoftness, sdf);
+
                 float2 starScroll = float2(planeIntersect.x, planeIntersect.y + sin(_Time.y + planeIntersect.y * 0.1));
-                float3 col = textCol - (1 - saturate(pow(gnoise(starScroll), 60))) * 0.9;
+                float stars = saturate(pow(gnoise(starScroll), 60));
+                float3 col = textCol * 0.1 + stars * textCol;
                 col *= rainbow(n);
-
-                // col *= cos(length(planeIntersect.xy));
-
-                // col = planeDist;
 
                 col = lerp(col, textCol, pow(_Whiteness, 2));
 

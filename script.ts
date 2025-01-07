@@ -1297,7 +1297,7 @@ materials.endingskybox.set(
 // Outro text
 const endingOffset = 10000
 
-materials.outrotext.set(
+materials['pala sdf - outro text'].set(
     map,
     {
         _Whiteness: [[0, 0], [1, 0.8]],
@@ -1308,7 +1308,7 @@ materials.outrotext.set(
     8,
 )
 
-materials.outrotext.set(
+materials['pala sdf - outro text'].set(
     map,
     {
         _Opacity: 0,
