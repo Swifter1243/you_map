@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: AmbientFlare
   m_Shader: {fileID: 4800000, guid: f0d5c83c581b3c345a3babd6d703a880, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: USE_DEPTH
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -81,6 +81,7 @@ Material:
     - _SrcBlend: 1
     - _Steepness: 38.94
     - _UVSec: 0
+    - _UseDepth: 1
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}

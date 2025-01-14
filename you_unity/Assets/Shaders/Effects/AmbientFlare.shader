@@ -10,8 +10,9 @@
         _Flutter ("Flutter", Float) = 0.1
         _Exaggerate ("Exaggerate", Range(0, 1)) = 0
         _Opacity ("Opacity", Range(0, 1)) = 1
-        _DepthClip ("Depth Clip", Range(0,1)) = 0
         _LightBrightness ("Light Brightness", Range(0,1)) = 1
+        [Toggle(USE_DEPTH)] _UseDepth ("Use Depth", Int) = 0
+        _DepthClip ("Depth Clip", Range(0,1)) = 0
     }
     SubShader
     {
@@ -26,6 +27,7 @@
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            #pragma shader_feature USE_DEPTH
 
             #include "UnityCG.cginc"
             #include "Assets/CGIncludes/Colors.cginc"
@@ -42,7 +44,9 @@
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
+                #if USE_DEPTH
                 float4 midUV : TEXCOORD1;
+                #endif
                 UNITY_VERTEX_OUTPUT_STEREO
             };
 
@@ -55,8 +59,10 @@
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = v.texcoord.xy;
 
+                #if USE_DEPTH
                 float4 midClipPos = UnityObjectToClipPos(float3(0,0,0));
                 o.midUV = ComputeScreenPos (midClipPos);
+                #endif
 
                 return o;
             }
@@ -72,16 +78,20 @@
             float _DepthClip;
             float _LightBrightness;
 
+            #if USE_DEPTH
             UNITY_DECLARE_SCREENSPACE_TEXTURE(_CameraDepthTexture);
+            #endif
 
             fixed4 frag (v2f i) : SV_Target
             {
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
 
+                #if USE_DEPTH
                 float2 screenUV = i.midUV.xy / i.midUV.w;
                 float depth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, screenUV);
                 float depth01 = Linear01Depth(depth);
                 clip(depth01 - _DepthClip);
+                #endif
 
                 float3 col = 1;
 
