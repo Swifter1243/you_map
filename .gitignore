@@ -2,7 +2,7 @@
 *.vivify
 
 # Export Zip
-you.zip
+*.zip
 
 # Bundle Info from Exporter
 bundleinfo.json
