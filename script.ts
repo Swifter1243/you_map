@@ -1383,6 +1383,7 @@ map.difficultyInfo.settingsSetter = {
         noFailOn0Energy: true,
     },
     playerOptions: {
+        leftHanded: false,
         reduceDebris: false,
     },
     colors: {},
