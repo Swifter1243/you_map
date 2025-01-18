@@ -23,6 +23,22 @@
       "_beatmapCharacteristicName" : "Standard",
       "_difficultyBeatmaps" : [
         {
+          "_difficulty" : "Normal",
+          "_difficultyRank" : 3,
+          "_beatmapFilename" : "NormalStandard.dat",
+          "_noteJumpMovementSpeed" : 8,
+          "_noteJumpStartBeatOffset" : -0.25,
+          "_beatmapColorSchemeIdx" : 0,
+          "_environmentNameIdx" : 0,
+          "_customData" : {
+            "_colorLeft" : {"r":1,"g":0.459,"b":0.459},
+            "_colorRight" : {"r":0.311,"g":0.721,"b":0.964},
+            "_suggestions" : [
+              "Chroma"
+            ]
+          }
+        },
+        {
           "_difficulty" : "Hard",
           "_difficultyRank" : 5,
           "_beatmapFilename" : "HardStandard.dat",
