@@ -28,7 +28,7 @@ const TIMES = {
     _6_TEXT: 172.75,
 } as const // this provides the value in the type instead of "number"
 
-async function doMap(diffName: rm.DIFFICULTY_NAME) {
+async function doMap(diffName: rm.DIFFICULTY_NAME, isLower: boolean) {
     const map = await rm.readDifficultyV3(pipeline, diffName)
 
     //#region Environment
@@ -155,6 +155,10 @@ async function doMap(diffName: rm.DIFFICULTY_NAME) {
             const rand = mulberry32(x.beat * 10)
 
             let scalar = Math.sin(x.beat * 0.3) * 0.5 + 0.5
+
+            if (isLower) {
+                scalar *= 0.5
+            }
 
             const movement = (x.beat - TIMES._2_AMBIENT_RISE) /
                 (TIMES._3_BUILDUP - TIMES._2_AMBIENT_RISE)
@@ -1429,8 +1433,8 @@ async function doMap(diffName: rm.DIFFICULTY_NAME) {
 //#region Export
 
 await Promise.all([
-    doMap('HardStandard'),
-    doMap('NormalStandard')
+    doMap('HardStandard', false),
+    doMap('NormalStandard', true)
 ])
 
 info.environmentName = 'BillieEnvironment'
