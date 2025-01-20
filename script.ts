@@ -1413,6 +1413,7 @@ async function doMap(diffName: rm.DIFFICULTY_NAME, isLower: boolean) {
         playerOptions: {
             leftHanded: false,
             reduceDebris: false,
+            noteJumpDurationTypeSettings: 'Dynamic'
         },
         colors: {},
         environments: {},
