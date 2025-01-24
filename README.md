@@ -1,6 +1,6 @@
 # What is this?
 
-Here you will find the source for my Beat Saber map "you", which was released alongside TotalBS' "[Extra Sensory 2](link coming soon)" event. 
+Here you will find the source for my Beat Saber map "you", which was released alongside TotalBS' [Extra Sensory 2](https://exsii.totalbs.dev/) event. 
 
 - [Gameplay Video](https://youtu.be/2SgLtmqxu-k)
 - [Map Download](link coming soon)
