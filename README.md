@@ -3,7 +3,7 @@
 Here you will find the source for my Beat Saber map "you", which was released alongside TotalBS' [Extra Sensory 2](https://exsii.totalbs.dev/) event. 
 
 - [Gameplay Video](https://youtu.be/2SgLtmqxu-k)
-- [Map Download](link coming soon)
+- [Map Download](https://beatsaver.com/maps/43a1f)
 - [Song](https://www.youtube.com/watch?v=13b_Cfc_ZnQ)
 
 # Why is it here?
