@@ -21,3 +21,6 @@ deno.lock
 
 # Deps
 deps.ts
+
+# 2021 project (for quest)
+/you_unity_2021
